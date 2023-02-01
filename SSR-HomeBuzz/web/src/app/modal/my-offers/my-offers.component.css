@@ -1,0 +1,7 @@
+.my-offer-border:last-of-type hr {
+    border-top: none !important;
+    margin: 0 !important;
+}
+.mat-dialog-content {
+    padding: 1rem 1.25rem 1.15rem !important;
+}

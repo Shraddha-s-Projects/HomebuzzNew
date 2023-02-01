@@ -1,0 +1,16 @@
+<form>
+  <section class="col 12 pr-0">
+    <mat-form-field appearance="outline">
+      <input matInput placeholder="Choose a date" name="dates" [(ngModel)]="selectedDates" (click)="picker4.open()"
+        (dateChange)="EndDateChange($event)" [max]="today" [satDatepicker]="picker4" readonly />
+      <sat-datepicker #picker4 [rangeMode]="true"  orderPeriodLabel="month"> </sat-datepicker>
+      <sat-datepicker-toggle matSuffix [for]="picker4"></sat-datepicker-toggle>
+    </mat-form-field>
+    <a (click)="clear();" class="">
+      <mat-icon class="closeIcon">close</mat-icon>
+    </a>
+  </section>
+  <!-- <section class="col s1">
+  
+  </section> -->
+</form>

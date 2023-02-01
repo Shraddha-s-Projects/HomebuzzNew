@@ -1,0 +1,212 @@
+<toaster-container [toasterconfig]="config1"></toaster-container>
+<div id="content">
+  <div class="container-fluid">
+    <div class="row user-table">
+      <div class="col-12 p-3">
+        <div class="col-md-8 col-lg-4 d-flex mb-2 px-0">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Status</mat-label>
+            <mat-select [(value)]="defaultStatus" (selectionChange)="onSelectStatus($event)">
+              <mat-option [value]="option" *ngFor="let option of statusList">{{option.Name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="mat-elevation-z8">
+          <div class="loader" *ngIf="!isLoaded"></div>
+          <table mat-table [dataSource]="dataSource" class="w-100" matSort (matSortChange)="sortData($event)">
+            <ng-container matColumnDef="Email">
+              <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th> -->
+              <th mat-header-cell *matHeaderCellDef class="selectee">
+                <div class="col-12 px-0 input-width d-flex justify-content-between align-items-center">
+                  <mat-form-field class="" appearance="outline">
+                    <mat-label> Email </mat-label>
+                    <input matInput class="form-field" (keydown.enter)="$event.preventDefault()"
+                      (keyup)="handleInput($event, 'Email')" [formControl]="emailFilter" placeholder="Email" />
+                  </mat-form-field>
+                  <div mat-sort-header class=""></div>
+                </div>
+              </th>
+              <!-- <td mat-cell *matCellDef="let element"> {{element.Email}} </td> -->
+
+              <td mat-cell *matCellDef="let element">
+                <div *ngIf="!element.isEdit">{{ element.Email }}</div>
+                <div *ngIf="element.isEdit">
+                  <mat-form-field class="m-auto">
+                    <input type="text" matInput [(ngModel)]="element.Email" [ngModelOptions]="{ standalone: true }" />
+                  </mat-form-field>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="PhoneNo">
+              <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone no </th> -->
+              <th mat-header-cell *matHeaderCellDef class="selectee">
+                <div class="col-12 px-0 input-width d-flex justify-content-between align-items-center">
+                  <mat-form-field class="" appearance="outline">
+                    <mat-label> Phone no </mat-label>
+                    <input matInput class="form-field" (keydown.enter)="$event.preventDefault()"
+                      (keyup)="handleInput($event, 'Phone No')" [formControl]="phoneNoFilter" placeholder="Phone No" />
+                  </mat-form-field>
+                  <div mat-sort-header class=""></div>
+                </div>
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <div *ngIf="!element.isEdit">{{ element.PhoneNo }}</div>
+                <div *ngIf="element.isEdit">
+                  <mat-form-field class="m-auto">
+                    <input type="text" matInput [(ngModel)]="element.PhoneNo" [ngModelOptions]="{ standalone: true }" />
+                  </mat-form-field>
+                </div>
+              </td>
+              <!-- <td mat-cell *matCellDef="let element"> {{element.PhoneNo}} </td> -->
+            </ng-container>
+
+            <ng-container matColumnDef="FirstName">
+              <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th> -->
+              <th mat-header-cell *matHeaderCellDef class="selectee">
+                <div class="col-12 px-0 input-width d-flex justify-content-between align-items-center">
+                  <mat-form-field class="" appearance="outline">
+                    <mat-label> First Name </mat-label>
+                    <input matInput class="form-field" (keydown.enter)="$event.preventDefault()"
+                      (keyup)="handleInput($event, 'FirstName')" [formControl]="firstNameFilter"
+                      placeholder="FirstName" />
+                  </mat-form-field>
+                  <div mat-sort-header class=""></div>
+                </div>
+              </th>
+              <!-- <td mat-cell *matCellDef="let element"> {{element.FirstName}} </td> -->
+              <td mat-cell *matCellDef="let element">
+                <div *ngIf="!element.isEdit">{{ element.FirstName }}</div>
+                <div *ngIf="element.isEdit">
+                  <mat-form-field class="m-auto">
+                    <input type="text" matInput [(ngModel)]="element.FirstName"
+                      [ngModelOptions]="{ standalone: true }" />
+                  </mat-form-field>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="LastName">
+              <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th> -->
+              <th mat-header-cell *matHeaderCellDef class="selectee">
+                <div class="col-12 px-0 input-width d-flex justify-content-between align-items-center">
+                  <mat-form-field class="" appearance="outline">
+                    <mat-label> Last Name </mat-label>
+                    <input matInput class="form-field" (keydown.enter)="$event.preventDefault()"
+                      (keyup)="handleInput($event, 'LastName')" [formControl]="lastNameFilter" placeholder="LastName" />
+                  </mat-form-field>
+                  <div mat-sort-header class=""></div>
+                </div>
+              </th>
+              <!-- <td mat-cell *matCellDef="let element"> {{element.LastName}} </td> -->
+              <td mat-cell *matCellDef="let element">
+                <div *ngIf="!element.isEdit">{{ element.LastName }}</div>
+                <div *ngIf="element.isEdit">
+                  <mat-form-field class="m-auto">
+                    <input type="text" matInput [(ngModel)]="element.LastName"
+                      [ngModelOptions]="{ standalone: true }" />
+                  </mat-form-field>
+                </div>
+              </td>
+
+            </ng-container>
+
+            <ng-container matColumnDef="UserName">
+              <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header> User Name </th> -->
+              <th mat-header-cell *matHeaderCellDef class="selectee">
+                <div class="col-12 px-0 input-width d-flex justify-content-between align-items-center">
+                  <mat-form-field class="" appearance="outline">
+                    <mat-label> User Name </mat-label>
+                    <input matInput class="form-field" (keydown.enter)="$event.preventDefault()"
+                      (keyup)="handleInput($event, 'UserName')" [formControl]="userNameFilter" placeholder="LastName" />
+                  </mat-form-field>
+                  <div mat-sort-header class=""></div>
+                </div>
+              </th>
+              <!-- <td mat-cell *matCellDef="let element"> {{element.UserName}} </td> -->
+              <td mat-cell *matCellDef="let element" class="position-relative">
+                <div *ngIf="!element.isEdit">{{ element.UserName }}</div>
+                <div *ngIf="element.isEdit">
+                  <mat-form-field class="m-auto">
+                    <input type="text" matInput [(ngModel)]="element.UserName"
+                      [ngModelOptions]="{ standalone: true }" />
+                  </mat-form-field>
+                  <!-- <div class="edit-icons-position">
+                    <a href="javascript:void(0)" class="" *ngIf="element.isEdit">
+                      <mat-icon matTooltip="Save" class="text-black edit-icon mr-10 s-20" (click)="onSaveUser(element)">
+                        save</mat-icon>
+                    </a>
+                    <a href="javascript:void(0)" class="" *ngIf="element.isEdit">
+                      <mat-icon matTooltip="Close" class="text-black edit-icon mr-10 s-20"
+                        (click)="onCloseUser(element)">
+                        close</mat-icon>
+                    </a>
+                  </div> -->
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="roleid">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Role ID </th>
+              <td mat-cell *matCellDef="let element"> {{element.roleid}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="role">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Role </th>
+              <td mat-cell *matCellDef="let element"> {{element.role}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="CreatedOn">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Created on </th>
+              <td mat-cell *matCellDef="let element"> {{element.CreatedOn | date: "dd MMM yyyy"}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="Active">
+              <th mat-header-cell *matHeaderCellDef> Active </th>
+              <td mat-cell *matCellDef="let element">
+                <mat-slide-toggle class="font-16" [disabled]="!element.isEdit" [checked]="element.IsActive"
+                  [ngClass]="{ 'gray-text' : (!element.IsActive) }" (change)="checkActiveStatus($event, element)">
+                </mat-slide-toggle>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef> Actions </th>
+              <td mat-cell *matCellDef="let element" width="110" class="text-center">
+                <a href="javascript:void(0)" class="" *ngIf="!element.isEdit">
+                  <mat-icon matTooltip="Edit" class="text-black edit-icon font-18 text-success mr-10 s-20"
+                    (click)="onEditUser(element)">edit
+                  </mat-icon>
+                </a>
+                <a href="javascript:void(0)" class="" *ngIf="element.isEdit">
+                  <mat-icon matTooltip="Save" class="text-primary edit-icon mr-10 s-20 font-18"
+                    (click)="onSaveUser(element)">
+                    save</mat-icon>
+                </a>
+                <a href="javascript:void(0)" class="" *ngIf="element.isEdit">
+                  <mat-icon matTooltip="Close" class="text-danger edit-icon mr-10 s-20 font-18"
+                    (click)="onCloseUser(element)">
+                    close</mat-icon>
+                </a>
+                <a href="javascript:void(0)" class="">
+                  <mat-icon matTooltip="Delete" class="text-black delete-icon text-danger font-18"
+                    (click)="onRemoveUser(element)">delete
+                  </mat-icon>
+                </a>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+
+          <mat-paginator *ngIf="userList.length > 0 " showFirstLastButtons="true" [pageSize]="pageSize"
+            [length]="totalSize" [pageSizeOptions]="pageSizeOptions" (page)="handlePage($event)">
+          </mat-paginator>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

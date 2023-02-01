@@ -1,0 +1,11 @@
+.home-offer:last-of-type .border-bottom {
+    border-bottom: none !important;
+    margin: 0 0 18px 0 !important;
+}
+.my-homes-list:last-of-type hr {
+    border-top: none !important;
+    margin: 0 0 10px !important;
+}
+.mat-dialog-content {
+    padding: 1rem 1.25rem 0.1rem !important;
+}

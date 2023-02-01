@@ -1,0 +1,183 @@
+<!-- <p>user-profile works!</p> -->
+<toaster-container [toasterconfig]="config1"></toaster-container>
+<div class="container">
+    <div class="row">
+        <div class="text-center mb-3 col-md-12">
+            <h5 class="mb-0">User account</h5>
+        </div>
+
+        <div class="col-md-12 position-relative">
+            <form class="flex-fill" #UserProfileForm="ngForm">
+                <div class="loader col-xl-6 col-lg-12 col-md-6" *ngIf="!isLoading"></div>
+                <div *ngIf="isLoading">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-3"><label>User name</label></div>
+                                <div class="col-md-9">
+                                    <div class="form-group form-group-feedback form-group-feedback-right">
+                                        <input type="text" class="form-control" name="UserName"
+                                            placeholder="Your user name" [(ngModel)]="userVM.UserName"
+                                            #UserName="ngModel" (ngModelChange)="isUserNameValid = validateUsername()"
+                                            required>
+                                        <!-- <div class="form-control-feedback">
+                                            <i class="icon-user-plus text-muted"></i>
+                                        </div> -->
+                                        <div *ngIf="!isUserNameValid && (UserName.touched || UserName.touched)"
+                                            class="text-danger">
+                                            {{userNameValidMsg}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-3"><label>First name</label></div>
+                                <div class="col-md-9">
+                                    <div class="form-group form-group-feedback form-group-feedback-right">
+                                        <input type="text" class="form-control" name="FirstName"
+                                            placeholder="Your first name" id="FirstName" [(ngModel)]="userVM.FirstName"
+                                            #FirstName="ngModel">
+                                        <!-- <div class="form-control-feedback">
+                                            <i class="icon-user-check text-muted"></i>
+                                        </div> -->
+                                        <div *ngIf="FirstName.errors && (FirstName.dirty || FirstName.touched)"
+                                            class="text-danger">
+                                            {{error.firstName}}</div>
+                                        <!-- <div *ngIf="!isFirstnameValid && !FirstName.errors" class="text-danger">First
+                                        Name must contain text only.</div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-3"><label>Last name</label></div>
+                                <div class="col-md-9">
+                                    <div class="form-group form-group-feedback form-group-feedback-right">
+                                        <input type="text" class="form-control" name="LastName"
+                                            placeholder="Your last name" [(ngModel)]="userVM.LastName"
+                                            #LastName="ngModel">
+                                        <!-- <div class="form-control-feedback">
+                                            <i class="icon-user-plus text-muted"></i>
+                                        </div> -->
+                                        <div *ngIf="!isLastNameValid && !LastName.errors && LastName.touched"
+                                            class="text-danger">
+                                            {{lastNameValidMsg}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-3"><label>Email</label></div>
+                                <div class="col-md-9">
+                                    <div class="form-group form-group-feedback form-group-feedback-right">
+                                        <input trim type="email" class="form-control" name="Email"
+                                            placeholder="Your email" id="Email" [(ngModel)]="userVM.Email"
+                                            #Email="ngModel" (ngModelChange)="errorMessageEmail()" required>
+                                        <!-- <div class="form-control-feedback">
+                                            <i class="icon-mention text-muted"></i>
+                                        </div> -->
+                                        <div *ngIf="!isEmailValid && (Email.dirty || Email.touched)"
+                                            class="text-danger">
+                                            Enter
+                                            valid
+                                            email
+                                            address</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-3"><label>Phone</label></div>
+                                <div class="col-md-9">
+                                    <div class="form-group form-group-feedback form-group-feedback-right">
+                                        <input trim type="number" class="form-control" name="Phone"
+                                            placeholder="Your phone" id="Phone" [(ngModel)]="userVM.PhoneNo"
+                                            #Phone="ngModel" (ngModelChange)="isPhoneNoValid = validatePhoneNo()">
+                                        <div *ngIf="!isPhoneNoValid &&  (Phone.dirty || Phone.touched)"
+                                            class="text-danger">{{phoneNoValidMsg}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-3"></div>
+                                <!-- <div class="col-md-3">
+                                <div class="form-group form-group-feedback form-group-feedback-right">
+                                    <input type="file" name="myfile" (change)="onselectFileChange($event)" type="file" id="propertyImage"
+                                    accept="image/x-png,image/gif,image/jpeg"  />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <img [src]="imgURL" alt="" width="100%" height="100%" />
+                            </div> -->
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <!-- <button type="button" class="btn btn-primary btn-block cursor-pointer ladda-button"
+                                    data-spinner-color="white" ng-reflect-disabled="disabled" data-style="zoom-in"
+                                    [disabled]="!isEmailValid || !isUserNameValid || (phoneNoValidMsg != '')"
+                                    (click)="updateUserProfile()" #submitButton>
+                                    Update</button> -->
+                                <button type="button" *ngIf="isBrowser" class="btn btn-primary btn-block cursor-pointer ladda-button"
+                                    data-spinner-color="white" ng-reflect-disabled="disabled" data-style="zoom-in"
+                                    [disabled]="!isEmailValid || !isUserNameValid || (phoneNoValidMsg != '')"
+                                    (click)="updateUserProfile()" [ladda]="isUpdate"  #submitButton>
+                                    Update</button>
+                            </div>
+                        </div>
+                        <div class="col-md-4"></div>
+                    </div>
+
+                    <!-- <div class="row">
+              <div class="col-md-12">
+                <div class="form-group form-group-feedback form-group-feedback-right">
+                  <input type="password" class="form-control" name="Password" placeholder="Create password" id="Password"
+                    [(ngModel)]="signupUser.password" #Password="ngModel" (ngModelChange)="validatePassword(signupUser.password)" required>
+                  <div class="form-control-feedback">
+                    <i class="icon-user-lock text-muted"></i>
+                  </div>
+
+                  <div *ngIf="Password.errors && (Password.dirty || Password.touched)" class="text-danger">{{error.password}}</div>
+                  <div *ngIf="!isPasswordTrimmed && !Password.errors && Password.touched" class="text-danger">Your password can't start or end with blank space.</div>
+                  <div *ngIf="!isValidPassword && !Password.errors && Password.touched" class="text-danger">Must contains minimum 8 char and maximum 15 char including upper case, lower case and number.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group form-group-feedback form-group-feedback-right">
+                  <input type="password" class="form-control" name="RepeatPassword" placeholder="Repeat password"
+                    id="RepeatPassword" [(ngModel)]="signupUser.repeatPassword" #RepeatPassword="ngModel" (ngModelChange)="isRepetPasswordMatch()"
+                    required>
+                  <div class="form-control-feedback">
+                    <i class="icon-user-lock text-muted"></i>
+                  </div>
+
+                  <div *ngIf="!isRepetePasswordMatch && !RepeatPassword.errors && RepeatPassword.touched" class="text-danger">Repeat
+                    password is not match.</div>
+                </div>
+              </div>
+            </div> -->
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

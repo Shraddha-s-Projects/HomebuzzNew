@@ -1,0 +1,42 @@
+<div id="MyOffers">
+  <div class="mat-dialog-title">
+    <h3 class="mb-0">
+      <a href="javascript:void(0)">
+        <h6 class="mb-0 pt3 d-flex align-items-center">
+          <i class="icon-home2 mr-2"></i> <span class="font-weight-semibold"> PropertyFlow&trade;</span>
+        </h6>
+      </a>
+    </h3>
+    <button type="button" class="close" (click)="close()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="mat-dialog-content position-relative">
+    <div class="spinner-position" *ngIf="!isLoaded">
+      <mat-spinner strokeWidth="5" [diameter]="50" ></mat-spinner>
+    </div>
+    <h4 class="mr-2 mb-2 text-center">My Offers</h4>
+    
+    <div *ngIf="isLoaded">
+      <div *ngFor="let offer of myOfferedHome" class="my-offer-border font-16">
+        <div class="mb-1 row">
+          <strong class="col-sm-4 font500">Address:</strong> <span
+          class="col-sm-8 pl-sm-0 pr-0">{{ offer.Address }}, {{offer.Suburb}}, {{offer.City}}</span>
+        </div>
+        <div class="mb-1 row">
+          <strong class="col-sm-4 col-5 font500">Offer price:</strong>
+          <span class="col-sm-8 col-7 pl-sm-0 pr-0">
+            {{ offer.OfferingAmount | currency:'CAD':'symbol-narrow':'4.0' }}</span>
+        </div>
+        <div class="row">
+          <strong class="col-sm-4 col-5 font500">Offer status:</strong>
+          <span class="col-sm-8 col-7 pl-sm-0 pr-0">{{ offer.Status }}
+            <a class="ml-1 text-decoration" href="javascript:void(0)" (click)="onRemoveOfferLinkClick(offer)">
+              Remove</a></span>
+        </div>
+        <hr class="mt-2 mb-2" />
+      </div>
+      <p class="no-data mb-1 font-12 mt-15 line-height-8" *ngIf="myOfferedHome.length == 0"><i>No offers available.</i></p>
+    </div>
+  </div>
+</div>

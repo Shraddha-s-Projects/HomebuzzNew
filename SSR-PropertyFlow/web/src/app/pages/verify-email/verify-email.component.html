@@ -1,0 +1,63 @@
+<toaster-container [toasterconfig]="config1"></toaster-container>
+
+<body>
+  <!-- Page content -->
+  <div class="page-content">
+    <!-- Main content -->
+    <div class="content-wrapper">
+      <!-- Content area -->
+      <div class="content d-flex justify-content-center align-items-center">
+        <!-- Login card -->
+        <div class="login-form">
+          <div class="card mb-0">
+            <div class="card-body">
+              <div class="text-center mb-3">
+                <div class="d-flex justify-content-center">
+                  <img src="../assets/images/icons/yellow-logo-40x40.png" width="30" />
+                </div>
+                <p class="margin_para">
+                  Please enter verification code below which we have provided in email.
+                </p>
+              </div>
+              <form class="form-signin" #LoginEmailForm="ngForm">
+                <div class="form-group form-group-feedback form-group-feedback-left">
+                  <input type="text" name="UserName" placeholder="Verification Code" class="form-control pl-2"
+                    [(ngModel)]="verifyUser.VerificationCode" #verificationCode="ngModel"
+                    (ngModelChange)="verifyUser.IsVerificationCodeValid = true" placeholder="Enter verification code"
+                    required />
+                  <div
+                    *ngIf="!verifyUser.VerificationCode && !verifyUser.IsVerificationCodeValid && verificationCode.touched"
+                    class="text-danger float-left">
+                    Verification Code field cannot be empty.
+                  </div>
+                  <div *ngIf="!verifyUser.IsVerificationCodeValid" class="text-danger float-left">
+                    Invalid Verification code.
+                  </div>
+                </div>
+
+                <!-- <div class="form-group">
+                  <button class="btn btn-primary btn-block ladda-button" type="submit"  #verify
+                    data-style="zoom-in" (click)="verifyUserByVerificationCode()"
+                    [disabled]="!verifyUser.VerificationCode" data-spinner-color="white" ng-reflect-disabled="disabled">
+                    Verify <i class="icon-circle-right2 ml-2"></i>
+                  </button>
+                </div> -->
+                <div class="form-group">
+                  <button class="btn btn-primary btn-block ladda-button" *ngIf="isBrowser" type="submit" [ladda]="isLoading" #verify
+                    data-style="zoom-in" (click)="verifyUserByVerificationCode()"
+                    [disabled]="!verifyUser.VerificationCode" data-spinner-color="white" ng-reflect-disabled="disabled">
+                    Verify <i class="icon-circle-right2 ml-2"></i>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- /login card -->
+      </div>
+      <!-- /content area -->
+    </div>
+    <!-- /main content -->
+  </div>
+  <!-- /page content -->
+</body>

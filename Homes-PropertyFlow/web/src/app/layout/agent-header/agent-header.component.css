@@ -1,0 +1,29 @@
+.navbar-nav li:hover > ul.dropdown-menu {
+    display: block;
+}
+.fixed-nav {
+    position: fixed;
+    width: 100%;
+    z-index: 99;
+    height: 63px;
+}
+.dropdown-submenu {
+    position:relative;
+}
+.dropdown-submenu>.dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top:-6px;
+}
+.dropdown-menu > li > a:hover:after {
+    text-decoration: underline;
+    transform: rotate(-90deg);
+} 
+.navbar-expand-md .navbar-collapse {
+    justify-content: flex-end;
+}
+.navbar-nav li a {
+    color: #313944;
+    font-size: 18px;
+    font-weight: 500;
+}

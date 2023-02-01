@@ -1,0 +1,362 @@
+<div id="propertyImageGalleryModal">
+  <div mat-dialog-title>
+    <h3 class="mb-0 w-100">
+      <a href="javascript:void(0)">
+        <h6 class="mb-0 pt3 d-flex align-items-center">
+          <i class="icon-home2 mr-2"></i> <span class="font-weight-semibold"> PropertyFlow&trade;</span>
+        </h6>
+      </a>
+      <div class="clearfix"></div>
+    </h3>
+    <div class="d-flex">
+      <button class="btn btn-primary share-btn line-height-1 btn-sm mr-2" (click)="onShareOptionClick()">
+        <i class="fas fa-share-alt mr-1 font-16"></i> Share
+      </button>
+      <div *ngIf="property">
+        <button class="btn btn-primary mr-3 share-btn line-height-1 btn-sm" (click)="onPropertyLike(property)">
+          <i *ngIf="!property.UserLiked" class="far fa-heart mr-1 font-16"></i>
+          <span *ngIf="!property.UserLiked">Like</span>
+          <i *ngIf="property.UserLiked" class="fas fa-heart mr-1 text-danger font-16"></i><span
+            *ngIf="property.UserLiked">Unlike</span>
+        </button>
+      </div>
+      <!-- <button *ngIf="property.UserLiked" class="btn btn-primary share-btn line-height-1 btn-sm mr-2"
+      (click)="onPropertyLike(property)">
+      <i class="fas fa-heart mr-1 text-danger font-16"></i> Unlike
+    </button> -->
+    </div>
+    <button type="button" class="close" (click)="close()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div mat-dialog-content class="row pb-4 pt-0">
+
+    <section class="tabs-container">
+      <span class="change-btn prev" (click)="scrollTab(-1)" [class.hide]="atStart">
+        &lsaquo;</span>
+
+      <ul class="tabs font-16" [ngStyle]="{'transform': transformCss }">
+
+        <ng-container *ngFor="let tab of tabs; let i=index">
+          <li class="tab" [class.active]="selectedIndex===i" (click)="selectTab(i)">{{tab.Name}}</li>
+        </ng-container>
+      </ul>
+      <span class="change-btn next" [class.hide]="atEnd" (click)="scrollTab(1)">&rsaquo;</span>
+    </section>
+
+    <div class="spinner-position" *ngIf="!isLoaded">
+      <mat-spinner strokeWidth="5" [diameter]="50"></mat-spinner>
+    </div>
+    <div *ngIf="isLoaded">
+      <div class="border-bottom-modal mt-3">
+        <div class="col-md-12 px-0" id="Photos">
+          <ngx-slick-carousel *ngIf="showSlider" id="carousel" class="carousel slider-for" #slickModal="slick-carousel"
+            [config]="slideConfigFor">
+            <div ngxSlickItem *ngFor="let slide of imageObject" class="slide">
+              <div class="position-relative">
+                <!-- <img [src]="slide" alt="" width="100%"> -->
+                <img src="{{ Image_Url }}/PropertyDetail/PropertyImages?ImageId={{
+                    slide
+                  }}" alt="" width="100%" height="300" class="object-fit-cover" />
+              </div>
+            </div>
+            <div ngxSlickItem *ngIf="property.GoogleImage" class="slide">
+              <div class="position-relative">
+                <img src="{{ Image_Url }}/PropertyData/GetGoogleImage?propertyId={{
+                    property.PropertyId
+                  }}" alt="" width="100%" height="300" class="object-fit-cover" />
+                <div class="center-div" *ngIf="
+                    property.GoogleImage &&
+                    (!property.ImageIdList || property.ImageIdList.length == 0)
+                  ">
+                  <img *ngIf="property.Status == 'For sale'" src="./assets/images/icons/red_location_24x24.png" />
+                  <img *ngIf="property.Status == 'Pre-market'" src="./assets/images/icons/green_location_24x24.png" />
+                  <img *ngIf="
+                      property.Status == 'Not listed' ||
+                      property.Status == 'Not listed'
+                    " src="./assets/images/icons/black_location_24x24.png" />
+                </div>
+              </div>
+            </div>
+          </ngx-slick-carousel>
+          <ngx-slick-carousel *ngIf="showSlider" id="carousel" class="carousel slider-nav mt-3"
+            #slickModal="slick-carousel" [config]="slideConfigNav">
+            <div ngxSlickItem *ngFor="let slide of imageObject" class="slide">
+              <div class="position-relative mr-2">
+                <img src="{{ Image_Url }}/PropertyDetail/PropertyImages?ImageId={{
+                    slide
+                  }}" alt="" width="100%" height="60px" />
+              </div>
+            </div>
+            <div ngxSlickItem *ngIf="property.GoogleImage" class="slide">
+              <div class="position-relative mr-2">
+                <img src="{{ Image_Url }}/PropertyData/GetGoogleImage?propertyId={{
+                    property.PropertyId
+                  }}" alt="" width="100%" height="60px" />
+              </div>
+            </div>
+          </ngx-slick-carousel>
+          <div id="divId" class="no-image" *ngIf="noImages"></div>
+          <!-- <div *ngIf="!imageObject || imageObject.length == 0" class="no-image">
+              <i>No image found.</i>
+            </div> -->
+          <div class="col-12 pl-0 pr-0  mt-30">
+            <div class=" col-12 pl-0 pr-0 mt-40 text-black">
+              <!-- <i class="fa fa-circle font-14 text-purple pr-2"
+                  *ngIf="property.Status == 'Viewed' || property.Status == 'VIEWED'"></i>
+                <i class="fa fa-circle font-14 text-danger pr-2"
+                  *ngIf="property.Status == 'For sale'"></i>
+                <i class="fa fa-circle font-14 text-blue pr-2" *ngIf="
+                   property.Status == 'Viewed / Owner active'
+                "></i>
+                <i class="fa fa-circle font-14 green-color pr-2"
+                  *ngIf="property.Status == 'Open home / Owner active' || property.Status == 'Open'"></i> -->
+              <h4 class="">{{ property.Status }}</h4>
+              <p class="mb-0 font-14">
+                <i class="fa fa-bed font-14 black-color" title="Bedroom"></i>
+                <span class="pl-2 pr-3">{{ property.Bedrooms }}</span>
+                <i class="fas fa-bath font-14 black-color" title="Bathroom"></i>
+                <span class="pl-2 pr-3">{{ property.Bathrooms }}</span>
+                <i class="fa fa-car font-14 black-color" title="Parking"></i>
+                <span class="pl-2 pr-3">{{ property.Carparks }}</span>
+                <i class="fas fa-expand font-14 black-color" title="Area"></i>
+                <span class="pl-2">{{ property.Landarea }} sqm</span>
+              </p>
+              <p class="mt-0 mb-0 font-14">{{ property.Address }}, {{property.Suburb}}, {{property.City}}</p>
+              <div class="col-12 pl-0 pr-0 mb-35">
+                <div class="float-left mr-2">
+                  <!-- <h3 *ngIf="!property.AskingPrice || property.AskingPrice == property.HomebuzzEstimate"> -->
+                  <h3 *ngIf="!property.IsShowAskingPrice" class="mb-0 font-16 font500 ">
+                    Estimate price
+                    {{
+                        property.HomebuzzEstimate
+                          | currency: "CAD":"symbol-narrow":"4.0"
+                      }}
+                  </h3>
+                  <!-- <h3 *ngIf="property.AskingPrice && property.AskingPrice != property.HomebuzzEstimate"> -->
+                  <h3 *ngIf="property.IsShowAskingPrice" class="mb-0 font-16 font500 ">
+                    Asking price
+                    {{
+                        property.AskingPrice
+                          | currency: "CAD":"symbol-narrow":"4.0"
+                      }}
+                  </h3>
+                </div>
+                <div class="float-right-sm" *ngIf="property.IsShowAskingPrice">
+                  <a href="javascript:void(0)" (click)="moveScrollBottom('HomeValue')"
+                    class="text-info font-weight-bold font-14">View estimate</a>
+                  <!-- <button *ngIf="!property.UserOffered && property.OwnerId != userId"
+                    class="btn btn-primary offer-button line-height-1 btn-sm" (click)="onMakeOfferBtnClick(property)">
+                    Make offer
+                  </button>
+                  <button *ngIf="property.UserOffered && property.OwnerId != userId" [disabled]="true"
+                    class="btn line-height-1 made-offer-button btn-sm btn-secondary">
+                    Offer made
+                  </button> -->
+                </div>
+                <div class="clearfix"></div>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 mt-3 pl-0 pr-0" id="PropertyOverView">
+        <h4 class="text-break text-center mb-0 text-black mt-40 mb-40 line-height-8">
+          Property overview
+          <!-- {{ property.Description ? property.Description : "" }} -->
+        </h4>
+        <!-- <p class="mt-3 text-center line-height-8 font-12">Text goes about here property</p> -->
+        <div *ngIf="!property.Description && (property.OwnerId == userId)"
+          class="col-md-12 text-center font-14 text-black">
+          <button *ngIf="!property.Description && (property.OwnerId == userId) && isUserCookieExist" class="mt-3 font-16 offer-button px-4"
+          (click)="openEditDescriptionModal()">Add description</button>
+        </div>
+        <p class="line-height-1-2 mt-15 mb-0 font-14" *ngIf="property.Description">{{property.Description}}</p>
+      </div>
+      <div class="col-12 pl-0 pr-0 border-bottom-modal mt-40 pb-40">
+        <div class="w-65 m-auto border px-3 pt-3 pb-13">
+
+          <div class="text-center col-lg-12 col-md-12 col-sm-12 col-12 pr-0">
+            <p class="gray-text mb-0 font-14 font-weight-bold line-height-1">
+              Similar properties in {{ subHurbName }} medium estimate price
+            </p>
+            <h2 class="mb-0 mt-15 font-16 font500 line-height-1">
+              {{
+                property.AverageEstimatePrice
+                  | currency: "CAD":"symbol-narrow":"4.0"
+              }}
+            </h2>
+            <p class="gray-text mb-0 mt-14 font-14 line-height-1-8 font-weight-bold">
+              This home is valued<a href="javascript:void(0)" *ngIf="isGraterThanPercentage"
+                class="text-success px-1">{{property.AveragePercentage}}% higher <i
+                  class="far fa-arrow-alt-circle-up font-23 top3"></i></a>
+              <a href="javascript:void(0)" *ngIf="!isGraterThanPercentage" class="text-danger px-1">
+                {{property.AveragePercentage}}% lower <i class="far fa-arrow-alt-circle-down font-23 top3"></i></a>than
+              the similar property medium estimate price in {{subHurbName}}.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class=" border-bottom-modal text-center mt-40 pb-40" id="SimilarPropertySubHurb">
+        <h4 class="line-height-8 text-black mb-40">Property supply</h4>
+
+        <div class="row">
+          <div class="col-12 gray-text text-center font-12">
+            <p class="font-14 line-height-1 mb-0 ">Similar properties in {{ subHurbName }} with activity</p>
+            <div class="d-table mt-15 mb-20-media">
+              <span class="counter loader" *ngIf="!loadSimilarhomes"><span
+                  class="spiner-text"></span>{{ property.ActiveHomes }}</span>
+              <span class="counter" *ngIf="loadSimilarhomes"><span class="spiner-text">
+                  {{ property.ActiveHomes }}</span></span>
+            </div>
+          </div>
+          <!-- <div class="col-md-6 gray-text text-center font-12">
+            <p class="font-14 line-height-1 mb-0">
+              Similar properties in {{ subHurbName }} with no activity
+            </p>
+            <div class="d-table mt-15">
+              <span class="counter loader" *ngIf="!loadSimilarhomes"><span
+                  class="spiner-text"></span>{{ property.InActiveHomes }}</span>
+              <span class="counter" *ngIf="loadSimilarhomes"><span
+                  class="spiner-text"></span>{{ property.InActiveHomes }}</span>
+            </div>
+          </div> -->
+        </div>
+      </div>
+
+      <div class=" border-bottom-modal text-center mt-40 pb-40" id="Interest">
+        <div class="mb-40">
+          <h4 class="line-height-8 mb-0 text-black">Viewers</h4>
+          <p class="font-14 line-height-8 gray-text mt-10 mb-0">(Past 28 days)</p>
+        </div>
+        <div class="row">
+          <div class="col-md-6 gray-text font-12 mb-20-media">
+            <p class="font-14 line-height-1 mb-0 ">This property</p>
+            <button class="font-16 btn btn-primary mt-15">
+              {{ property.ViewCount }} {{ property.ViewCount == 1 ? "Viewer" : "Viewers" }}
+            </button>
+          </div>
+          <div class="col-md-6 gray-text font-12">
+            <p class="font-14 line-height-1 mb-0">
+              Similar properties in {{ subHurbName }} average
+            </p>
+            <button class="font-16 btn btn-primary mt-15">
+              {{ property.AverageCount }} {{ property.AverageCount == 1 ? "Viewer" : "Viewers" }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-bottom-modal text-center mt-40 pb-38" id="Watching">
+        <div class="mb-40">
+          <h4 class="line-height-8 mb-0 text-black">Watching</h4>
+          <p class="font-14 line-height-8 gray-text mt-10 mb-0">(Past 28 days)</p>
+        </div>
+        <div class="row">
+          <div class="col-md-6 gray-text mb-20-media">
+            <p class="font-14 line-height-1 mb-0 ">This property</p>
+            <div class="font-weight-bold font-16 text-black-600 mt-13 d-flex align-items-center justify-content-center">
+              <i class="fas fa-binoculars font-30"></i> <span class="ml-2">{{property.PropertyLikes.length}}
+                {{ property.PropertyLikes.length == 1 ? "Viewer" : "Viewers" }}</span></div>
+          </div>
+          <div class="col-md-6 gray-text">
+            <p class="font-14 line-height-1 mb-0">
+              Similar properties in {{ subHurbName }} average
+            </p>
+            <div class="font-weight-bold font-16 text-black-600 mt-13 d-flex align-items-center justify-content-center">
+              <i class="fas fa-binoculars font-30"></i> <span class="ml-2">{{ property.AveragePropertyLikes}}
+                {{ property.AveragePropertyLikes == 1 ? "Viewer" : "Viewers" }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-bottom-modal open-home" id="HomeValue">
+        <div class="col-md-12 text-center mt-40 mb-40 font-14 text-black">
+          <h4 class="line-height-8 mb-40">Property value</h4>
+          <div class="line-height-8">
+            <p class="mr-3 mb-0 font-14"><strong>Estimate price $2,290,000</strong> (April 2020)</p>
+            <button
+              *ngIf="!property.UserOffered && property.OwnerId != userId && (rolename != 'Agent') && (rolename != 'Agent_Admin')"
+              class="mt-15 font-16 offer-button pl-4 pr-4" (click)="onMakeOfferBtnClick(property)">Make offer</button>
+            <button
+              *ngIf="property.UserOffered && property.OwnerId != userId && (rolename != 'Agent') && (rolename != 'Agent_Admin')"
+              [disabled]="true" class="mt-15 font-16 made-offer-button pl-4 pr-4">
+              Offer made
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-bottom-modal open-home" id="OpenHome">
+        <div class="col-md-12 text-center mt-40 mb-40 font-14 text-black">
+          <h4 class="line-height-8 mb-40">Open home</h4>
+          <div
+            class="line-height-1 font-14 line-height-1 font-14 d-flex align-items-center flex-wrap justify-content-center ">
+            <span class="mr-3 top3" *ngIf="
+            property.IsOpenHome
+              ">{{ property.Day }} {{ property.Time }}</span>
+            <span class="mr-3 gray-text top3" *ngIf="
+               !property.IsOpenHome
+              ">No open home scheduled</span>
+            <a href="javascript:void(0)" (click)="onNotifyPropertyOptionClick()" class="d-flex align-items-center"><span
+                class="top3">Notify me</span> <i class="far fa-calendar-plus pl-2 font-30"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="col-12 mt-3 pl-0 pr-0">
+        <p
+          class="text-break text-center threeline-text-overflow mb-0 text-black mt-40 line-height-1 font-14"
+        >
+          <strong>Property overview </strong
+          >{{ property.Description ? property.Description : "" }}
+        </p>
+      </div> -->
+      <!-- <div class="row col-12 pl-0 pr-0 border-bottom-modal mt-3 pb-20">
+        <div class="w-75 m-auto border p-3">
+         
+          <div class="text-center col-lg-12 col-md-12 col-sm-12 col-12 pr-0">
+            <p class="gray-text mb-0 font-15 line-height-1">
+              Similar properties in {{ subHurbName }} medium estimate price
+            </p>
+            <h2 class="mb-0 mt-15 font500 line-height-1">
+              {{
+                property.AverageEstimatePrice
+                  | currency: "CAD":"symbol-narrow":"4.0"
+              }}
+            </h2>
+          </div>
+        </div>
+      </div> -->
+
+      <div class="col-12 pl-0 pr-0 border-bottom-modal" id="ListingAgent">
+        <div class="mb-40 font-14 text-center mt-40 text-black">
+          <!-- <strong>Listing agent
+          </strong> -->
+          <h4 class="line-height-8">Listing agent</h4>
+        </div>
+      </div>
+
+      <div *ngIf="loadSimilarhomes && isLoaded && isLoadSubHurb" id="SimilarProperty"
+        class="mb-40  font-14 text-center mt-40 text-black">
+        <h4 class="line-height-8">Similar properties in area
+          <!-- {{subHurbName}} -->
+        </h4>
+      </div>
+      <app-google-map #googleMap *ngIf="loadSimilarhomes && isLoaded && isLoadSubHurb"
+        [selectedBeds]="property.Bedrooms" [selectedBaths]="property.Bathrooms" [subHurbName]="subHurbName"
+        [searchTerm]="property.Address" [pageName]="'PropertyImageGalleryPage'" [propertyId]="property.PropertyId"
+        (propImageTile)="openPropertyImageComponent($event)"></app-google-map>
+
+
+      <div class="col-12 search-footer">
+        <app-propertylight-footer (termsModal)="onTermsOptionClick()" (privacyModal)="onPrivacyOptionClick()"
+          (estimateModal)="onHomebuzzEstimatesOptionClick()"></app-propertylight-footer>
+      </div>
+    </div>
+  </div>
+</div>

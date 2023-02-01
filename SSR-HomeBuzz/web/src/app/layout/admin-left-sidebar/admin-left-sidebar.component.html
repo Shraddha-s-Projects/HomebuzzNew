@@ -1,0 +1,49 @@
+
+<nav id="sidebar" [class.collapsed]="collapsed">
+    <div class="d-flex justify-content-between p-7 sidebar-header">
+      <h6 class="wd-200px d-flex align-items-center mb-0" >
+        <i class="icon-home2 mr-2 link-color" [routerLink]="['/dashboard']"></i>
+        <p class="mb-0 font-weight-semibold d-none-mob font-19 link-color"> PropertyFlow™</p>
+      </h6>
+        <div class="expandBtn">
+            <span id="sidebarCollapse"><i
+                class="fa fa-bars"
+                [class.fa-compress]="!collapsed"
+                [class.fa-expand]="collapsed"
+                (click)="collapsed = !collapsed"></i></span>
+        </div>
+    </div>
+    <ul class="navigation">
+      <li class="" [ngClass]="getActiveMenu(['/admin/dashboard'])">
+        <a href="javascript:void(0)" tooltip="Dashboard" [routerLink]="['/admin/dashboard']"
+          [routerLinkActive]="['active']">
+          <i class="fa fa-tachometer"></i><span>Dashboard</span></a>
+      </li>
+      <li class="" [ngClass]="getActiveMenu(['/admin/users'])">
+        <a href="javascript:void(0)" tooltip="Dashboard" [routerLink]="['/admin/users']" [routerLinkActive]="['active']">
+          <i class="fa fa-user"></i><span>Users</span></a>
+      </li>
+  
+      <li class="" [ngClass]="getActiveMenu(['/admin/agents'])">
+        <a href="javascript:void(0)" tooltip="Dashboard" [routerLink]="['/admin/agents']" [routerLinkActive]="['active']">
+          <i class="fa fa-user"></i><span>Agents</span></a>
+      </li>
+      <li class="" [ngClass]="getActiveMenu(['/admin/properties'])">
+        <a href="javascript:void(0)" tooltip="Dashboard" [routerLink]="['/admin/properties']"
+          [routerLinkActive]="['active']">
+          <i class="fa fa-home"></i><span>Properties</span></a>
+      </li>
+      <!-- <li data-toggle="collapse" data-target="#products" class="collapsed active">
+        <a href="javascript:void(0)"><i class="fa fa-gift fa-lg"></i><span> UI Elements</span> <span
+            class="arrow"></span></a>
+      </li>
+      <ul class="sub-menu collapse" id="products">
+        <li class="active"><a href="javascript:void(0)"><span>CSS3 Animation</span></a></li>
+        <li><a href="javascript:void(0)"><span>General</span></a></li>
+        <li><a href="javascript:void(0)"><span>Buttons</span></a></li>
+        <li><a href="javascript:void(0)"><span>Tabs & Accordions</span></a></li>
+        <li><a href="javascript:void(0)"><span>Typography</span></a></li>
+      </ul> -->
+    </ul>
+</nav>
+  

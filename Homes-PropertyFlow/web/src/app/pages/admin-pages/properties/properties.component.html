@@ -1,0 +1,285 @@
+<div id="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 p-3">
+        <div class="col-md-8 col-lg-4 d-flex mb-2" >
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Status</mat-label>
+            <mat-select [(value)]="defaultStatus" (selectionChange)="onSelectStatus($event)">
+              <mat-option [value]="option" *ngFor="let option of statusList">{{option.Name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="mat-elevation-z8">
+          <div class="loader" *ngIf="!isLoaded"></div>
+          <table mat-table [dataSource]="dataSource" class="w-100" matSort (matSortChange)="sortData($event)">
+            <ng-container matColumnDef="Address">
+              <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header> Address </th> -->
+              <th mat-header-cell *matHeaderCellDef class="selectee">
+                <div class="col-12 px-0 input-width d-flex justify-content-between align-items-center">
+                  <mat-form-field class="" appearance="outline">
+                    <mat-label> Address </mat-label>
+                    <input matInput class="form-field" (keydown.enter)="$event.preventDefault()"
+                    (keyup)="handleInput($event, 'Address')" [formControl]="addressFilter" placeholder="Address" />
+                  </mat-form-field>
+                  <div mat-sort-header class=""></div>
+                </div>
+              </th>
+              <!-- <td mat-cell *matCellDef="let element"> {{element.Address}} </td> -->
+              <td mat-cell *matCellDef="let element">
+                <div *ngIf="!element.isEdit">{{ element.Address }}</div>
+                <div *ngIf="element.isEdit">
+                  <mat-form-field class="m-auto">
+                    <input type="text" matInput [(ngModel)]="element.Address"
+                      [ngModelOptions]="{ standalone: true }" />
+                  </mat-form-field>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Suburb">
+              <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header> Suburb </th> -->
+              <th mat-header-cell *matHeaderCellDef class="selectee">
+                <div class="col-12 px-0 input-width d-flex justify-content-between align-items-center">
+                  <mat-form-field class="" appearance="outline">
+                    <mat-label> Suburb </mat-label>
+                    <input matInput class="form-field" (keydown.enter)="$event.preventDefault()"
+                    (keyup)="handleInput($event, 'Suburb')" [formControl]="suburbFilter" placeholder="Suburb" />
+                  </mat-form-field>
+                  <div mat-sort-header class=""></div>
+                </div>
+              </th>
+              <!-- <td mat-cell *matCellDef="let element"> {{element.Suburb}} </td> -->
+              <td mat-cell *matCellDef="let element">
+                <div *ngIf="!element.isEdit">{{ element.Suburb }}</div>
+                <div *ngIf="element.isEdit">
+                  <mat-form-field class="m-auto">
+                    <input type="text" matInput [(ngModel)]="element.Suburb"
+                      [ngModelOptions]="{ standalone: true }" />
+                  </mat-form-field>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="City">
+              <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header> City </th> -->
+              <th mat-header-cell *matHeaderCellDef class="selectee">
+                <div class="col-12 px-0 input-width d-flex justify-content-between align-items-center">
+                  <mat-form-field class="" appearance="outline">
+                    <mat-label> City </mat-label>
+                    <input matInput class="form-field" (keydown.enter)="$event.preventDefault()"  
+                    (keyup)="handleInput($event, 'City')" [formControl]="cityFilter" placeholder="City" />
+                  </mat-form-field>
+                  <div mat-sort-header class=""></div>
+                </div>
+              </th>
+              <!-- <td mat-cell *matCellDef="let element"> {{element.City}} </td> -->
+              <td mat-cell *matCellDef="let element">
+                <div *ngIf="!element.isEdit">{{ element.City }}</div>
+                <div *ngIf="element.isEdit">
+                  <mat-form-field class="m-auto">
+                    <input type="text" matInput [(ngModel)]="element.City"
+                      [ngModelOptions]="{ standalone: true }" />
+                  </mat-form-field>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="HomebuzzEstimate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> HomebuzzEstimate </th>
+              <!-- <td mat-cell *matCellDef="let element">
+                {{ element.HomebuzzEstimate | currency:'CAD':'symbol-narrow':'4.0' }}
+              </td> -->
+              <td mat-cell *matCellDef="let element">
+                <div *ngIf="!element.isEdit"> {{ element.HomebuzzEstimate | currency:'CAD':'symbol-narrow':'4.0' }}</div>
+                <div *ngIf="element.isEdit">
+                  <mat-form-field class="m-auto">
+                    <input type="text" matInput [(ngModel)]="element.HomebuzzEstimate"
+                      [ngModelOptions]="{ standalone: true }" />
+                  </mat-form-field>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Bedrooms">
+              <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header> Bedrooms </th> -->
+              <th mat-header-cell *matHeaderCellDef class="selectee">
+                <div class="col-12 px-0 input-width d-flex justify-content-between align-items-center">
+                  <mat-form-field class="" appearance="outline">
+                    <mat-label> Bedrooms </mat-label>
+                    <input matInput class="form-field" (keydown.enter)="$event.preventDefault()"
+                    (keyup)="handleInput($event, 'Bedrooms')" [formControl]="bedroomsFilter" placeholder="Bedrooms" />
+                  </mat-form-field>
+                  <div mat-sort-header class=""></div>
+                </div>
+              </th>
+              <!-- <td mat-cell *matCellDef="let element"> {{element.Bedrooms}} </td> -->
+              <td mat-cell *matCellDef="let element">
+                <div *ngIf="!element.isEdit">{{ element.Bedrooms }}</div>
+                <div *ngIf="element.isEdit">
+                  <mat-form-field class="m-auto">
+                    <input type="text" matInput [(ngModel)]="element.Bedrooms"
+                      [ngModelOptions]="{ standalone: true }" />
+                  </mat-form-field>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Bathrooms">
+              <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header> Bathrooms </th> -->
+
+              <th mat-header-cell *matHeaderCellDef class="selectee">
+                <div class="col-12 px-0 input-width d-flex justify-content-between align-items-center">
+                  <mat-form-field class="" appearance="outline">
+                    <mat-label> Bathrooms </mat-label>
+                    <input matInput class="form-field" (keydown.enter)="$event.preventDefault()"
+                    (keyup)="handleInput($event, 'Bathrooms')" [formControl]="bathroomsFilter"
+                      placeholder="Bathrooms" />
+                  </mat-form-field>
+                  <div mat-sort-header class=""></div>
+                </div>
+              </th>
+              <!-- <td mat-cell *matCellDef="let element"> {{element.Bathrooms}} </td> -->
+              <td mat-cell *matCellDef="let element">
+                <div *ngIf="!element.isEdit">{{ element.Bathrooms }}</div>
+                <div *ngIf="element.isEdit">
+                  <mat-form-field class="m-auto">
+                    <input type="text" matInput [(ngModel)]="element.Bathrooms"
+                      [ngModelOptions]="{ standalone: true }" />
+                  </mat-form-field>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="CarSpace">
+              <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header> CarSpace </th> -->
+
+              <th mat-header-cell *matHeaderCellDef class="selectee">
+                <div class="col-12 px-0 input-width d-flex justify-content-between align-items-center">
+                  <mat-form-field class="" appearance="outline">
+                    <mat-label> CarSpace </mat-label>
+                    <input matInput class="form-field" (keydown.enter)="$event.preventDefault()"
+                    (keyup)="handleInput($event, 'CarSpace')" [formControl]="carSpaceFilter" placeholder="CarSpace" />
+                  </mat-form-field>
+                  <div mat-sort-header class=""></div>
+                </div>
+              </th>
+              <!-- <td mat-cell *matCellDef="let element"> {{element.CarSpace}} </td> -->
+              <td mat-cell *matCellDef="let element">
+                <div *ngIf="!element.isEdit">{{ element.CarSpace }}</div>
+                <div *ngIf="element.isEdit">
+                  <mat-form-field class="m-auto">
+                    <input type="text" matInput [(ngModel)]="element.CarSpace"
+                      [ngModelOptions]="{ standalone: true }" />
+                  </mat-form-field>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Landarea">
+              <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header> Landarea </th> -->
+
+              <th mat-header-cell *matHeaderCellDef class="selectee">
+                <div class="col-12 px-0 input-width d-flex justify-content-between align-items-center">
+                  <mat-form-field class="" appearance="outline">
+                    <mat-label> Landarea </mat-label>
+                    <input matInput class="form-field" (keydown.enter)="$event.preventDefault()"
+                    (keyup)="handleInput($event, 'Landarea')" [formControl]="landAreaFilter" placeholder="Landarea" />
+                  </mat-form-field>
+                  <div mat-sort-header class=""></div>
+                </div>
+              </th>
+              <!-- <td mat-cell *matCellDef="let element"> {{element.Landarea}} </td> -->
+              <td mat-cell *matCellDef="let element">
+                <div *ngIf="!element.isEdit">{{ element.Landarea }}</div>
+                <div *ngIf="element.isEdit">
+                  <mat-form-field class="m-auto">
+                    <input type="text" matInput [(ngModel)]="element.Landarea"
+                      [ngModelOptions]="{ standalone: true }" />
+                  </mat-form-field>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Latitude">
+              <th mat-header-cell *matHeaderCellDef > Latitude </th>
+              <!-- <th mat-header-cell *matHeaderCellDef class="selectee">
+                <div class="col-12 input-width">
+                  <mat-form-field class="pull-right" appearance="outline">
+                    <mat-label> Landarea </mat-label>
+                    <input matInput type="number" class="form-field" (keydown.enter)="$event.preventDefault()"
+                      (keyup)="handleInput($event, 'Landarea')" [formControl]="landAreaFilter" placeholder="Landarea" />
+                  </mat-form-field>
+                </div>
+                <div mat-sort-header class="mt-18 d-inline"></div>
+              </th> -->
+              <!-- <td mat-cell *matCellDef="let element"> {{element.Latitude}} </td> -->
+              <td mat-cell *matCellDef="let element">
+                <div *ngIf="!element.isEdit">{{ element.Latitude }}</div>
+                <div *ngIf="element.isEdit">
+                  <mat-form-field class="m-auto">
+                    <input type="text" matInput [(ngModel)]="element.Latitude"
+                      [ngModelOptions]="{ standalone: true }" />
+                  </mat-form-field>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Longitude">
+              <th mat-header-cell *matHeaderCellDef> Longitude </th>
+              <!-- <th mat-header-cell *matHeaderCellDef class="selectee">
+                <div class="col-12 input-width">
+                  <mat-form-field class="pull-right" appearance="outline">
+                    <mat-label> Landarea </mat-label>
+                    <input matInput type="number" class="form-field" (keydown.enter)="$event.preventDefault()"
+                      (keyup)="handleInput($event, 'Landarea')" [formControl]="landAreaFilter" placeholder="Landarea" />
+                  </mat-form-field>
+                </div>
+                <div mat-sort-header class="mt-18 d-inline"></div>
+              </th> -->
+              <!-- <td mat-cell *matCellDef="let element"> {{element.Longitude}} </td> -->
+              <td mat-cell *matCellDef="let element">
+                <div *ngIf="!element.isEdit">{{ element.Longitude }}</div>
+                <div *ngIf="element.isEdit">
+                  <mat-form-field class="m-auto">
+                    <input type="text" matInput [(ngModel)]="element.Longitude"
+                      [ngModelOptions]="{ standalone: true }" />
+                  </mat-form-field>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef> Actions </th>
+              <td mat-cell *matCellDef="let element" width="110" class="text-center">
+                <a href="javascript:void(0)" class="" *ngIf="!element.isEdit">
+                  <mat-icon matTooltip="Edit" class="font-18 edit-icon text-success mr-10 s-20" (click)="onEditProperty(element)">edit
+                  </mat-icon>
+                </a>
+                <a href="javascript:void(0)" class="" *ngIf="element.isEdit">
+                  <mat-icon matTooltip="Save" class="text-primary edit-icon mr-10 s-20 font-18" (click)="onUpdateProperty(element)">
+                    save</mat-icon>
+                </a>
+                <a href="javascript:void(0)" class="" *ngIf="element.isEdit">
+                  <mat-icon matTooltip="Close" class="text-danger edit-icon mr-10 s-20 font-18" (click)="onCloseProperty(element)">
+                    close</mat-icon>
+                </a>
+                <a href="javascript:void(0)" class="" *ngIf="!element.IsActive">
+                  <mat-icon matTooltip="Delete" class="text-danger delete-icon font-18" (click)="onRemoveProperty(element)">delete
+                  </mat-icon>
+                </a>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+        <mat-paginator *ngIf="properties.length > 0 " showFirstLastButtons="true" [pageSize]="pageSize"
+          [length]="totalSize" [pageSizeOptions]="pageSizeOptions" (page)="handlePage($event)">
+        </mat-paginator>
+
+      </div>
+    </div>
+  </div>
+</div>

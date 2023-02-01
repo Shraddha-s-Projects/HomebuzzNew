@@ -1,0 +1,218 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\Projects\\HomeBuzz_New\\Homebuzz\\Homes-PropertyFlow\\WebAPI\\HomeBuzz.jwt.authentication\\HomeBuzz.jwt.authentication.csproj": {}
+  },
+  "projects": {
+    "D:\\Projects\\HomeBuzz_New\\Homebuzz\\Homes-PropertyFlow\\WebAPI\\HomeBuzz.data\\HomeBuzz.data.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Projects\\HomeBuzz_New\\Homebuzz\\Homes-PropertyFlow\\WebAPI\\HomeBuzz.data\\HomeBuzz.data.csproj",
+        "projectName": "HomeBuzz.data",
+        "projectPath": "D:\\Projects\\HomeBuzz_New\\Homebuzz\\Homes-PropertyFlow\\WebAPI\\HomeBuzz.data\\HomeBuzz.data.csproj",
+        "packagesPath": "C:\\Users\\TA24\\.nuget\\packages\\",
+        "outputPath": "D:\\Projects\\HomeBuzz_New\\Homebuzz\\Homes-PropertyFlow\\WebAPI\\HomeBuzz.data\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\TA24\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Autofac": {
+              "target": "Package",
+              "version": "[4.8.1, )"
+            },
+            "Autofac.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[4.3.1, )"
+            },
+            "Microsoft.ApplicationBlocks.Data": {
+              "target": "Package",
+              "version": "[2.0.0, )"
+            },
+            "Microsoft.AspNet.Cors": {
+              "target": "Package",
+              "version": "[5.2.7, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Hosting.Abstractions": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Http.Abstractions": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Identity": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer.Design": {
+              "target": "Package",
+              "version": "[2.0.0-preview1-final, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.Extensions.Logging.Debug": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.Extensions.Options": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            },
+            "PayPal.SDK.NETCore": {
+              "target": "Package",
+              "version": "[*, )"
+            },
+            "PayPalCoreSDK": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "PixelFormatsConverter": {
+              "target": "Package",
+              "version": "[0.1.0, )"
+            },
+            "System.Collections.Immutable": {
+              "target": "Package",
+              "version": "[1.5.0, )"
+            },
+            "System.Diagnostics.DiagnosticSource": {
+              "target": "Package",
+              "version": "[4.5.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Projects\\HomeBuzz_New\\Homebuzz\\Homes-PropertyFlow\\WebAPI\\HomeBuzz.jwt.authentication\\HomeBuzz.jwt.authentication.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Projects\\HomeBuzz_New\\Homebuzz\\Homes-PropertyFlow\\WebAPI\\HomeBuzz.jwt.authentication\\HomeBuzz.jwt.authentication.csproj",
+        "projectName": "HomeBuzz.jwt.authentication",
+        "projectPath": "D:\\Projects\\HomeBuzz_New\\Homebuzz\\Homes-PropertyFlow\\WebAPI\\HomeBuzz.jwt.authentication\\HomeBuzz.jwt.authentication.csproj",
+        "packagesPath": "C:\\Users\\TA24\\.nuget\\packages\\",
+        "outputPath": "D:\\Projects\\HomeBuzz_New\\Homebuzz\\Homes-PropertyFlow\\WebAPI\\HomeBuzz.jwt.authentication\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\TA24\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "projectReferences": {
+              "D:\\Projects\\HomeBuzz_New\\Homebuzz\\Homes-PropertyFlow\\WebAPI\\HomeBuzz.data\\HomeBuzz.data.csproj": {
+                "projectPath": "D:\\Projects\\HomeBuzz_New\\Homebuzz\\Homes-PropertyFlow\\WebAPI\\HomeBuzz.data\\HomeBuzz.data.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "dependencies": {
+            "Microsoft.IdentityModel.Tokens": {
+              "target": "Package",
+              "version": "[5.3.0, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[5.3.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

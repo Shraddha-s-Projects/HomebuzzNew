@@ -1,0 +1,133 @@
+<toaster-container [toasterconfig]="config1"></toaster-container>
+<!-- Page content -->
+<div class="page-content">
+
+  <!-- Main content -->
+  <div class="content-wrapper">
+
+    <!-- Content area -->
+    <div class="content d-flex justify-content-center align-items-center">
+
+      <!-- Registration form -->
+
+      <div class="row">
+        <div class="login-form">
+          <div class="card mb-0">
+            <div class="card-body">
+              <div class="text-center mb-3">
+                <div class="d-flex justify-content-center mb-2">
+                  <img src="../assets/images/icons/yellow-logo-40x40.png" width="30" />
+                </div>
+                <h5 class="mb-0">Create account</h5>
+                <span class="d-block text-muted">All fields are required</span>
+              </div>
+
+              <form class="flex-fill" #SignupForm="ngForm">
+                <div class="form-group form-group-feedback form-group-feedback-right">
+                  <input type="text" class="form-control" name="UserName" placeholder="Choose username"
+                    [(ngModel)]="signupUser.userName" #UserName="ngModel"
+                    (ngModelChange)="isUserNameValid = validateUsername()" required>
+                  <div class="form-control-feedback">
+                    <i class="icon-user-plus text-muted"></i>
+                  </div>
+                  <div *ngIf="!isUserNameValid && !UserName.errors && UserName.touched" class="text-danger">
+                    {{userNameValidMsg}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group form-group-feedback form-group-feedback-right">
+                      <input type="text" class="form-control" name="FirstName" placeholder="Full name" id="FirstName"
+                        [(ngModel)]="signupUser.firstName" #FirstName="ngModel"
+                        (ngModelChange)="isFirstnameValid = isStringOnly(signupUser.firstName)" required>
+                      <div class="form-control-feedback">
+                        <i class="icon-user-check text-muted"></i>
+                      </div>
+                      <div *ngIf="FirstName.errors && (FirstName.dirty || FirstName.touched)" class="text-danger">
+                        {{error.firstName}}</div>
+                      <div *ngIf="!isFirstnameValid && !FirstName.errors" class="text-danger">First
+                        Name must contain text only.</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group form-group-feedback form-group-feedback-right">
+                      <input trim type="email" class="form-control" name="Email" placeholder="Your email" id="Email"
+                        [(ngModel)]="signupUser.email" #Email="ngModel" (ngModelChange)="errorMessageEmail()" required>
+                      <div class="form-control-feedback">
+                        <i class="icon-mention text-muted"></i>
+                      </div>
+                      <div *ngIf="!isEmailValid && (Email.dirty || Email.touched)" class="text-danger">Enter valid email
+                        address</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group form-group-feedback form-group-feedback-right">
+                      <input type="password" class="form-control" name="Password" placeholder="Create password"
+                        id="Password" [(ngModel)]="signupUser.password" #Password="ngModel"
+                        (ngModelChange)="validatePassword(signupUser.password)" required>
+                      <div class="form-control-feedback">
+                        <i class="icon-user-lock text-muted"></i>
+                      </div>
+
+                      <div *ngIf="Password.errors && (Password.dirty || Password.touched)" class="text-danger">
+                        {{error.password}}</div>
+                      <div *ngIf="!isPasswordTrimmed && !Password.errors && Password.touched" class="text-danger">Your
+                        password can't start or end with blank space.</div>
+                      <div *ngIf="!isValidPassword && !Password.errors && Password.touched" class="text-danger">Must
+                        contains minimum 8 char and maximum 15 char including upper case, lower case and number.</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group form-group-feedback form-group-feedback-right">
+                      <input type="password" class="form-control" name="RepeatPassword" placeholder="Repeat password"
+                        id="RepeatPassword" [(ngModel)]="signupUser.repeatPassword" #RepeatPassword="ngModel"
+                        (ngModelChange)="isRepetPasswordMatch()" required>
+                      <div class="form-control-feedback">
+                        <i class="icon-user-lock text-muted"></i>
+                      </div>
+
+                      <div *ngIf="!isRepetePasswordMatch && !RepeatPassword.errors && RepeatPassword.touched"
+                        class="text-danger">Repeat
+                        password is not match.</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <!-- <button type="submit" class="btn btn-primary btn-block cursor-pointer ladda-button"
+                  data-style="zoom-in" #submitButton (click)="signup()"
+                  [disabled]="!isEmailValid || !isRepetePasswordMatch || !SignupForm.form.valid || !signupUser.IsPasswordMatchRule || !isFirstnameValid || !isUserNameValid"
+                  data-spinner-color="white" ng-reflect-disabled="disabled" data-style="zoom-in"><i
+                    class="icon-plus3"></i> Create account</button> -->
+                  <button type="submit" *ngIf="isBrowser" class="btn btn-primary btn-block cursor-pointer ladda-button"
+                    [ladda]="isLoading" data-style="zoom-in" #submitButton (click)="signup()"
+                    [disabled]="!isEmailValid || !isRepetePasswordMatch || !SignupForm.form.valid || !signupUser.IsPasswordMatchRule || !isFirstnameValid || !isUserNameValid"
+                    data-spinner-color="white" ng-reflect-disabled="disabled" data-style="zoom-in"><i
+                      class="icon-plus3"></i> Create account</button>
+                </div>
+              </form>
+
+              <div class="form-group text-center text-muted ">
+                <span class="px-2">Already have an account? <a href="#" [routerLink]="['/login']"
+                    class="ml-auto">Login</a></span>
+              </div>
+              <div class="text-center form-group">
+                <a href="javascript:void(0)" [routerLink]="['/agent/signup']" class="font500 link-color"><u>Agents join
+                    PropertyFlow</u></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /registration form -->
+    </div>
+    <!-- /content area -->

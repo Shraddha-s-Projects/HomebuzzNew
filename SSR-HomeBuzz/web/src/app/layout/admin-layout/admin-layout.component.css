@@ -1,0 +1,9 @@
+.layout-width {
+    /* width: calc(100% - 218px); */
+    width: 100%;
+}
+@media (max-width: 767px) {
+    .layout-width {
+        width: calc(100% - 64px);
+    }
+}

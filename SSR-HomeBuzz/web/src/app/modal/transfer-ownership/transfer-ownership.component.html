@@ -1,0 +1,42 @@
+<div id="TransferOwnerShipModal">
+  <div class="mat-dialog-title">
+    <h3 class="mb-0">
+      <a href="javascript:void(0)">
+        <h6 class="mb-0 pt3 d-flex align-items-center">
+          <i class="icon-home2 mr-2"></i> <span class="font-weight-semibold"> PropertyFlow&trade;</span>
+        </h6>
+      </a>
+    </h3>
+    <button type="button" class="close" (click)="close()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="mat-dialog-content pb-25">
+    <h4 class="pb-1 mb-1 text-center">Transfer to owner</h4>
+    <div class="py-10">
+      <form #TransferOwnerForm="ngForm">
+        <div class="mt-2">
+          <input trim type="text" class="form-control" placeholder="Email" name="Email" id="Email" [(ngModel)]="email"
+            #Email="ngModel" (ngModelChange)="errorMessageEmail()" required />
+          <!-- <div class="form-control-feedback">
+              <i class="icon-user text-muted"></i>
+            </div> -->
+          <div *ngIf="!Email.errors && !isEmailValid && (Email.dirty || Email.touched)"
+            class="text-danger line-height-8 mt-1">
+            Enter valid email address</div>
+          <div *ngIf="Email.errors && (Email.dirty || Email.touched)" class="text-danger line-height-8 mt-1">E-mail
+            cannot be empty.</div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <!-- <button data-spinner-color="white" ng-reflect-disabled="disabled" data-style="zoom-in"
+      class="btn btn-primary mr-10 float-right ladda-button" [disabled]="!isEmailValid"
+      (click)="onSubmitBtnClick()">Submit</button> -->
+    <button data-spinner-color="white" *ngIf="isBrowser" ng-reflect-disabled="disabled" data-style="zoom-in"
+      class="btn btn-primary mr-10 float-right ladda-button" [ladda]="isLoading" [disabled]="!isEmailValid"
+      (click)="onSubmitBtnClick()">Submit</button>
+    <div class="clearfix"></div>
+  </div>
+</div>

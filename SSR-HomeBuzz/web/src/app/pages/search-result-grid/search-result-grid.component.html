@@ -1,0 +1,165 @@
+<div class="search-result-height" (scroll)="onScroll($event)" id="address-grid">
+    <div class="col-12">
+      <h3 class="mb-0 mt-15 line-height-8">
+        <strong>{{ searchedTerm }}</strong>
+      </h3>
+    </div>
+    <div class="col-12">
+      <div class="row">
+        <div class="col-8">
+          <div class="d-flex flex-wrap align-items-center">
+          <h5 class="line-height-8 mb-0 mt-14 mr-3" *ngIf="totalHome > 0">{{ totalHome }}
+            {{totalHome == 1 ? "Property" : "Properties"}}</h5>
+            <div class="custom-control custom-checkbox chk-box mb-0 mt-14">
+              <input class="custom-control-input" type="checkbox" id="surroudingsuburb" name="surroudingsuburb" value="for sale"
+                [checked]="isSurroundingSuburb" (change)="onSurroundSuburbChange($event)">
+              <label for="surroudingsuburb" class="custom-control-label mb-0 font-16 line-height-1">
+                <span class="top-1" [ngClass]=" !isSurroundingSuburb? 'gray-text' : ''">Surrounding suburbs</span>
+              </label>
+            </div>
+        </div>
+        </div>
+        <!-- <div class="col-4 pl-0">
+          <h5 class="float-right line-height-8 mb-0 mt-14" *ngIf="totalView > 0">
+            {{ totalView }}
+            {{totalView == 1 ? "Viewer" : "Viewers"}}</h5>
+        </div> -->
+      </div>
+    </div>
+  <div class="col-12 px-2-mob px-0 d-flex flex-wrap mt-14">
+    <div class="card" *ngFor="let prop of properties; let i = index"
+      [ngClass]="{'card-bottom-border-green':(prop.Status === 'Pre-market'), 'card-bottom-border-red':(prop.Status === 'For sale'), 'card-bottom-border-black':(prop.Status === 'Not listed') }"
+      (mouseout)="removeMarkerPin(prop)" (mouseover)="showMarkerPin(prop)">
+      <div class="position-relative cursor-pointer" (click)="onPropertyImageTileClick($event,prop)">
+        <div *ngIf="prop.isLoadGoogleImageDiv" id="divId_{{prop.PropertyId}}" style="height: 153px;"></div>
+        <img class="card-img-top" src="{{ Image_Url }}/PropertyDetail/PropertyImages?ImageId={{prop.ImageIdList[0]}}"
+          *ngIf="prop.ImageIdList && prop.ImageIdList.length != 0 && !prop.isLoadGoogleImageDiv" />
+        <img class="card-img-top" src="{{ Image_Url }}/PropertyData/GetGoogleImage?propertyId={{ prop.PropertyId }}"
+          *ngIf="prop.GoogleImage && (!prop.ImageIdList || prop.ImageIdList.length == 0) && !prop.isLoadGoogleImageDiv" />
+        <img class="card-img-top" src="./assets/No_image_available.png" alt="Card image cap"
+          *ngIf="!prop.GoogleImage && (!prop.ImageIdList || prop.ImageIdList.length == 0) && !prop.isLoadGoogleImageDiv" />
+        <div class="center-div"
+          *ngIf="prop.GoogleImage && (!prop.ImageIdList || prop.ImageIdList.length == 0) && !prop.isLoadGoogleImageDiv">
+          <img *ngIf="prop.Status == 'For sale'" src="./assets/images/icons/red_location_24x24.png">
+          <img *ngIf="prop.Status == 'Pre-market'" src="./assets/images/icons/green_location_24x24.png">
+          <img *ngIf="prop.Status == 'Not listed' || prop.Status == 'Not listed'"
+            src="./assets/images/icons/black_location_24x24.png">
+        </div>
+        <div class="float-left text-white d-flex title-position statusclass">
+          <div class="d-inline-block">
+            <p class="mb-0 line-height-1-2">{{ prop.Status }}</p>
+          </div>
+        </div>
+        <div class="float-right title-position title-icon likeClass">
+          <a href="javascript:void(0)" (click)="onTileLikeClick($event, prop)"><i
+              [ngClass]="prop.UserLiked ? 'fas text-danger' : 'far text-white'"
+              class="like_{{ prop.Id }} far fa-heart font-25"></i></a>
+        </div>
+        <!-- <button class="btn btn-primary card-btn-position viewClass"> {{ prop.ViewCount }}
+          {{ prop.ViewCount == 1 ? "Viewer" : "Viewers" }}</button> -->
+        <button *ngIf="!prop.IsClaimed && rolename != 'Agent' && rolename != 'Agent_Admin'"
+          class="btn btn-primary card-btn-position1 float-right claim_{{ prop.PropertyDetailId }}"
+          (click)="onOwnerBuzzHomeButtonClick(prop)">
+          Owner view offers
+        </button>
+        <button *ngIf="prop.IsClaimed && prop.OwnerId == userId && userId"
+          class="btn btn-primary card-btn-position1 float-right edit-property"
+          (click)="onAddEditPhotoDescriptionButtonClick(prop)">
+          Edit property
+        </button>
+      </div>
+      <div class="card-body dark-gray card-height pl-0 pr-0 pt-1" (click)="onPropertyTileClick(prop)">
+        <div class="d-flex justify-content-between">
+        <div class="mb-0 px-2">
+          <h4 class="font-14 mb-0 mt1" *ngIf="!prop.IsShowAskingPrice">
+            Estimate price
+            <strong>{{ prop.HomebuzzEstimate | currency:'CAD':'symbol-narrow':'4.0' }}</strong>
+          </h4>
+          <h4 class="font-14 mb-0 mt1" *ngIf="prop.IsShowAskingPrice">
+            Asking price
+            <strong>{{ prop.AskingPrice | currency:'CAD':'symbol-narrow':'4.0' }}</strong>
+          </h4>
+          <div>
+            <span class="font-14 mb-1 black"> ViewerStrength
+              <strong
+                [ngClass]="{ 'text-green' : (prop.ViewerStrength == 'Strong'), 'text-red': (prop.ViewerStrength == 'Weak'), 'text-blue': (prop.ViewerStrength == 'Average') }">
+                {{prop.ViewerStrength}}</strong>
+            </span>
+          </div>
+          <div
+          [ngClass]="(!prop.UserOffered &&  (!prop.IsClaimed || prop.OwnerId != userId)) || (prop.UserOffered && prop.OwnerId != userId)? '':'mt-1'"
+          class="line-height-1 mt2">
+          <span class="pr-2 font-14 mb-1"><i class="fa fa-bed pr-1"
+              title="Bedroom"></i><strong>{{ prop.Bedrooms }}</strong></span>
+          <span class="pr-2 font-14 mb-1"><i class="fas fa-bath pr-1" title="Bathroom"
+              aria-hidden="true"></i><strong>{{ prop.Bathrooms }}</strong></span>
+          <span class="pr-2 font-14 mb-1"><i class="fa fa-car pr-1"
+              title="Parking"></i><strong>{{ prop.Carparks }}</strong></span>
+          <span class="font-14 mb-1"><i class="fas fa-expand pr-1" title="Parking"></i><strong>{{prop.Landarea}}
+              sqm</strong></span>
+        </div>
+        </div>
+        <div class="mt4">
+          <div class="dropdown" *ngIf="(rolename == 'Agent' || rolename == 'Agent_Admin')">
+            <button type="button" class="btn btn-primary offer-button dropdown-toggle float-right"
+              data-toggle="dropdown">
+              <span *ngIf="(!prop.AgentOption) || (userId != prop.AgentId)">Agent Options</span>
+              <span *ngIf="prop.AgentOption &&  userId == prop.AgentId">{{prop.AgentOption}}</span>
+            </button>
+            <div class="dropdown-menu agent-option" *ngIf="(rolename == 'Agent' || rolename == 'Agent_Admin')">
+              <a class="dropdown-item" [ngClass]="optionObj.Id == prop.AgentOptionId ? 'active': ''"
+                (click)="checkToChangeAgentOption(optionObj,prop)" href="javascript:void(0)"
+                *ngFor="let optionObj of prop.AgentOptionArr">
+                {{optionObj.Option}} </a>
+            </div>
+          </div>
+          <a *ngIf="!prop.UserOffered &&  (!prop.IsClaimed || prop.OwnerId != userId) && rolename != 'Agent' && rolename != 'Agent_Admin'"
+            href="javascript:void(0)" (click)="onMakeOfferButtonClick(prop)"
+            class="btn btn-sm btn-primary float-right offer-button mr-2">
+            Make offer</a>
+          <a *ngIf="prop.UserOffered && (!prop.IsClaimed || prop.OwnerId != userId) && rolename != 'Agent' && rolename != 'Agent_Admin'"
+            href="javascript:void(0)" class="btn btn-sm btn-secondary float-right made-offer-button mr-2">Offer made</a>
+          <div class="clearfix"></div>
+        </div>
+        
+      </div>
+        <p class="mb-0 mt6 font-14 text-wrap px-2 line-height-1-2" [title]="prop.Address">
+          {{ prop.Address }}, {{prop.Suburb}}, {{prop.City}}
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+  <div class="col-12 pl-0 pr-0 mt-3" *ngIf="!isLoading && totalHome == 0">
+    <p class="text-center pl-2"> No matching results.</p>
+    <p class="text-center pl-2"> Try changing your search.</p>
+  </div>
+  <div class="clearfix"></div>
+
+  <div class="col-12 pl-0 pr-0 why-use p-3 mt-4 position-relative subhub">
+    <mat-spinner strokeWidth="5" [diameter]="50" *ngIf="!subHurbPropertyInfo && !isLoadSubHurbInfo"
+    ></mat-spinner>
+    <p class="font-13" *ngIf="subHurbName">{{subHurbName}} profile</p>
+    <p class="font-13 mb-0" *ngIf="subHurbPropertyInfo && isLoadSubHurbInfo">{{subHurbName}} has a total property stock
+      of {{subHurbPropertyInfo.TotalProperties}}
+      {{subHurbPropertyInfo.TotalProperties == 1 ? "property" : "properties"}} with a medium estimate price of
+      {{ subHurbPropertyInfo.AverageEstimatePrice | currency:'CAD':'symbol-narrow':'4.0' }}.
+      There {{subHurbPropertyInfo.ActiveProperties  == 1 ? "is" : "are"}} currently
+      {{subHurbPropertyInfo.ActiveProperties}} active
+      {{subHurbPropertyInfo.ActiveProperties == 1 ? "property" : "properties" }} in {{subHurbName}} of
+      which {{subHurbPropertyInfo.ViewedProperties}} {{subHurbPropertyInfo.ViewedProperties == 1 ? "is" : "are"}}
+      not listed, {{subHurbPropertyInfo.ClaimedProperties}}
+      {{subHurbPropertyInfo.ClaimedProperties == 1 ? "is" : "are"}} in pre-market and
+      {{subHurbPropertyInfo.ForSaleProperties}} {{subHurbPropertyInfo.ForSaleProperties == 1 ? "is" : "are"}}
+      for sale. 
+      PropertyFlow’s Flowinterest™ displays interest flow across properties and ViewerStrength™ shows the performance of a property against other properties in real-time for {{subHurbName}} and surrounding suburbs.
+      <!-- PropertyFlow provides a real-time view of interest in properties, property estimates and comparative
+      property data for
+      {{subHurbName}}. PropertyFlow's Property Sales Management System (PSMS) enables buyers, sellers and agents to easily make offers and track the progress of their real estate transactions in real-time. -->
+    </p>
+  </div>
+
+  <app-propertylight-footer [isLoaded]="isLoaded" (termsModal)="onTermsOptionClick()"
+    (privacyModal)="onPrivacyOptionClick()" (estimateModal)="onHomebuzzEstimatesOptionClick()">
+  </app-propertylight-footer>
+</div>

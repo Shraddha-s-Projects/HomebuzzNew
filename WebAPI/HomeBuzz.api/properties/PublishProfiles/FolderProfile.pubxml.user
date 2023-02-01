@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>E:\Projects\Publish Folder\Homebuzz</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="appsettings.Azuredev.json">
+      <publishTime>01/10/2018 19:19:37</publishTime>
+    </File>
+    <File Include="appsettings.Development.json">
+      <publishTime>01/22/2018 16:27:33</publishTime>
+    </File>
+    <File Include="Autofac.dll">
+      <publishTime>07/25/2017 05:11:08</publishTime>
+    </File>
+    <File Include="Autofac.Extensions.DependencyInjection.dll">
+      <publishTime>07/19/2017 16:34:34</publishTime>
+    </File>
+    <File Include="CoreCompat.System.Drawing.dll">
+      <publishTime>06/27/2016 17:30:42</publishTime>
+    </File>
+    <File Include="DevDASH.api.deps.json">
+      <publishTime>01/25/2018 20:46:11</publishTime>
+    </File>
+    <File Include="DevDASH.api.dll">
+      <publishTime>01/25/2018 20:46:00</publishTime>
+    </File>
+    <File Include="DevDASH.api.pdb">
+      <publishTime>01/25/2018 20:46:00</publishTime>
+    </File>
+    <File Include="DevDASH.api.PrecompiledViews.dll">
+      <publishTime>01/25/2018 20:46:10</publishTime>
+    </File>
+    <File Include="DevDASH.api.PrecompiledViews.pdb">
+      <publishTime>01/25/2018 20:46:10</publishTime>
+    </File>
+    <File Include="DevDASH.api.runtimeconfig.json">
+      <publishTime>01/25/2018 20:46:12</publishTime>
+    </File>
+    <File Include="DevDASH.data.dll">
+      <publishTime>01/25/2018 20:45:41</publishTime>
+    </File>
+    <File Include="DevDASH.data.pdb">
+      <publishTime>01/25/2018 20:45:41</publishTime>
+    </File>
+    <File Include="DevDASH.jwt.authentication.dll">
+      <publishTime>01/25/2018 20:45:44</publishTime>
+    </File>
+    <File Include="DevDASH.jwt.authentication.pdb">
+      <publishTime>01/25/2018 20:45:44</publishTime>
+    </File>
+    <File Include="DevDASH.logic.dll">
+      <publishTime>01/25/2018 20:45:46</publishTime>
+    </File>
+    <File Include="DevDASH.logic.pdb">
+      <publishTime>01/25/2018 20:45:46</publishTime>
+    </File>
+    <File Include="Microsoft.ApplicationBlocks.Data.dll">
+      <publishTime>09/26/2014 17:26:46</publishTime>
+    </File>
+    <File Include="Microsoft.AspNetCore.Cryptography.Internal.dll">
+      <publishTime>10/30/2017 23:55:52</publishTime>
+    </File>
+    <File Include="Microsoft.AspNetCore.Cryptography.KeyDerivation.dll">
+      <publishTime>10/30/2017 23:55:52</publishTime>
+    </File>
+    <File Include="Microsoft.EntityFrameworkCore.Relational.Design.dll">
+      <publishTime>05/08/2017 14:36:12</publishTime>
+    </File>
+    <File Include="Microsoft.EntityFrameworkCore.SqlServer.Design.dll">
+      <publishTime>05/08/2017 14:36:12</publishTime>
+    </File>
+    <File Include="Microsoft.Extensions.Identity.Core.dll">
+      <publishTime>10/30/2017 23:55:50</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.Logging.dll">
+      <publishTime>08/29/2017 07:42:42</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.Tokens.dll">
+      <publishTime>08/29/2017 07:42:48</publishTime>
+    </File>
+    <File Include="System.IdentityModel.Tokens.Jwt.dll">
+      <publishTime>08/29/2017 07:43:04</publishTime>
+    </File>
+    <File Include="System.ServiceModel.dll">
+      <publishTime>07/01/2016 18:10:48</publishTime>
+    </File>
+    <File Include="Twilio.dll">
+      <publishTime>10/13/2017 15:51:06</publishTime>
+    </File>
+    <File Include="web.config">
+      <publishTime>01/25/2018 20:46:12</publishTime>
+    </File>
+    <File Include="wwwroot/Uploads/original/10002_20180110_141530.jpg">
+      <publishTime>01/10/2018 14:15:30</publishTime>
+    </File>
+    <File Include="wwwroot/Uploads/original/10004_20180109_124256.jpg">
+      <publishTime>01/09/2018 12:42:56</publishTime>
+    </File>
+    <File Include="wwwroot/Uploads/original/10006_20180105_180851.jpg">
+      <publishTime>01/05/2018 18:08:51</publishTime>
+    </File>
+    <File Include="wwwroot/Uploads/original/1_20180125_192028.jpg">
+      <publishTime>01/25/2018 19:20:28</publishTime>
+    </File>
+    <File Include="wwwroot/Uploads/original/2_20180115_190649.jpg">
+      <publishTime>01/15/2018 19:06:49</publishTime>
+    </File>
+    <File Include="wwwroot/Uploads/original/3_20180125_203023.png">
+      <publishTime>01/25/2018 20:30:23</publishTime>
+    </File>
+    <File Include="wwwroot/Uploads/original/default.jpeg">
+      <publishTime>01/02/2018 13:11:21</publishTime>
+    </File>
+    <File Include="wwwroot/Uploads/resized/10002_20180110_141530.jpg">
+      <publishTime>01/10/2018 14:15:32</publishTime>
+    </File>
+    <File Include="wwwroot/Uploads/resized/10004_20180109_124256.jpg">
+      <publishTime>01/09/2018 12:42:56</publishTime>
+    </File>
+    <File Include="wwwroot/Uploads/resized/10006_20180105_180851.jpg">
+      <publishTime>01/05/2018 18:08:52</publishTime>
+    </File>
+    <File Include="wwwroot/Uploads/resized/1_20180125_192028.jpg">
+      <publishTime>01/25/2018 19:20:28</publishTime>
+    </File>
+    <File Include="wwwroot/Uploads/resized/2_20180115_190649.jpg">
+      <publishTime>01/15/2018 19:06:49</publishTime>
+    </File>
+    <File Include="wwwroot/Uploads/resized/3_20180125_203023.png">
+      <publishTime>01/25/2018 20:30:29</publishTime>
+    </File>
+    <File Include="wwwroot/Uploads/resized/default.jpeg">
+      <publishTime>01/02/2018 13:11:21</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

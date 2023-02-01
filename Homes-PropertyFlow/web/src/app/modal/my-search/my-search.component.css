@@ -1,0 +1,7 @@
+.my-likes-address-width {
+  width: calc(100% - 70px);
+}
+.border-bottom:last-of-type {
+  border-bottom: none !important;
+  margin: 0 !important;
+}

@@ -1,0 +1,47 @@
+<div id="NegotiateOffferModal">
+      <div class="mat-dialog-title">
+        <h3 class="mb-0">
+          <a href="javascript:void(0)">
+            <div class="d-flex justify-content-center">
+              <img src="../assets/images/icons/yellow-logo-40x40.png" width="30" class="mr3 top1" />
+              <p class="mb-0 mt-0 top6 font-weight-semibold d-none-mob font-19">
+                PropertyFlow</p>
+            </div>
+          </a>
+        </h3>
+        <button type="button" class="close" (click)="close()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="mat-dialog-content">
+        <h4 class="mb-16 text-center">Negotiate Offer</h4>
+        <div class="py-10 font-16">
+          <form>
+            <div class="">
+              <input type="text" class="form-control" placeholder="Your name" [(ngModel)]="name"
+                [ngModelOptions]="{ standalone: true }" />
+            </div>
+            <div class=" mt-2">
+              <input type="text" class="form-control" placeholder="Phone or Email" [(ngModel)]="phoneOrEmail"
+                [ngModelOptions]="{ standalone: true }" />
+            </div>
+          </form>
+          <p class="col-xs-12 mt-3 pl-0 pr-0">
+            By clicking on submit you agree for PropertyFlow to send your contact details to the buyers that placed the
+            Offer on your property so they can contact you directly to negotiate their bid.
+          </p>
+          <p class="mb-0">
+            At any time you can hire the service of a real estate agent if you choose not to sell your property for
+            yourself.
+          </p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary mr-10 float-right" (click)="onSubmitBtnClick()">Submit</button>
+        <div class="clearfix"></div>
+      </div>
+      <!-- <div class="modal-footer">
+        <button class="btn btn-primary mr-10 float-left" (click)="onSubmitBtnClick()">Submit</button>
+      </div> -->
+
+</div>

@@ -1,0 +1,345 @@
+<toaster-container [toasterconfig]="config1"></toaster-container>
+<div class="col-12 px-0 mt-63">
+  <div class="container py-4 agent-signup">
+    <h2 class="welcome-text mb-4 mt-5" *ngIf="!isOpenSignUp">Welcome to PropertyFlow for agents</h2>
+
+    <div class="row" *ngIf="!isOpenSignUp">
+      <div class="offset-lg-2 col-lg-4 offset-md-1 col-md-5">
+        <div class="card text-center p-4">
+          <h1 class="dark-purple mt-4 mb-3"><strong>Product features</strong></h1>
+          <ul class="list-inline mb-4">
+            <li class="mb-3"><a href="javascript:void(0)" class="dark-purple">Listing referrals</a></li>
+            <li class="mb-3"><a href="javascript:void(0)" class="dark-purple">Sales leads and tracking</a></li>
+            <li class="mb-3"><a href="javascript:void(0)" class="dark-purple">Metrics & analytics</a></li>
+            <li class="mb-3"><a href="javascript:void(0)" class="dark-purple">Reporting</a></li>
+            <li class="mb-3"><a href="javascript:void(0)" class="dark-purple">Find an agent listing</a></li>
+            <li class="mb-3"><a href="javascript:void(0)" class="dark-purple">Real time market updates</a></li>
+            <li class="mb-3"><a href="javascript:void(0)" class="dark-purple">Network dashboard</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-5">
+        <div class="card text-center p-4">
+          <div class="d-flex align-items-center h-100">
+            <div>
+              <h1 class="dark-purple mt-0 mb-4 line-height-8"><strong>Agent Sign in</strong></h1>
+              <ul class="list-inline mb-0">
+                <li class="mb-4 font-18 dark-purple">View and update your agent profile, track your listings and offers
+                  made on them, manage your sales leads and view interest on listings.</li>
+                <li><button class="btn btn-primary btn-block font-19 font500" [routerLink]="['/login']">Sign in</button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="text-center">
+          <a href="javascript:void(0)" (click)="openSignUp()" class="font500 link-color"><u>Agents join
+              PropertyFlow</u></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="signup-wizard" *ngIf="isOpenSignUp">
+      <mat-horizontal-stepper [linear]="isLinear" #stepper="matHorizontalStepper"
+        (selectionChange)="selectionChange($event)" [selectedIndex]="selectedIndex">
+        <mat-step [stepControl]="firstFormGroup" [completed]="isFirsStepComplete" [editable]="isEditable">
+          <form #formone="ngForm">
+            <ng-template matStepLabel>Details</ng-template>
+            <div class="w-40 m-auto">
+              <h1 class="black font-30 mt-4"><strong>Get the deals come to you as a Preferred Agent</strong></h1>
+              <p class="font-16 gray-text mb-3">Get your name in front of homeowners that are thinking of selling or
+                currently selling their home.</p>
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Name" name="Name" id="Name" #Name="ngModel"
+                  [(ngModel)]="signupAgent.userName" (ngModelChange)="validateUsername()" required />
+                <div *ngIf="!isUserNameValid  && (Name.dirty || Name.touched)" class="text-danger">{{userNameValidMsg}}
+                </div>
+              </div>
+              <div class="form-group">
+                <input trim type="text" class="form-control" placeholder="Email" placeholder="Email" name="Email"
+                  id="Email" #Email="ngModel" [(ngModel)]="signupAgent.email" (ngModelChange)="errorMessageEmail()"
+                  required />
+                <div *ngIf="!isEmailValid && (Email.dirty || Email.touched)" class="text-danger">{{emailValidMsg}}</div>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Company/Agency name" name="companyName"
+                  id="companyName" #companyName="ngModel" [(ngModel)]="signupAgent.companyName"
+                  (ngModelChange)="validateCompanyName()" required />
+                <div *ngIf="!isCompanyNameValid && (companyName.dirty || companyName.touched)" class="text-danger">
+                  {{companyNameValidMsg}}</div>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Mobile" name="Phone" id="Phone" #Phone="ngModel"
+                  [(ngModel)]="signupAgent.phone" (ngModelChange)="isPhoneNoValid = validatePhoneNo()" required />
+                <div *ngIf="!isPhoneNoValid &&  (Phone.dirty || Phone.touched)" class="text-danger">{{phoneNoValidMsg}}
+                </div>
+              </div>
+              <div>
+                <button type="button" class="btn btn-primary btn-block font-18 py-1" mat-button
+                  (click)="onSubmitDetails()"
+                  [disabled]="!isEmailValid || !isPhoneNoValid || !isUserNameValid || !isCompanyNameValid || !formone.form.valid">Next</button>
+              </div>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step [stepControl]="secondFormGroup" class="" [completed]="isSecondStepComplete" [editable]="isEditable">
+          <form [formGroup]="secondFormGroup" #formtwo="ngForm">
+            <ng-template matStepLabel>Plan</ng-template>
+            <div class="w-40 m-auto">
+              <h1 class="black font-30 mt-4"><strong>Industry leading Property Sales Management System</strong></h1>
+              <button class="btn btn-success plan-btn mt-40 mb-5 py-1 text-capitalize">1 Year Plans</button>
+            </div>
+            <div class="row pricing mt-2">
+              <div class="col-lg-3 col-md-6 col-sm-6" *ngFor="let plan of SubscriptionPlanList">
+                <div class="plan-card" [ngClass]="plan.Id == selectedSubscriptionPlanId ? 'card-border' : ''">
+                  <!-- <input type="radio" id="control_{{plan.Id}}" name="select" value="2" checked> -->
+                  <label for="control_{{plan.Id}}">
+                    <div class="card p-0 mb-3 mb-lg-0">
+                      <div class="card-body p-0 text-center ">
+                        <div class=" px-3">
+                          <h2 class="card-price mt-56 mb-3 text-black-600" *ngIf="plan.Id == 4">On request</h2>
+                          <h2 class="card-price mt-4 mb-3 text-black-600" *ngIf="plan.Id != 4"><strong>$<span
+                                class="font-40">{{plan.SubscriptionPlanDetail.FirstPrice}}</span>.{{plan.SubscriptionPlanDetail.SecondPrice}}/m</strong>
+                          </h2>
+                          <button class="btn btn-success btn-block text-uppercase font-14 font-weight-bold" mat-button
+                            matStepperNext (click)="goForward(plan)" *ngIf="plan.Id != 4">Buy Now</button>
+                          <button class="btn btn-success btn-block text-uppercase font-14 font-weight-bold" mat-button
+                            matStepperNext (click)="goForward(plan)" *ngIf="plan.Id == 4">Request</button>
+                          <p class="text-uppercase mt-30 mb-0"><strong>Preferred Agent</strong></p>
+                          <p class="gray-text font-13 mt-0 mb-4"><strong>{{plan.Name}}</strong></p>
+                        </div>
+                        <ul class="pl-0 list-inline mb-0">
+                          <li>
+                            <p class="m-0"><strong>Agents</strong></p>
+                            <p class="gray-text m-0 line-height-1">{{plan.SubscriptionPlanDetail.Agents}}</p>
+                          </li>
+                          <li>
+                            <p class="m-0"><strong>Free trial</strong></p>
+                            <p class="gray-text m-0 line-height-1">{{plan.SubscriptionPlanDetail.TrialPeriod}} days</p>
+                          </li>
+                          <li>
+                            <p class="m-0"><strong>Listing referrals</strong></p>
+                            <p class="m-0 line-height-1"><i class="fa fa-check text-success"
+                                *ngIf="plan.SubscriptionPlanDetail.IsListingReferrals"></i>
+                              <i class="fa fa-times text-danger"
+                                *ngIf="!plan.SubscriptionPlanDetail.IsListingReferrals"></i></p>
+                          </li>
+                          <li>
+                            <p class="m-0"><strong>Sales leads & tracking</strong></p>
+                            <p class="m-0 line-height-1"><i class="fa fa-check text-success"
+                                *ngIf="plan.SubscriptionPlanDetail.IsSalesLeadsAndTracking"></i>
+                              <i class="fa fa-times text-danger"
+                                *ngIf="!plan.SubscriptionPlanDetail.IsSalesLeadsAndTracking"></i></p>
+                          </li>
+                          <li>
+                            <p class="m-0"><strong>Metrics & analytics</strong></p>
+                            <p class="m-0 line-height-1"><i class="fa fa-check text-success"
+                                *ngIf="plan.SubscriptionPlanDetail.IsMetricsAndAnalytics"></i>
+                              <i class="fa fa-times text-danger"
+                                *ngIf="!plan.SubscriptionPlanDetail.IsMetricsAndAnalytics"></i></p>
+                          </li>
+                          <li>
+                            <p class="m-0"><strong>Reporting</strong></p>
+                            <p class="m-0 line-height-1"><i class="fa fa-check text-success"
+                                *ngIf="plan.SubscriptionPlanDetail.IsReporting"></i>
+                              <i class="fa fa-times text-danger" *ngIf="!plan.SubscriptionPlanDetail.IsReporting"></i>
+                            </p>
+                          </li>
+                          <li>
+                            <p class="m-0"><strong>Find an agent listing</strong></p>
+                            <p class="m-0 line-height-1"><i class="fa fa-check text-success"
+                                *ngIf="plan.SubscriptionPlanDetail.IsFindAgentListing"></i>
+                              <i class="fa fa-times text-danger"
+                                *ngIf="!plan.SubscriptionPlanDetail.IsFindAgentListing"></i></p>
+                          </li>
+                          <li>
+                            <p class="m-0"><strong>Real time market updates</strong></p>
+                            <p class="m-0 line-height-1"><i class="fa fa-check text-success"
+                                *ngIf="plan.SubscriptionPlanDetail.IsRealtimeMarketUpdates"></i>
+                              <i class="fa fa-times text-danger"
+                                *ngIf="!plan.SubscriptionPlanDetail.IsRealtimeMarketUpdates"></i></p>
+                          </li>
+                          <li>
+                            <p class="m-0"><strong>Network dashboard</strong></p>
+                            <p class="m-0 line-height-1">~</p>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <!-- <div>
+              <button type="button" mat-button matStepperPrevious>Back</button>
+              <button type="button" mat-button matStepperNext>Next</button>
+               <button type="submit" mat-button>submit</button>
+            </div> -->
+          </form>
+        </mat-step>
+        <mat-step [stepControl]="thirdFormGroup" [completed]="isThirdStepComplete" [editable]="isEditable">
+          <form [formGroup]="thirdFormGroup" #formtwo="ngForm">
+            <ng-template matStepLabel>Cart</ng-template>
+            <div class="">
+              <h1 class="mt-4 mb-4 text-center font-30 mt-4"><strong>My Cart</strong></h1>
+              <div class="row position-relative">
+                <div class="loader col-xl-6 col-lg-12 col-md-6" *ngIf="isCheckEmail"></div>
+                <div class="col-md-8 col-lg-6 d-flex mb-2" *ngIf="selectedSubscriptionPlanId > 1">
+                  <label class="mb-0 d-flex align-items-center mr-2">How many agent you want to add?</label>
+                  <select class="form-control w-50" [disabled]="isDisableNoOfAgentDdl" (change)="onSelectAgent($event)">
+                    <option [ngValue]="NoOfAgent" *ngFor="let option of subscriptionPlanOptions">{{option.Value}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="row" *ngFor="let emailObj of emailArr; let i = index">
+                <div class="col-md-6 form-group">
+                  <input trim type="text" class="form-control" placeholder="Email" placeholder="Email"
+                    [name]="emailObj.Name" [id]="emailObj.Name" [(ngModel)]="emailObj.Email"
+                    #[{{emailObj.Name}}]="ngModel" [ngModelOptions]="{standalone: true}"
+                    (ngModelChange)="errorMessageEmailArr(emailObj)" required [readonly]="isDisableNoOfAgentDdl" />
+                </div>
+                <div class="col-md-6">
+                  <div *ngIf="!emailObj.IsEmailValid || (emailObj.Name.dirty || emailObj.Name.touched)"
+                    class="text-danger">
+                    {{emailObj.EmailValidMsg}}</div>
+                </div>
+              </div>
+              <hr class="mt-0 mb-4">
+              <div class="row mt-40" *ngIf="signupAgent.SubscriptionPlan">
+                <div class="offset-lg-1 col-md-3 col-lg-3 col-sm-4">
+                  <p class="text-uppercase mb-0"><strong>Preferred Agent</strong></p>
+                  <p class="gray-text font-14 mt-1"><strong>{{signupAgent.SubscriptionPlan.Name}}</strong></p>
+                  <p class="gray-text ml-2"><i class="fa fa-check text-success mr-2 font-18"></i> 1 Month Free Trial</p>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                  <p class="text-sm-center mb-1"><strong> 1 year</strong> -
+                    {{selectedPrice | currency:'CAD':'symbol-narrow':'2.0'}}/m</p>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                  <p class="text-sm-center mb-1"><span
+                      class="mr-3">{{ totalPrice | currency:'CAD':'symbol-narrow':'3.0' }}</span> <i
+                      class="fa fa-times gray-text"></i>
+                  </p>
+                  <p class="mt-0"></p>
+                  <p class="gray-text text-sm-center">Free</p>
+                </div>
+              </div>
+              <div class="col-12 mt-3 mb-4 px-0">
+                <p class="special-offer"><span class="text-danger">Special offer:</span> Dear valued agent, we are
+                  giving you a FREE 1-month Preferred Agent trial period as part of your Executive Plan purchase (You
+                  can cancel your subscription at anytime during the FREE trial period without any cost)</p>
+              </div>
+              <div class="col-12 mt-5 px-0">
+                <hr class="mt-0 mb-4">
+                <div class="d-flex flex-wrap justify-content-end align-items-center">
+                  <div class="mr-4">
+                    <p class="gray-text font-16">GST:</p>
+                    <p class="font-22 mb-0 text-black-600"><strong>Total:</strong></p>
+                  </div>
+                  <div class="mr-5">
+                    <p class="gray-text font-16 text-right">$82.71</p>
+                    <p class="font-22 text-right mb-0">
+                      <strong>{{ totalPrice | currency:'CAD':'symbol-narrow':'3.0' }}</strong></p>
+                  </div>
+                  <div>
+                    <!-- <button class="btn btn-success px-4 font-500 font-16 ladda-button" (click)="createPayment()"
+                    data-spinner-color="white" ng-reflect-disabled="disabled" data-style="zoom-in"
+                    [disabled]="!isEmailFill || isCompletePayment"><i class="fa fa-lock mr-1"></i>
+                    Pay
+                    securely</button> -->
+                    <button *ngIf="isBrowser" class="btn btn-success px-4 font-500 font-16 ladda-button" (click)="createPayment()"
+                      data-spinner-color="white" ng-reflect-disabled="disabled" data-style="zoom-in"
+                      [disabled]="!isEmailFill || isCompletePayment"><i class="fa fa-lock mr-1" [ladda]="isPayment"></i>
+                      Pay
+                      securely</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div>
+              <button type="button" mat-button matStepperPrevious>Back</button>
+              <button type="button" mat-button matStepperNext>Next</button>
+               <button type="submit" mat-button>submit</button>
+            </div> -->
+          </form>
+        </mat-step>
+        <mat-step [stepControl]="fourthFormGroup" [completed]="isFourthStepComplete" [editable]="isEditable">
+          <form [formGroup]="fourthFormGroup" #formtwo="ngForm">
+            <ng-template matStepLabel>Payment</ng-template>
+            <div>
+              <button type="button" mat-button matStepperPrevious>Back</button>
+              <button type="button" mat-button matStepperNext>Next</button>
+              <button type="submit" mat-button>submit</button>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step [completed]="isFifthStepComplete">
+          <ng-template matStepLabel>Confirmation</ng-template>
+          <div class="w-40 m-auto">
+            <div class="col-12 mb-10 px-0">
+              <!-- <div class="col-md-1"></div> -->
+              <!-- <div class="col-md-10"> -->
+              <mat-card>
+                <mat-card-title class="black mb-2">Company details</mat-card-title>
+                <mat-card-content>
+                  <p><span class="gray-text">User name:</span> {{signupAgent.userName}}</p>
+                  <p><span class="gray-text">Email:</span> {{signupAgent.email}}</p>
+                  <p><span class="gray-text">Name:</span> {{signupAgent.companyName}}</p>
+                  <p><span class="gray-text">Mobile:</span> {{signupAgent.phone}}</p>
+                </mat-card-content>
+              </mat-card>
+              <!-- </div>
+            <div class="col-md-1"></div> -->
+            </div>
+
+
+            <div class="col-12 mb-10 px-0" *ngIf="signupAgent.SubscriptionPlan">
+              <mat-card>
+                <mat-card-title class="black mb-2">Plan details</mat-card-title>
+                <mat-card-content *ngIf="signupAgent.SubscriptionPlan">
+                  <p><span class="gray-text">Plan:</span> {{signupAgent.SubscriptionPlan.Name}}</p>
+                  <p><span class="gray-text">Agents:</span>
+                    {{signupAgent.SubscriptionPlan.SubscriptionPlanDetail.Agents}}</p>
+                    <p><span class="gray-text">Price:</span> {{selectedPrice | currency:'CAD':'symbol-narrow':'2.0'}}
+                      <span class="gray-text">monthly per agent</span></p>
+                </mat-card-content>
+              </mat-card>
+            </div>
+
+            <div class="col-12 mb-10 px-0" *ngIf="signupAgent.SubscriptionPlan">
+              <!-- <div class="col-md-1"></div> -->
+              <mat-card>
+                <mat-card-title class="black mb-2">Cart details</mat-card-title>
+                <mat-card-content *ngIf="signupAgent.SubscriptionPlan">
+                  <p><span class="gray-text">Number of agents added:</span> {{NoOfAgent}}</p>
+                  <p *ngFor="let emailObj of emailArr"><span class="gray-text">Email:</span> {{emailObj.Email}}</p>
+                  <p *ngIf="totalPrice < 100"><span class="gray-text">Total:</span>
+                    {{ totalPrice | currency:'CAD':'symbol-narrow':'2.0' }}</p>
+                  <p *ngIf="totalPrice >= 100"><span class="gray-text">Total:</span> {{ totalPrice | currency:'CAD':'symbol-narrow':'3.0' }}</p>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+          <!-- You are now done. -->
+          <div class=" w-40 mx-auto mt-3">
+            <!-- <button type="button" class="btn btn-primary btn-block font-18 py-1 ladda-button" mat-button
+              (click)="saveAgent()" data-spinner-color="white" ng-reflect-disabled="disabled" data-style="zoom-in"
+              [disabled]="!isComplete" >Submit</button> -->
+              <button type="button" *ngIf="isBrowser" class="btn btn-primary btn-block font-18 py-1 ladda-button" mat-button
+              (click)="saveAgent()" data-spinner-color="white" ng-reflect-disabled="disabled" data-style="zoom-in"
+              [disabled]="!isComplete" [ladda]="isLoading">Submit</button>
+          </div>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button type="button" (click)="stepper.reset()">Reset</button>
+            <button mat-button type="button" (click)="formone.ngSubmit.emit();formtwo.ngSubmit.emit()">
+              submit
+            </button>
+          </div>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </div>
+  </div>
+</div>

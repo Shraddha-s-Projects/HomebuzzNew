@@ -1,0 +1,56 @@
+<div id="MakeOffer">
+  <div class="">
+    <!-- Modal content-->
+    <div class="">
+      <div class="mat-dialog-title">
+        <h3 class="mb-0">
+          <a href="javascript:void(0)">
+            <h6 class="mb-0 pt3 d-flex align-items-center">
+              <i class="icon-home2 mr-2"></i> <span class="font-weight-semibold"> PropertyFlow&trade;</span>
+            </h6>
+          </a>
+        </h3>
+        <button type="button" class="close" (click)="close()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div mat-dialog-content class="">
+      <h4 class="mb-1 text-center">Make offer</h4>
+      <p class="font-16 mt-2 mb-14">How much do you want to offer (no obligation) for {{ PropertyAddress }}?</p>
+        <!-- <p class="font-16 mt-2">You confirm you wish to make a no obligation offer on {{ PropertyAddress }} of</p> -->
+        <form>
+          <div class="border border-dark">
+            <input type="number" class="form-control" placeholder="Offer price" [(ngModel)]="offeringAmount"
+              [ngModelOptions]="{ standalone: true }" name="OfferingAmount" required />
+          </div>
+        </form>
+        <div class="custom-control custom-checkbox chk-box mt-18" [ngClass]="(isSubmit && !isChecked) ? 'red-border' : ''">
+          <input class="custom-control-input" [(ngModel)]="isChecked" type="checkbox" id="termsCheck" name="termsCheck" (change)="checkTerms($event)" value="for sale">
+          <label for="termsCheck" class="custom-control-label mb-0 font-16">
+            <span class="top-2">I agree that I am over 18 years of age and have read and agree to the 
+              <a href="javascript:void(0)" (click)="onTermsLinkClick()">terms</a> and
+              <a href="javascript:void(0)" (click)="onPrivacyPolicyLinkClick()">privacy policy</a>.</span>
+          </label>
+        </div>
+        <!-- <p class="font-16 mt-2 mb-0">
+          By clicking submit you agree that you are over 18 years of age and have read and agree to the
+          <a href="javascript:void(0)" (click)="onTermsLinkClick()">terms</a> and
+          <a href="javascript:void(0)" (click)="onPrivacyPolicyLinkClick()">privacy policy</a>. Offer removed after 28
+          days.
+        </p> -->
+        <!-- <div class="col-12 mt-2">
+          <button class="btn btn-primary float-right" (click)="confirmOffer()" [disabled]="!offeringAmount || isClicked">
+            Submit
+          </button>
+          <div class="clearfix"></div>
+        </div> -->
+      
+      </div>
+      <div class="modal-footer p-2">
+        <button class="btn btn-primary float-right" (click)="confirmOffer()" [disabled]="!offeringAmount || isClicked">
+          Submit
+        </button>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>

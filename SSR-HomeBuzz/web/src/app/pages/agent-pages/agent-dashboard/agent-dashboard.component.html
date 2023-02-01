@@ -1,0 +1,297 @@
+<toaster-container [toasterconfig]="config1"></toaster-container>
+<div class="mt-63">
+    <div class="col-12 pt-2 mb-3">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>Agent Dashboard</h2>
+            <!-- <div>
+                <i class="fa fa-cog mr-1"></i>
+                <span *ngIf="isUserCookieExist">{{username}}</span>
+                <a class="nav-link" [routerLink]="['/dashboard']"><button class="btn btn-primary font-18">Log
+                        out</button></a>
+            </div> -->
+        </div>
+        <div class="col-12 pl-0 pr-0">
+            <div class="dropdown float-right">
+                <div class="date-range-picker-border">
+                    <app-date-range-picker [startDate]="firstDay" [endDate]="date"
+                        (dateRange)="receiveDateRange($event)"></app-date-range-picker>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="col-12 pl-0 pr-0 mt-3">
+            <ul class="nav nav-tabs navbar-responsive mb-2">
+                <li class="nav-item">
+                    <a class="nav-link" [ngClass]="activeTab == 'listing' ? 'active': ''" data-toggle="tab"
+                        href="#listing" (click)="tabChange('listing')"><i class="far fa-list-alt mr-1"></i>
+                        Listings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [ngClass]="activeTab == 'salelead' ? 'active': ''" data-toggle="tab"
+                        href="#salelead" (click)="tabChange('salelead')"><i class="fas fa-clipboard-check mr-1"></i>
+                        Sales
+                        leads</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [ngClass]="activeTab == 'tracking' ? 'active': ''" data-toggle="tab"
+                        href="#tracking" (click)="tabChange('tracking')"><i class="fas fa-th-large mr-1"></i>
+                        Tracking</a>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content agent-dashboard-height" (scroll)="onScroll($event)" id="agentDashboardContent">
+                <div class="loader" *ngIf="!isLoaded"></div>
+                <div id="listing" *ngIf="activeTab == 'listing' && isLoaded"
+                    [ngClass]="activeTab == 'listing' ? 'active': ''" class="tab-pane ">
+                    <div class="col-12 pl-0 pr-0">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <button type="button" class="btn btn-default"><i class="far fa-square"></i></button>
+                                <button type="button" class="btn btn-default"><i class="fa fa-trash"></i></button>
+                                <button type="button" class="btn btn-default"><i
+                                        class="fas fa-bezier-curve"></i></button>
+                            </div>
+                            <div class="dropdown float-right">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                    Reports
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="javascript:void(0)">Reports 1</a>
+                                    <a class="dropdown-item" href="javascript:void(0)">Reports 2</a>
+                                    <a class="dropdown-item" href="javascript:void(0)">Reports 3</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover table-bordered mt-2">
+                                <thead>
+                                    <tr>
+                                        <th width="30"><input type="checkbox" /></th>
+                                        <th>Address</th>
+                                        <th>Beds, baths, parking, sqm</th>
+                                        <th>Viewers</th>
+                                        <th>Comparative property viewers</th>
+                                        <th>ViewerStrength</th>
+                                        <th>Offers</th>
+                                        <th>Estimate price</th>
+                                        <th><i class="fas fa-pencil-alt"></i> Asking price</th>
+                                        <th><i class="fas fa-pencil-alt"></i> Appraisal price</th>
+                                        <th>Date added</th>
+                                        <th>Claim days left</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let prop of properties">
+                                        <td><input type="checkbox" /></td>
+                                        <td>
+                                            <p class="mb-0">{{prop.Address}}. {{prop.Suburb}}, {{prop.City}}</p>
+                                            <p class="mb-0"><a
+                                                    *ngIf="prop.IsClaimed && prop.OwnerId == userId && userId"
+                                                    href="javascript:void(0)"
+                                                    (click)="onTransferOwnerShipOptionLinkClick(prop)"
+                                                    class="mr-2 font-14">Transfer ownership</a>
+                                                <!-- <a *ngIf="!prop.IsClaimed" (click)="onClaimPropertyLinkClick(prop)"
+                                                href="javascript:void(0)" class="mr-2">Claim and manage listing</a> -->
+                                                <a *ngIf="prop.IsClaimed && prop.OwnerId == userId && userId"
+                                                    class="mr-2 font-14"
+                                                    (click)="onEditAddPhotoDescriptionLinkClick(prop)"
+                                                    href="javascript:void(0)">Add, edit, photos/description</a>
+                                                <a *ngIf="prop.IsClaimed && prop.OwnerId == userId && userId"
+                                                    (click)="onDelistProperty(prop)" href="javascript:void(0)"
+                                                    class="font-14">Delist</a></p>
+                                        </td>
+                                        <td>{{prop.Bedrooms}} / {{prop.Bathrooms}} / {{prop.Carparks}} /
+                                            {{prop.Landarea}}
+                                        </td>
+                                        <td><a href="javascript:void(0)"
+                                                class="text-black text-decoration">{{prop.ViewCount}}</a></td>
+                                        <td><a href="javascript:void(0)"
+                                                class="text-black text-decoration">{{prop.ComparativeInterest}}</a></td>
+                                        <td>{{prop.Performance}} <i *ngIf="prop.Performance =='Under average'"
+                                                class="fa fa-arrow-down red-color"></i>
+                                            <i *ngIf="prop.Performance =='Average' || prop.Performance =='Above average'"
+                                                class="fa fa-minus orange-color"></i>
+                                        </td>
+                                        <td><a href="javascript:void(0)" class="text-black text-decoration"
+                                                (click)="onPropertyOffersOptionClick(prop)">{{prop.OfferedCount}}</a>
+                                        </td>
+                                        <td>{{prop.HomebuzzEstimate | currency:'CAD':'symbol-narrow':'4.0'}}</td>
+                                        <td>{{prop.AskingPrice | currency:'CAD':'symbol-narrow':'4.0'}}</td>
+                                        <td>
+                                            <a href="javascript:void(0)" class="text-black"
+                                                *ngIf="!prop.AppraisalPrice">-</a>
+                                            <a href="javascript:void(0)"
+                                                *ngIf="prop.AppraisalPrice">{{prop.AppraisalPrice}}</a>
+                                        </td>
+                                        <td>{{prop.CreatedOn | date: "dd MMM yyyy"}}</td>
+                                        <td *ngIf="prop.IsClaimed">{{prop.DayLeft}} <a
+                                                *ngIf="prop.IsClaimed && prop.OwnerId == userId && userId"
+                                                (click)="OnRenewClaimLinkClick(prop)" class="text-decoration"
+                                                href="javascript:void(0)">Renew</a></td>
+                                        <td *ngIf="!prop.IsClaimed"><a href="javascript:void(0)"
+                                                class="text-black">-</a>
+                                        </td>
+                                        <td>{{prop.Status}}</td>
+                                    </tr>
+                                    <tr *ngIf="properties.length == 0">
+                                        <td colspan="11">
+                                            <p class="no-data"><i>No property available.</i></p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <!-- <div class="col-12"><p class="no-data"><i>No property available.</i></p></div> -->
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div id="salelead" *ngIf="activeTab == 'salelead' && isLoaded"
+                    [ngClass]="activeTab == 'salelead' ? 'active': ''" class="tab-pane">
+                    <div class="col-12 pl-0 pr-0">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <button type="button" class="btn btn-default"><i class="far fa-square"></i></button>
+                                <button type="button" class="btn btn-default"><i class="fa fa-trash"></i></button>
+                                <button type="button" class="btn btn-default"><i
+                                        class="fas fa-bezier-curve"></i></button>
+                            </div>
+                            <div class="dropdown float-right">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                    Reports
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="javascript:void(0)">Reports 1</a>
+                                    <a class="dropdown-item" href="javascript:void(0)">Reports 2</a>
+                                    <a class="dropdown-item" href="javascript:void(0)">Reports 3</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover table-bordered mt-2">
+                                <thead>
+                                    <tr>
+                                        <th width="30"><input type="checkbox" /></th>
+                                        <th>Address</th>
+                                        <th>Beds, baths, parking, sqm</th>
+                                        <th>Viewers</th>
+                                        <th>Estimate Price</th>
+                                        <th><i class="fas fa-pencil-alt"></i> Appraisal price</th>
+                                        <th>Date added</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let prop of properties">
+                                        <td><input type="checkbox" /></td>
+                                        <td>
+                                            <p class="mb-0">{{prop.Address}}. {{prop.Suburb}}, {{prop.City}}</p>
+                                            <p class="mb-0">
+                                                <a *ngIf="!prop.IsClaimed" (click)="onClaimPropertyLinkClick(prop)"
+                                                    href="javascript:void(0)" class="mr-2 font-14">List Property</a>
+                                                <a href="javascript:void(0)" class="mr-2 font-14"
+                                                    (click)="onMoveToTrackProperty(prop)">Move to tracking</a>
+                                                <!-- <a *ngIf="prop.IsClaimed && prop.OwnerId == userId && userId"
+                                                (click)="onEditAddPhotoDescriptionLinkClick(prop)"
+                                                href="javascript:void(0)">Add, edit, photos/description</a> -->
+                                            </p>
+                                        </td>
+                                        <td>{{prop.Bedrooms}} / {{prop.Bathrooms}} / {{prop.Carparks}} /
+                                            {{prop.Landarea}}
+                                        </td>
+                                        <td><a href="javascript:void(0)"
+                                                class="text-black text-decoration">{{prop.ViewCount}}</a></td>
+                                       <td>{{prop.HomebuzzEstimate | currency:'CAD':'symbol-narrow':'4.0'}}</td>
+                                        <td>
+                                            <a href="javascript:void(0)" class="text-black"
+                                                *ngIf="!prop.AppraisalPrice">-</a>
+                                            <a href="javascript:void(0)"
+                                                *ngIf="prop.AppraisalPrice">{{prop.AppraisalPrice}}</a>
+                                        </td>
+                                        <td>{{prop.CreatedOn | date: "dd MMM yyyy"}}</td>
+                                        <td>{{prop.Status}}</td>
+                                    </tr>
+                                    <tr *ngIf="properties.length == 0">
+                                        <td colspan="8">
+                                            <p class="no-data"><i>No property available.</i></p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div id="tracking" *ngIf="activeTab == 'tracking' && isLoaded"
+                    [ngClass]="activeTab == 'tracking' ? 'active': ''" class="tab-pane">
+                    <div class="col-12 pl-0 pr-0">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <button type="button" class="btn btn-default"><i class="far fa-square"></i></button>
+                                <button type="button" class="btn btn-default"><i class="fa fa-trash"></i></button>
+                                <button type="button" class="btn btn-default"><i
+                                        class="fas fa-bezier-curve"></i></button>
+                            </div>
+                            <div class="dropdown float-right">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                    Reports
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="javascript:void(0)">Reports 1</a>
+                                    <a class="dropdown-item" href="javascript:void(0)">Reports 2</a>
+                                    <a class="dropdown-item" href="javascript:void(0)">Reports 3</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover table-bordered mt-2">
+                                <thead>
+                                    <tr>
+                                        <th width="30"><input type="checkbox" /></th>
+                                        <th>Address</th>
+                                        <th>Beds, baths, parking, sqm</th>
+                                        <th>Viewers</th>
+                                        <th>Estimate price</th>
+                                        <th><i class="fas fa-pencil-alt"></i> Appraisal price</th>
+                                        <th>Date added</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let prop of properties">
+                                        <td><input type="checkbox" /></td>
+                                        <td>
+                                            <p class="mb-0">{{prop.Address}}. {{prop.Suburb}}, {{prop.City}}</p>
+                                            <p class="mb-0">
+                                                <a href="javascript:void(0)" (click)="onMoveToSakesLeadProperty(prop)"
+                                                    class="mr-2 font-14">Move to sales leads</a>
+                                        </td>
+                                        <td>{{prop.Bedrooms}} / {{prop.Bathrooms}} / {{prop.Carparks}} /
+                                            {{prop.Landarea}}
+                                        </td>
+                                        <td><a href="javascript:void(0)"
+                                                class="text-black text-decoration">{{prop.ViewCount}}</a></td>
+                                        <td>{{prop.HomebuzzEstimate | currency:'CAD':'symbol-narrow':'4.0'}}</td>
+                                        <td>
+                                            <a href="javascript:void(0)" class="text-black"
+                                                *ngIf="!prop.AppraisalPrice">-</a>
+                                            <a href="javascript:void(0)"
+                                                *ngIf="prop.AppraisalPrice">{{prop.AppraisalPrice}}</a>
+                                        </td>
+                                        <td>{{prop.CreatedOn | date: "dd MMM yyyy"}}</td>
+                                        <td>{{prop.Status}}</td>
+                                    </tr>
+                                    <tr *ngIf="properties.length == 0">
+                                        <td colspan="8">
+                                            <p class="no-data"><i>No property available.</i></p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

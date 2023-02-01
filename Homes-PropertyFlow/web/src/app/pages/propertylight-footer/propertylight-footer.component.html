@@ -1,0 +1,43 @@
+<div class="col-12 search-footer" *ngIf="!isLoaded">
+  <ul class="list-inline mb-0 menus text-center">
+    <!-- <li class="list-inline-item"><a href="javascript:void(0)" (click)="onTermsOptionClick()">Terms &
+          Conditions</a></li>
+      <li class="list-inline-item"><a href="javascript:void(0)" (click)="onPrivacyOptionClick()">Privacy
+          Policy</a></li> -->
+    <li class="list-inline-item"><a href="javascript:void(0)">Terms &
+        Conditions</a></li>
+    <li class="list-inline-item"><a href="javascript:void(0)">Privacy
+        Policy</a></li>
+    <li class="list-inline-item"><a href="javascript:void(0)">FAQ</a></li>
+    <li class="list-inline-item"><a href="javascript:void(0)">Contact</a></li>
+    <!-- <li class="list-inline-item"><a href="javascript:void(0)" (click)="onHomebuzzEstimatesOptionClick()">PropertyFlow
+        estimates</a></li> -->
+    <li class="list-inline-item"><a href="javascript:void(0)">PropertyFlow
+        estimates</a></li>
+    <li class="list-inline-item"><a href="javascript:void(0)">Agents</a></li>
+  </ul>
+
+  <div class="text-center py-3">
+    <ul class="list-inline mb-0">
+      <li class="list-inline-item top1"><a href="javascript:void(0)" (click)="gotoDashboard()">
+          <!-- <h6 class="mb-0 d-flex align-items-center top2"><i class="icon-home2 "></i>
+              <span class="font-weight-semibold d-none-mob ml8">PropertyFlow™</span></h6> -->
+          <h6 class="d-flex align-items-center mb-0 top3">
+            <img src="../assets/images/icons/yellow-logo-40x40.png" width="30" class="mr3 top1" />
+            <!-- <i class="icon-home2 mr-2"></i> -->
+            <p class="mb-0 mt-2 font-weight-semibold d-none-mob font-19">
+              PropertyFlow™</p>
+          </h6>
+        </a></li>
+      <li class="list-inline-item"><a target="_blank" href="https://www.facebook.com/propertyflow" class="text-dark">
+          Follow us:<i class="fa fa-facebook-f facebook-icon ml7"></i></a></li>
+      <li class="list-inline-item"><a href="javascript:void(0)" class="text-dark" (click)="onShareOptionClick()">Share
+          us:<i class="fas fa-share-alt share-icon ml7"></i></a></li>
+    </ul>
+  </div>
+  <div class="text-center">
+    <p class="mb-0 pt-0">Copyright <i class="fa fa-copyright" aria-hidden="true"></i> {{currentYear}}
+      SoftFlow Limited
+    </p>
+  </div>
+</div>

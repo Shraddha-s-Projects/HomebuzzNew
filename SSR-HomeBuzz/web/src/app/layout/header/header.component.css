@@ -1,0 +1,115 @@
+.page-title {
+    padding: 15px 0 15px;
+}
+.page-header-content {
+    padding: 0 10px;
+}
+i.icon-home2 {
+    padding: 11px 10px 12px;
+    font-size: 19px;
+    line-height: 20px;
+    height: 42px;
+    width: 42px;
+}
+.search-input-width {
+    width: 390px;
+    font-size: 16px;
+}
+.page-header-light {
+    border-bottom: none !important;
+}
+/* sidebar */
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+.sidenav .dropdown-btn, .sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+    cursor: pointer;
+}
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+.sidenav a:hover {
+    color: #f1f1f1;
+    background: transparent;
+}
+.dropdown-container a {
+    font-size: 16px;
+}
+.sidenav .dropdown-btn:hover {
+    color: #f1f1f1;
+}
+.sidenav .dropdown-btn {
+    display: block;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    font-size: 18px;
+    outline: none;
+}
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+.wd-200 {
+    width: 200px;
+}
+@media (max-width: 1200px) {
+    .search-input-width {
+        width: 250px;
+    }
+}
+@media (max-width: 992px) {
+    .search-input-width {
+        width: calc(100% - 130px);
+    }
+}
+@media (max-width: 767px) {
+    .page-title {
+        padding: 0.625rem 0 0.625rem;
+    }
+    .search-input-width {
+        width: 98%;
+    }
+    .search-page {
+        width: 100%;
+    }
+    .d-flex.w-100.justify-content-end {
+        width: auto !important;
+    }
+}
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+    .sidenav a {
+        font-size: 18px;
+    }
+}
+@media screen and (max-width: 450px) {
+    .d-none-mob {
+        display: none;
+    }
+    .wd-200px {
+        width: auto;
+    }
+}

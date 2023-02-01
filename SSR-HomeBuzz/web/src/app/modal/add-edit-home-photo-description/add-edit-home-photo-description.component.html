@@ -1,0 +1,178 @@
+<div id="AddEditHomeDetailModal">
+  <!-- Modal content-->
+  <div class="mat-dialog-title">
+    <h3 class="mb-0">
+      <a href="javascript:void(0)">
+        <h4 class="mb-0 pt3 d-flex align-items-center">
+          <i class="icon-home2 mr-2"></i> <span class="font-weight-semibold"> PropertyFlow&trade;</span>
+        </h4>
+        <!-- <h6><i class="mb-0 pt3"></i> <span class="font-weight-semibold"> PropertyFlow&trade;</span></h6> -->
+      </a>
+      <div class="clearfix"></div>
+    </h3>
+    <button type="button" class="close" (click)="close()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="mat-dialog-content">
+    <div class="spinner-position" *ngIf="!isLoaded">
+      <mat-spinner strokeWidth="5" [diameter]="50"></mat-spinner>
+    </div>
+    <div *ngIf="isLoaded">
+      <h4 class="mb-16">Edit {{form.Address}}, {{form.Suburb}}, {{form.City}}</h4>
+      <form>
+        <!-- for sale -->
+        <div class="d-flex">
+          <!-- <input type="checkbox" id="forSale" name="forSale" value="for sale" [checked]="isForSaleStatusCheck"
+          (change)="onForstatusChange($event)" />
+        <label for="forSale">
+          <span class="pl-3">FOR SALE</span>
+        </label> -->
+          <!-- <div class="custom-control custom-checkbox chk-box mb-3 disabled"> -->
+          <div class="custom-control custom-checkbox chk-box mb-3 mr-sm-4 mr-3">
+            <input class="custom-control-input" type="checkbox" id="premarket" name="premarket" value="premarket"
+            [checked]="isPreMarketStatusCheck" (change)="onPreMarketChange($event)" >
+            <label for="premarket" class="custom-control-label mb-0 font-16 line-height-1">
+              <span class="top2" [ngClass]=" !isPreMarketStatusCheck? 'gray-text' : ''">Pre-market</span>
+            </label>
+          </div>
+          
+          <div class="custom-control custom-checkbox chk-box mb-3 ">
+            <input class="custom-control-input" type="checkbox" id="forSale" name="forSale" value="for sale"
+              [checked]="isForSaleStatusCheck" (change)="onForstatusChange($event)">
+            <label for="forSale" class="custom-control-label mb-0 font-16 line-height-1">
+              <span class="top2" [ngClass]=" !isForSaleStatusCheck? 'gray-text' : ''">For sale</span>
+            </label>
+          </div>
+        </div>
+        <!-- open home -->
+        <div class="col-12 px-0" *ngIf="isForSaleStatusCheck">
+          <!-- <div class="col-sm-4 radio radio-success"> -->
+          <div class="form-group col-12 px-0 mb-3">
+            <div class="row">
+              <!-- <input class="col-2" type="radio" id="askingprice" name="price" value="askingprice"
+            (change)="checkPrice($event)" [checked]="form.IsShowAskingPrice">
+            <label for="askingprice" class="col-3">Asking price: </label> -->
+              <div class="col-5 custom-radio-btn d-flex">
+                <input type="radio" id="askingprice" value="askingprice"
+                  (change)="checkPrice($event)" [checked]="form.IsShowAskingPrice">
+                <label for="askingprice" class="my-auto font-16" [ngClass]=" !form.IsShowAskingPrice ? 'gray-text' : ''">Asking price</label>
+              </div>
+
+              <div class="col-7 pl-0">
+                <input type="text" [ngModelOptions]="{ standalone: true }"
+                [ngClass]="{ 'gray-text' : (!form.IsShowAskingPrice), 'red-border-input': (form.IsShowAskingPrice && !form.AskingPrice && isFormSubmit) }"
+                 class="form-control " id="price"
+                  [(ngModel)]="form.AskingPrice" name="price" [disabled]="!form.IsShowAskingPrice" required />
+              </div>
+            </div>
+          </div>
+         
+          <div class="row">
+            
+            <div class="col-sm-4 custom-radio-btn d-flex mb-3 align-items-center">
+              <!-- <input type="checkbox" id="openHome" [(ngModel)]="form.HomeType" [ngModelOptions]="{ standalone: true }"
+                name="openHome" #openHome="ngModel" value="open home" [checked]="form.HomeType == 'open home'" /> -->
+                <mat-slide-toggle class="font-16" [checked]="form.IsOpenHome" [ngClass]="{ 'gray-text' : (!form.IsOpenHome) }" (change)="checkOpenHome($event)" >Open home</mat-slide-toggle>
+              <!-- <input type="radio" id="openHome"  value="open home"
+               [checked]="form.IsOpenHome"  (change)="checkOpenHome($event)" [ngClass]="!form.IsOpenHome ? 'gray-text' : ''">
+              <label for="openHome" class="font-16 my-auto" [ngClass]="!form.IsOpenHome ? 'gray-text' : ''">
+                Open home
+              </label> -->
+            </div>
+            <div class="col-sm-8">
+              <div class="row">
+            <div class="col-sm-6 col-6 d-flex mb-3 pl-0" *ngIf="isForSaleStatusCheck">
+              <label for="day" class="pr-2 my-auto font-16" [ngClass]="!form.IsOpenHome ? 'gray-text' : ''">Day</label>
+              <select class="day-time-input" [disabled]="!form.IsOpenHome" [ngClass]="{ 'gray-text' : (!form.IsOpenHome), 'red-border-input': (form.IsOpenHome && !form.Day && isFormSubmit) }" [(ngModel)]="form.Day" 
+              [ngModelOptions]="{ standalone: true }" (change)='onOptionsSelected($event)'>
+                <option [ngValue]="day"  *ngFor="let day of weekDays">{{ day }}</option>
+              </select>
+            </div>
+            <div class="col-sm-6 col-6 mb-3 pl-0 d-flex popover-add-modal" *ngIf="isForSaleStatusCheck">
+              <ng-template #popTemplate>
+                <timepicker [ngClass]="!form.IsOpenHome ? 'gray-text' : ''" [(ngModel)]="form.Time" (ngModelChange)="onTimePickerModelChange()" [showMeridian]="false"
+                  [ngModelOptions]="{ standalone: true }"></timepicker>
+              </ng-template>
+              <label for="time"  [ngClass]="!form.IsOpenHome ? 'gray-text' : ''" class="pr-2 my-auto font-16">Time</label>
+              <input type="text" [disabled]="!form.IsOpenHome" readonly [ngModelOptions]="{ standalone: true }" id="time" [(ngModel)]="form.Time"
+                class="day-time-input" [ngClass]="{ 'gray-text' : (!form.IsOpenHome), 'red-border-input': (form.IsOpenHome && !form.Time && isFormSubmit) }" [popover]="popTemplate" [outsideClick]="true" placement="bottom" />
+            </div>
+          </div>
+          </div>
+          </div>
+        </div>
+        <!-- add photo and description -->
+        <div class="row">
+          <div class="col-12 mb-3">
+            <button type="button" class="btn btn-primary btn-block font-16" (click)="onAddPhotoDescriptionModelBtnClick()">
+              Add photos and description
+            </button>
+            <span *ngIf="form.imageUrl">{{ form.imageUrl }}</span>
+          </div>
+        </div>
+        <!-- price -->
+        <!-- <div class="form-group row mb-2">
+        <div class="col-5 custom-radio-btn d-flex">
+          <input type="radio" id="askingprice" name="radio-group" name="price" value="askingprice"
+          (change)="checkPrice($event)" [checked]="form.IsShowAskingPrice">
+          <label for="askingprice" class="m-auto font-14">Asking price</label>
+        </div>
+       
+        <div class="col-7 pl-0">
+          <input type="text" [ngModelOptions]="{ standalone: true }" class="form-control " id="price"
+            [(ngModel)]="form.AskingPrice" name="price" required />
+        </div>
+      </div> -->
+
+        <div class="form-group row mb-3">
+          <div class="col-5 custom-radio-btn d-flex">
+            <!-- <label for="estimateprice" >Estimate price: </label>
+        <input class="" type="radio" id="estimateprice" name="price" [checked]="!form.IsShowAskingPrice" value="estimateprice"
+        (change)="checkPrice($event)"> -->
+            <input type="radio" id="estimateprice" name="price" [checked]="!form.IsShowAskingPrice"
+              value="estimateprice" (change)="checkPrice($event)">
+            <label for="estimateprice" class="my-auto font-16" [ngClass]="form.IsShowAskingPrice ? 'gray-text' : ''">Estimate price</label>
+          </div>
+        <div class="col-7 pl-0">
+            <input type="text" [ngClass]="form.IsShowAskingPrice ? 'gray-text' : ''" [ngModelOptions]="{ standalone: true }" class="form-control " id="price"
+              [(ngModel)]="form.HomebuzzEstimate" name="price" readonly />
+          </div>
+        </div>
+        <!-- <div class="row"><mat-slide-toggle >Slide me!</mat-slide-toggle></div> -->
+        
+        <!-- beds and baths -->
+        <div class="row">
+          <div class="col-sm-6 mb-2 d-flex">
+            <label for="beds" class="pr-1 my-auto font-16 wd-85">Beds</label>
+            <input [ngModelOptions]="{ standalone: true }" type="text" id="beds" required [(ngModel)]="form.Bedrooms"
+              name="beds" #beds="ngModel" class="form-control form-control-width" />
+          </div>
+          <div class="col-sm-6 mb-2 d-flex">
+            <label for="Baths" class="pr-1 my-auto font-16 wd-85">Baths </label>
+            <input [ngModelOptions]="{ standalone: true }" type="text" id="Baths" required [(ngModel)]="form.Bathrooms"
+              name="Baths" #Baths="ngModel" class="form-control form-control-width" />
+          </div>
+        </div>
+        <!-- garages and area(sqf) -->
+        <div class="row">
+          <div class="col-sm-6 mb-2  d-flex">
+            <label for="garages" class="pr-1 my-auto font-16 wd-85">Garages</label>
+            <input [ngModelOptions]="{ standalone: true }" type="text" id="garages" required [(ngModel)]="form.Carparks"
+              name="garages" #garages="ngModel" class="form-control form-control-width" />
+          </div>
+          <div class="col-sm-6 mb-2 d-flex">
+            <label for="area" class="pr-1 my-auto font-16 wd-85">Area (sqf)</label>
+            <input [ngModelOptions]="{ standalone: true }" type="text" id="area" required [(ngModel)]="form.Landarea"
+              name="area" #area="ngModel" class="form-control form-control-width" />
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary float-right" (click)="onAddPhotoDescriptionUpdateBtnClick()">Update</button>
+    <div class="clearfix"></div>
+  </div>
+</div>
+<ng-template #uploadPhoto> </ng-template>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Migrations\20190611065229_Schema_Changes.cs" />
+    <Compile Remove="Migrations\20190611065229_Schema_Changes.Designer.cs" />
+    <Compile Remove="Migrations\20190611065708_Schema_Changes1.cs" />
+    <Compile Remove="Migrations\20190611065708_Schema_Changes1.Designer.cs" />
+    <Compile Remove="Migrations\20190611075008_schemachange_PropertyClaim_PropertyOffer_PropertyLike.cs" />
+    <Compile Remove="Migrations\20190611075008_schemachange_PropertyClaim_PropertyOffer_PropertyLike.Designer.cs" />
+    <Compile Remove="Migrations\20190613093120_Add_Property_Image_Table.cs" />
+    <Compile Remove="Migrations\20190613093120_Add_Property_Image_Table.Designer.cs" />
+    <Compile Remove="Migrations\20190624104740_Add_Table_PropertyView_20190624.cs" />
+    <Compile Remove="Migrations\20191011114814_Add column Latitude-Longitude_PropertyData20191011.cs" />
+    <Compile Remove="Migrations\20191011115005_Add column Latitude-Longitude_PropertyData20191011.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ApplicationBlocks.Data" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNet.Cors" Version="5.2.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="2.0.0-preview1-final" />
+    <PackageReference Include="AutoMapper" Version="8.0.0" />
+    <PackageReference Include="PayPalCoreSDK" Version="1.0.0.0" />
+    <PackageReference Include="PixelFormatsConverter" Version="0.1.0" />
+    <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="4.5.1" />
+    <PackageReference Include="System.Collections.Immutable" Version="1.5.0" />
+    <PackageReference Include="Autofac" Version="4.8.1" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.3.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.2.0" />
+    <PackageReference Include="PayPal.SDK.NETCore" Version="*" />
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+  </ItemGroup>
+</Project>

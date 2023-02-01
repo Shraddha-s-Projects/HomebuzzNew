@@ -1,0 +1,114 @@
+<toaster-container [toasterconfig]="config1"></toaster-container>
+<!-- Dashboard content -->
+<div [style.background-image]="'url('+bgImageVariable+')'" class="header-search-bar text-center">
+    <!-- Header Search bar -->
+    <div class="col-12 ptb-60 dashboard-page">
+        <label class="header-text d-block" [ngClass]="isBuyer? 'link-color': ''">{{headerText}}</label>
+        <div class="btn-group btn-group-lg wd-100 m-auto d-block">
+            <button [ngClass]="buyerButtonClass" class="border-radius-0" (click)="handleClick('buyer')">Find a
+                property</button>
+            <button [ngClass]="sellerButtonClass" class="border-radius-0" (click)="handleClick('seller')">Sell my
+                property</button>
+        </div>
+        <input [placeholder]="searchPlaceHolder" [(ngModel)]="searchTerm" autocorrect="off" autocapitalize="off"
+            spellcheck="off" type="text" id="search" class="search-input mt-3" #search [formControl]="searchControl" (keyup)="checkDdl()">
+    </div>
+    <!-- /Header Search bar -->
+</div>
+<div class="gray-bg">
+    <div class="container">
+        <!-- Home page content -->
+        <div class="col-12 dark-gray text-center pt-31 mb5">
+            <h2 class="mb-30"><strong>How PropertyFlow works best for you</strong></h2>
+            <div class="col-12 pl-0 pr-0 pb-3">
+                <div class="row card-height">
+                    <div class="col-md-4 dark-gray mb-20-media">
+                        <div class="card px-3 py-4">
+                            <i class="fa fa-dollar-sign font-40"></i>
+                            <h5 class="mt-3 mb-3 font-dashboard"><strong>Buyers get the best deal</strong></h5>
+                            <p>Take all the guess work out of your property search with our Flowinterest™ and
+                                ViewerStrength™ artificial intelligence, know the flow and strength of interest in
+                                property to gauge price and send offers directly to owners to get a deal.</p>
+                            <a href="jaavscript:void(0)" class="btn btn-outline-primary readmore-btn"
+                                [routerLink]="['/buyer']">Read more</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4 dark-gray mb-20-media">
+                        <div class="card px-3 py-4">
+                            <i class="far fa-file-alt font-40"></i>
+                            <h5 class="mt-3 mb-3 font-dashboard"><strong>Sellers get sent offers</strong></h5>
+                            <p>Get the full picture of interest in your property with our Flowinterest™ and
+                                ViewerStrength™ artificial intelligence, update your property’s details to make it
+                                standout, increase interest and attract the best offers.</p>
+                            <a href="jaavscript:void(0)" class="btn btn-outline-primary readmore-btn"
+                                [routerLink]="['/seller']">Read more</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4 dark-gray">
+                        <div class="card px-3 py-4">
+                            <i class="fa fa-user-plus font-40"></i>
+                            <h5 class="mt-3 mb-3 font-dashboard"><strong>Agents get new home leads</strong></h5>
+                            <p>Sign up as a preferred agent and get deals sent directly to you from property owners,
+                                track the performance of your listings and potential sales leads with our
+                                ViewerStrength™ artificial intelligence to get your listings sold faster.</p>
+                            <a href="jaavscript:void(0)" class="btn btn-outline-primary readmore-btn"
+                                [routerLink]="['/agent']">Read more</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-34">
+    <div class="col-12">
+        <p class="font-14 mb-0 dark-blue text-center">PropertyFlow’s Flowinterest™ displays the flow of interest across
+            properties and ViewerStrength™ shows the strength of interest in a property relative to other properties in
+            real-time. PropertyFlow’s Property Sales Management System (PSMS) enables buyers, sellers and agents to
+            easily make offers and track the progress of their real estate transactions.</p>
+        <div class="col-12 search-footer">
+
+            <hr class="mt-30">
+            <ul class="list-inline mb-0 menus text-center mt-25">
+                <!-- <li class="list-inline-item"><a href="javascript:void(0)" (click)="onTermsOptionClick()">Terms &
+                  Conditions</a></li>
+              <li class="list-inline-item"><a href="javascript:void(0)" (click)="onPrivacyOptionClick()">Privacy
+                  Policy</a></li> -->
+                <li class="list-inline-item"><a href="javascript:void(0)">Terms &
+                        Conditions</a></li>
+                <li class="list-inline-item"><a href="javascript:void(0)">Privacy
+                        Policy</a></li>
+                <li class="list-inline-item"><a href="javascript:void(0)">FAQ</a></li>
+                <li class="list-inline-item"><a href="javascript:void(0)">Contact</a></li>
+                <!-- <li class="list-inline-item"><a href="javascript:void(0)"
+                        (click)="onHomebuzzEstimatesOptionClick()">PropertyFlow estimates</a></li> -->
+                <li class="list-inline-item"><a href="javascript:void(0)">PropertyFlow estimates</a></li>
+                <li class="list-inline-item"><a href="javascript:void(0)">Agents</a></li>
+            </ul>
+            <hr class="mb-39 mt-23">
+            <div class="text-center pb-1">
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item top1"><a href="javascript:void(0)" [routerLink]="['/dashboard']">
+                        <!-- <h6 class="mb-0 d-flex align-items-center top2"><i class="icon-home2 "></i><span class="font-weight-semibold d-none-mob ml8">PropertyFlow™</span></h6> -->
+                        <h6 class="d-flex align-items-center mb-0 top3">
+                            <img src="../assets/images/icons/yellow-logo-40x40.png" width="30" class="mr3 top1" />
+                            <!-- <i class="icon-home2 mr-2"></i> -->
+                            <p class="mb-0 mt-2 font-weight-semibold d-none-mob font-19">
+                                PropertyFlow™</p>
+                        </h6>
+                    </a></li>
+                    <li class="list-inline-item"><a target="_blank" href="https://www.facebook.com/propertyflow"
+                            class="text-dark">
+                            Follow us:<i class="fa fa-facebook-f facebook-icon ml7"></i></a></li>
+                    <li class="list-inline-item"><a href="javascript:void(0)" class="text-dark"
+                            (click)="onShareOptionClick()">Share us:<i class="fas fa-share-alt share-icon ml7"></i></a>
+                    </li>
+                    <li class="list-inline-item">
+                        Copyright <i class="fa fa-copyright" aria-hidden="true"></i> {{currentYear}}
+                        SoftFlow Limited
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

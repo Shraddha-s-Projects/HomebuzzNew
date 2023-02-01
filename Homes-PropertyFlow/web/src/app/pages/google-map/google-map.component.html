@@ -1,0 +1,162 @@
+<div class="col-12 pl-0 pr-0">
+  <div id="{{pageName}}{{randomNo}}" style="width:100%;height:calc(100vh - 125px);"></div>
+</div>
+<div #popTemplate id="popTemplate" *ngIf="isGoogleMapMarkerClicked" class="search-result">
+  <!-- <div class="card"
+    [ngClass]="{'card-bottom-border-green':(mapProperty.Status === 'Pre-market'), 'card-bottom-border-red':(mapProperty.Status === 'For sale'), 'card-bottom-border-black':(mapProperty.Status === 'Not listed') }"
+    id="googleInfoWindow"> -->
+  <div class="card googlemapcard" id="googleInfoWindow">
+    <div class="position-relative pointer">
+      <img class="card-img-top" (click)="onPropertyImageTileClick($event,mapProperty)"
+        src="{{ Image_Url }}/PropertyDetail/PropertyImages?ImageId={{ mapProperty.ImageIdList[0] }}"
+        *ngIf="mapProperty.ImageIdList && mapProperty.ImageIdList.length != 0" />
+      <img class="card-img-top" (click)="onPropertyImageTileClick($event,mapProperty)"
+        src="{{ Image_Url }}/PropertyData/GetGoogleImage?propertyId={{ mapProperty.PropertyId }}"
+        *ngIf="mapProperty.GoogleImage && (!mapProperty.ImageIdList || mapProperty.ImageIdList.length == 0)" />
+      <img class="card-img-top" (click)="onPropertyImageTileClick($event,mapProperty)"
+        src="./assets/No_image_available.png" alt="Card image cap"
+        *ngIf="!mapProperty.GoogleImage && (!mapProperty.ImageIdList || mapProperty.ImageIdList.length == 0)" />
+      <div class="center-div"
+        *ngIf="mapProperty.GoogleImage && (!mapProperty.ImageIdList || mapProperty.ImageIdList.length == 0)">
+        <img *ngIf="mapProperty.Status == 'For sale'" src="./assets/images/icons/red_location_24x24.png">
+        <img *ngIf="mapProperty.Status == 'Pre-market'" src="./assets/images/icons/green_location_24x24.png">
+        <img *ngIf="mapProperty.Status == 'Not listed' || mapProperty.Status == 'Not listed'"
+          src="./assets/images/icons/black_location_24x24.png">
+      </div>
+      <div class="float-left text-white d-flex title-position font-initial">
+        <div class="d-inline-block">
+          <p class="mb-0 line-height-1-2 font-16">{{ mapProperty.Status }}</p>
+        </div>
+      </div>
+      <div class="float-right title-position title-icon" *ngIf="pageName == 'SearchResultPage'">
+        <a href="javascript:void(0)" (click)="onTileLikeClick($event, mapProperty)"><i
+            [ngClass]="mapProperty.UserLiked ? 'fas text-danger' : 'far text-white'"
+            class="far fa-heart text-white font-25 like_map_{{ mapProperty.Id }}"></i></a>
+      </div>
+      <!-- <button class="btn btn-primary card-btn-position"
+        *ngIf="pageName == 'SearchResultPage'">{{ mapProperty.ViewCount }}
+        {{ mapProperty.ViewCount == 1 ? "Viewer" : "Viewers" }}</button> -->
+      <div class="d-none d-sm-block">
+        <button
+          *ngIf="!mapProperty.IsClaimed && (pageName == 'SearchResultPage') && rolename != 'Agent' && rolename != 'Agent_Admin'"
+          class="btn btn-primary card-btn-position1 float-right  claim_{{ mapProperty.PropertyDetailId }}"
+          (click)="onOwnerBuzzHomeButtonClick(mapProperty)">
+          Owner view offers
+        </button>
+        <button
+          *ngIf="mapProperty.IsClaimed == true && mapProperty.OwnerId == userId && userId && (pageName == 'SearchResultPage')"
+          class="btn btn-primary card-btn-position1 float-right edit-property"
+          (click)="onAddEditPhotoDescriptionButtonClick(mapProperty)">
+          Edit property
+        </button>
+      </div>
+
+      <div class="d-block d-sm-none">
+        <button
+          *ngIf="!mapProperty.IsClaimed && (pageName == 'SearchResultPage') && rolename != 'Agent' && rolename != 'Agent_Admin'"
+          class="btn btn-primary card-btn-position1 float-right claim_{{ mapProperty.PropertyDetailId }}"
+          (click)="onOwnerBuzzHomeButtonClick(mapProperty)">
+          Claim property
+        </button>
+        <button
+          *ngIf="mapProperty.IsClaimed == true && mapProperty.OwnerId == userId && userId &&(pageName == 'SearchResultPage')"
+          class="btn btn-primary card-btn-position1 float-right"
+          (click)="onAddEditPhotoDescriptionButtonClick(mapProperty)">
+          Edit property
+        </button>
+      </div>
+    </div>
+    <div class="card-body dark-gray google-map-card card-height pl-0 pr-0 pt-1">
+      <div class="d-flex justify-content-between">
+        <div class="mb-0 px-2">
+          <!-- <h4 class="float-left font-14 mb-0 mt2"
+          *ngIf="!mapProperty.AskingPrice || mapProperty.AskingPrice == mapProperty.HomebuzzEstimate"> -->
+          <h4 class="font-14 mb-0 mt-0" *ngIf="!mapProperty.IsShowAskingPrice">
+            Estimate price
+            <strong>{{ mapProperty.HomebuzzEstimate | currency:'CAD':'symbol-narrow':'4.0' }}</strong>
+          </h4>
+          <!-- <h4 class="float-left font-14 mb-0 mt3"
+          *ngIf="mapProperty.AskingPrice && mapProperty.AskingPrice != mapProperty.HomebuzzEstimate"> -->
+          <h4 class="font-14 mb-0 mt-0" *ngIf="mapProperty.IsShowAskingPrice">
+            Asking price
+            <strong>{{ mapProperty.AskingPrice | currency:'CAD':'symbol-narrow':'4.0'  }}</strong>
+          </h4>
+          <!-- <div class=" mb-1 line-height-1 mt-1">
+            <p class="font-14 mb-9 line-height-1 black"> ViewerStrength
+              <strong
+                [ngClass]="{ 'text-green' : (mapProperty.ViewerStrength == 'Strong'), 'text-red': (mapProperty.ViewerStrength == 'Weak'), 'text-blue': (mapProperty.ViewerStrength == 'Average') }">
+                {{mapProperty.ViewerStrength}}</strong>
+            </p>
+          </div> -->
+          <div
+            [ngClass]="(!mapProperty.UserOffered &&  (!mapProperty.IsClaimed || mapProperty.OwnerId != userId)) || (mapProperty.UserOffered && mapProperty.OwnerId != userId)? '':'mt-1'"
+            class="line-height-8 mt-0">
+            <span class="pr-2 font-14 mb-1"><i class="fa fa-bed pr-1"
+                title="Bedroom"></i><strong>{{ mapProperty.Bedrooms }}</strong></span>
+            <span class="pr-2 font-14 mb-1"><i class="fas fa-bath pr-1" title="Bathroom"
+                aria-hidden="true"></i><strong>{{ mapProperty.Bathrooms }}</strong></span>
+            <span class="pr-2 font-14 mb-1"><i class="fa fa-car pr-1"
+                title="Parking"></i><strong>{{ mapProperty.CarSpace }}</strong></span>
+            <span class="font-14 mb-1"><i class="fas fa-expand pr-1"
+                title="Parking"></i><strong>{{mapProperty.Landarea}}
+                sqm</strong></span>
+          </div>
+        </div>
+
+        <div class="mt4">
+          <div class="dropup" *ngIf="(rolename == 'Agent' || rolename == 'Agent_Admin')">
+            <button type="button" class="btn btn-primary offer-button dropdown-toggle float-right mr-2"
+              data-toggle="dropdown">
+              <span *ngIf="!mapProperty.AgentOption">Agent Options</span>
+              <span *ngIf="mapProperty.AgentOption">{{mapProperty.AgentOption}}</span>
+            </button>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" [ngClass]="optionObj.Id == mapProperty.AgentOptionId ? 'active': ''"
+                (click)="checkToChangeAgentOption(optionObj,mapProperty)" href="javascript:void(0)"
+                *ngFor="let optionObj of mapProperty.AgentOptionArr">
+                {{optionObj.Option}} </a>
+            </div>
+          </div>
+          <a *ngIf="!mapProperty.UserOffered && (!mapProperty.IsClaimed || mapProperty.OwnerId != userId) && (pageName == 'SearchResultPage' && rolename != 'Agent' && rolename != 'Agent_Admin')"
+            href="javascript:void(0)" (click)="onMakeOfferButtonClick(mapProperty)"
+            class="btn btn-sm btn-primary float-right offer-button mr-2">
+            Make offer</a>
+          <a *ngIf="mapProperty.UserOffered && (!mapProperty.IsClaimed || mapProperty.OwnerId != userId) && (pageName == 'SearchResultPage' && rolename != 'Agent' && rolename != 'Agent_Admin')"
+            href="javascript:void(0)" class="btn btn-sm btn-secondary float-right made-offer-button mr-2">Offer made</a>
+          <div class="clearfix"></div>
+        </div>
+
+      </div>
+      <p class="mb-0 mt6 font-14 text-wrap px-2 line-height-1-2" [title]="mapProperty.Address">
+        {{ mapProperty.Address }}, {{mapProperty.Suburb}}, {{mapProperty.City}}
+      </p>
+    </div>
+  </div>
+</div>
+<div #popListTemplate id="popListTemplate" class="list-scroll" *ngIf="isGoogleMapMarkerListClicked">
+  <div class="card google-map-card" id="googleInfoWindowList" *ngFor="let property of dublicateProperties">
+    <div class="row grid-border">
+      <div class="col-md-5">
+        <img src="{{ property.ImageURL }}" style="height: auto" alt="" class="card-img-top"
+          (click)="onPropertyImageTileClick($event,property)"
+          *ngIf="!property.ImageIdList || property.ImageIdList.length == 0" />
+        <img class="card-img" (click)="onPropertyImageTileClick($event,property)"
+          src="{{ Image_Url }}/PropertyDetail/PropertyImages?ImageId={{ property.ImageIdList[0] }}"
+          *ngIf="property.ImageIdList && property.ImageIdList.length != 0" />
+        <img class="card-img" *ngIf="!property.ImageIdList || property.ImageIdList.length == 0"
+          (click)="onPropertyImageTileClick($event, property)" src="./assets/No_image_available.jpg"
+          alt="Card image cap" />
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-10">
+            <p>{{ property.Address }}, {{property.Suburb}}, {{property.City}}</p>
+          </div>
+        </div>
+        <p>
+          <strong>{{ property.HomebuzzEstimate | currency:'CAD':'symbol-narrow':'4.0' }}</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,178 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "ssr-homebuzz": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/browser",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.app.json",
+            "aot": false,
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/assets/css/icons/icomoon/styles.css",
+              "src/assets/css/icons/fontawesome/styles.min.css",
+              "src/assets/css/bootstrap.min.css",
+              "src/assets/css/bootstrap_limitless.min.css",
+              "src/assets/css/layout.min.css",
+              "src/assets/css/colors.min.css",
+              "./node_modules/angular2-toaster/toaster.css",
+              "./node_modules/slick-carousel/slick/slick.scss",
+              "./node_modules/slick-carousel/slick/slick-theme.scss",
+              "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
+              "./node_modules/saturn-datepicker/bundle.css",
+              "src/assets/css/style.css"
+            ],
+            "scripts": [
+              "src/assets/js/main/jquery.min.js",
+              "./node_modules/slick-carousel/slick/slick.min.js",
+              "src/assets/js/main/bootstrap.bundle.min.js",
+              "src/assets/js/plugins/loaders/blockui.min.js",
+              "src/assets/js/plugins/visualization/d3/d3.min.js",
+              "src/assets/js/plugins/visualization/d3/d3_tooltip.js",
+              "src/assets/js/plugins/forms/styling/switchery.min.js",
+              "src/assets/js/plugins/forms/selects/bootstrap_multiselect.js",
+              "src/assets/js/plugins/ui/moment/moment.min.js",
+              "src/assets/js/plugins/pickers/daterangepicker.js",
+              "src/assets/js/plugins/forms/styling/uniform.min.js",
+              "src/assets/js/plugins/prism.min.js",
+              "src/assets/js/plugins/sticky.min.js",
+              "src/assets/vendor/jRespond/jRespond.min.js",
+              "src/assets/js/main/app.js",
+              "src/assets/js/main/v3_poly_tooltip.js",
+              "src/assets/js/main/loader.js"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "3mb",
+                  "maximumError": "10mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "3mb",
+                  "maximumError": "10mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "ssr-homebuzz:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "ssr-homebuzz:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ssr-homebuzz:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "src/test.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.spec.json",
+            "karmaConfig": "karma.conf.js",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.css"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "tsconfig.app.json",
+              "tsconfig.spec.json",
+              "e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "e2e/protractor.conf.js",
+            "devServerTarget": "ssr-homebuzz:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ssr-homebuzz:serve:production"
+            }
+          }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/server",
+            "main": "src/main.server.ts",
+            "tsConfig": "tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "sourceMap": false,
+              "optimization": {
+                "scripts": false,
+                "styles": true
+              }
+            }
+          }
+        }
+      }
+    }},
+  "defaultProject": "ssr-homebuzz"
+}

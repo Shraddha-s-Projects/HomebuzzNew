@@ -1,0 +1,17 @@
+
+.my-likes-address-width {
+  width: calc(100% - 70px);
+}
+.like-btn {
+  text-decoration: underline;
+  background: white;
+  border: none;
+	cursor: pointer;
+}
+.disable {
+  cursor: no-drop;
+  color: gray;
+}
+.border-bottom:last-child {
+  border-bottom: none !important;
+}

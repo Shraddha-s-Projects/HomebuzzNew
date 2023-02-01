@@ -1,0 +1,60 @@
+<div id="MyHomes">
+  <div class="mat-dialog-title">
+    <h3 class="mb-0">
+      <a href="javascript:void(0)">
+        <div class="d-flex justify-content-center">
+          <img src="../assets/images/icons/yellow-logo-40x40.png" width="30" class="mr3 top1" />
+          <p class="mb-0 mt-0 top6 font-weight-semibold d-none-mob font-19">
+            PropertyFlow</p>
+        </div>
+      </a>
+    </h3>
+    <button type="button" class="close" (click)="close()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="mat-dialog-content">
+    <div class="spinner-position" *ngIf="!isLoaded">
+      <mat-spinner strokeWidth="5" [diameter]="50"ā ></mat-spinner>
+    </div>
+    <h4 class="mb-1 text-center">My Properties</h4>
+  
+    <div *ngIf="isLoaded">
+      <div class="py-1 my-homes-list font-16" *ngFor="let home of myClaimedHomes; let i = index">
+        <p class=" font500 mb-0">{{ home.Address }}, {{home.Suburb}}, {{home.City}}</p>
+        <p class="mb-0">
+          <span class="font500"> Property status:</span> {{ home.Status }}
+        </p>
+        <p class="mb-0">
+          <span class="font500"> Claim days left:</span> {{ home.DayLeft }}
+        </p>
+        <a class="text-decoration mr-2" href="javascript:void(0)" (click)="OnRenewClaimLinkClick(home)">Renew claim</a>
+
+        <!-- <span class="ml-1 mr-1">/</span> -->
+        <a class="text-decoration mr-2"  href="javascript:void(0)" (click)="onUnclaimLinkClick(home)">Unclaim</a>
+        <!-- <span class="ml-1 mr-1">/</span> -->
+        <a class="text-decoration mr-2" href="javascript:void(0)" (click)="onTransferOwnerShipOptionLinkClick(home)">Transfer ownership</a><br />
+        <a class=" mb-2 text-decoration" href="javascript:void(0)" (click)="onEditAddPhotoDescriptionLinkClick(home)">
+         Edit property</a><br />
+        <p class="mt-1 mb-1"><strong> Offers recieved on property: {{ home.Offers ? home.Offers.length : 0 }}</strong>
+        </p>
+        <div *ngFor="let offer of home.Offers" class="mb-0  pt-0 pb-0 pl-2 home-offer">
+          <div class="border-bottom mb-0">
+            <p class="mb-0"><span class="font500"> Offer price: </span>
+              {{ offer.OfferingAmount | currency:'CAD':'symbol-narrow':'4.0' }} </p>
+            <p class="mb-0"><span class="font500">Date: </span> {{ offer.PropertyOfferedDate | date: "MM/dd/yyyy" }}</p>
+            <p class="mb-0"><span class="font500 mb-0">Offer status: </span> <span class="mr-1">{{ offer.Status }}</span>
+              <a class="text-decoration mr-2" href="javascript:void(0)" *ngIf="offer.Status == 'Open'"
+                (click)="onNegotiateOfferLinkClick(offer)">Negotiate</a>
+              <!-- <span *ngIf="offer.Status == 'Open'" class="ml-1 mr-1">/</span> -->
+              <a class="text-decoration" href="javascript:void(0)"
+                (click)="onDeclinOfferLinkClick(offer.Id, home.Offers[0], home.Address,home.Id)">Decline</a></p>
+          </div>
+        </div>
+        <hr class="mt-17 mb-1">
+      </div>
+      <p class="no-data font-12" *ngIf="myClaimedHomes.length == 0"><i>No properties available.</i></p>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,92 @@
+<!-- Page header -->
+<div class="page-header page-header-light">
+  <div class="col-12 pl-0 pr-0">
+    <div class="page-header-content header-elements-md-inline d-flex align-items-center h-76">
+      <div class="page-title d-flex align-items-center justify-content-between w-100">
+        <a href="javascript:void(0)" [routerLink]="['/dashboard']" class="">
+          <h6 class="wd-200px d-flex align-items-center top-4">
+            <img src="../assets/images/icons/yellow-logo-40x40.png" width="30" class="mr3 top1" />
+            <p class="mb-0 mt-2 font-weight-semibold d-none-mob font-19 top-1">
+              PropertyFlow</p>
+          </h6>
+        </a>
+
+        <div class="search-page w-100 d-flex align-items-center" *ngIf="showSearchbox">
+          <input [placeholder]="searchPlaceHolder" [(ngModel)]="searchTerm" autocorrect="off" autocapitalize="off"
+            spellcheck="off" type="text" class="form-control search-input-width float-left mr-3 search-input" #search (keyup)="checkDdl()" />
+          <!-- <p class="pt-1 text-gray mb-0 d-none d-md-block">Find an agent</p> -->
+        </div>
+
+        <div id="mySidenav" class="sidenav">
+          <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
+          <div class="mt-4">
+
+            <a class="pt-1 font-22 text-black d-block d-md-none mr-2 cursor-pointer"
+              *ngIf="rolename != 'Customer' && rolename != 'Agent' && rolename != 'Agent_Admin' && isUserExist" href="javascript:void(0)"><i
+                class="mr-4 pl-1 wd-25px"></i><span>Agent</span></a>
+
+                <a class="pt-1 font-22 text-black d-block d-md-none mr-2 cursor-pointer"
+                *ngIf="rolename == 'Customer' && isUserExist" href="javascript:void(0)"><i
+                  class="mr-4 pl-1 wd-25px"></i><span>Agent</span></a>
+
+            <!-- <a *ngIf="isUserExist" class="text-white" [routerLink]="editURL"> <i
+                class="fa fa-user mr-2 wd-25px"></i><span>{{username}}</span></a> -->
+            <a *ngIf="isUserExist" class="text-white"> <i
+                class="fa fa-user mr-2 wd-25px"></i><span>{{username}}</span></a>
+            <a *ngIf="!isUserExist"> <i class="fa fa-user mr-2"></i><span [routerLink]="['/login']"> Sign in /
+                Join</span></a>
+            <a class="pt-1 text-black d-block d-md-none mr-2 cursor-pointer"
+              *ngIf="(rolename == 'Admin') && isUserExist" [routerLink]="['/admin/dashboard']"><i
+                class="fa fa-tachometer mr-2 wd-25px"></i><span>Dashboard</span></a>
+            <a class="pt-1 text-black d-block d-md-none mr-2 cursor-pointer"
+              *ngIf="(rolename == 'Agent' || rolename == 'Agent_Admin') && isUserExist"
+              [routerLink]="['/agent/dashboard']"><i
+                class="fa fa-tachometer mr-2 wd-25px"></i><span>Dashboard</span></a>
+            <!-- <div class="gray-800">
+              <a *ngIf="isUserExist && rolename != 'Agent' && rolename != 'Agent_Admin'"
+                (click)="onMyLikesOptionClick()"><i class="far fa-heart mr-2 wd-25px"></i>My Watchlist <span
+                  *ngIf="userPropInfo">({{userPropInfo.likes}})</span></a>
+              <a *ngIf="isUserExist && rolename != 'Agent' && rolename != 'Agent_Admin'"
+                (click)="onMyOffersOptionClick()"><i class="fas fa-gift mr-2 wd-25px"></i>My Offers <span
+                  *ngIf="userPropInfo">({{userPropInfo.offers}})</span></a>
+              <a *ngIf="isUserExist && rolename != 'Agent' && rolename != 'Agent_Admin'"
+                (click)="onMyHomesOptionClick()"><i class="fas fa-home mr-2 wd-25px"></i>My Properties <span
+                  *ngIf="userPropInfo">({{userPropInfo.claims}})</span></a>
+              <a *ngIf="isUserExist && rolename != 'Agent' && rolename != 'Agent_Admin'"
+                (click)="onMySearchOptionClick()"><i class="fas fa-search mr-2 wd-25px"></i>My
+                Searches <span *ngIf="userPropInfo">({{userPropInfo.searches}})</span></a>
+            </div> -->
+            <a href="javascript:void(0)"><i class="fa fa-question-circle mr-2 wd-25px"></i>FAQ<span></span></a>
+            <a href="javascript:void(0)"><i class="fas fa-envelope mr-2 wd-25px"></i>Contact</a>
+            <a href="javascript:void(0)"><i class="fa fa-info-circle mr-2 wd-25px"></i>Terms</a>
+            <a href="javascript:void(0)"><i class="fa fa-lock mr-2 wd-25px"></i>Privacy</a>
+            <!-- <a (click)="onTermsOptionClick()"><i class="fa fa-info-circle mr-2 wd-25px"></i>Terms</a>
+            <a (click)="onPrivacyOptionClick()"><i class="fa fa-lock mr-2 wd-25px"></i>Privacy</a> -->
+            <a *ngIf="isUserExist" (click)="onLogoutOptionClick()"><i
+                class="fa fa-power-off mr-2 wd-25px"></i>Logout</a>
+          </div>
+        </div>
+        <div class="d-flex w-100 justify-content-end">
+          <label class="pt-1 text-black d-none d-md-block mr-2 cursor-pointer"
+            *ngIf="(rolename == 'Admin') && isUserExist" [routerLink]="['/admin/dashboard']">Dashboard</label>
+          <label class="pt-1 text-black d-none d-md-block mr-2 cursor-pointer"
+            *ngIf="(rolename == 'Agent' || rolename == 'Agent_Admin') && isUserExist"
+            [routerLink]="['/agent/dashboard']">Dashboard</label>
+          <label class="pt-1 text-black d-none d-md-block mr-2 cursor-pointer"
+            *ngIf="rolename != 'Customer' && rolename != 'Agent' && rolename != 'Agent_Admin' && isUserExist"
+            href="javascript:void(0)" [routerLink]="['/agent/signup']">Agent</label>
+            <label class="pt-1 text-black d-none d-md-block mr-2 cursor-pointer"
+            *ngIf="rolename == 'Customer' && isUserExist"
+            href="javascript:void(0)" >Agent</label>
+          <label *ngIf="isUserExist" class="pt-1 text-black d-none d-md-block mr-2 cursor-pointer"
+            (click)="openNav()">{{username}}</label>
+          <label *ngIf="!isUserExist" class="pt-1 text-black d-none d-md-block mr-2 cursor-pointer"
+            [routerLink]="['/login']">Sign in / Join</label>
+          <span style="font-size:18px;" class="d-block d-md-none cursor-pointer" (click)="openNav()">&#9776;</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- /page header -->

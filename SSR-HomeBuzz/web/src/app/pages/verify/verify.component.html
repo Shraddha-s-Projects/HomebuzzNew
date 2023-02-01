@@ -1,0 +1,127 @@
+<toaster-container [toasterconfig]="config1"></toaster-container>
+
+<body>
+  <!-- Page content -->
+  <div class="page-content">
+    <!-- Main content -->
+    <div class="content-wrapper">
+      <!-- Content area -->
+      <div class="content d-flex justify-content-center align-items-center">
+        <!-- Login card -->
+        <div class="login-form">
+          <div class="card mb-0">
+            <div class="card-body">
+              <div class="text-center mb-3">
+                <div class="d-flex justify-content-center"><i class="icon-home2 mr-2 font-25 link-color mb-2"></i></div>
+                <p *ngIf="!isVerified" class="margin_para">
+                  Please enter verification code below which we have provided in email. You will be able to create a new
+                  password after successful verification.
+                </p>
+                <div *ngIf="isVerified">
+                  <!-- <p class="margin_para">
+                    That's Great! Your email has been verified.
+                  </p> -->
+                  <p class="margin_para">
+                    That's Great! Your email has been verified.Please create a new password below.
+                  </p>
+                  <ul class="error-ul">
+                    <li>
+                      <small class="{{
+                          !password.IsPasswordMatchRule ? 'text-danger' : 'text-success'
+                        }} margin_para">New Password must contain 8 characters with at least 1 number, lowercase and
+                        uppercase
+                        letter.</small>
+                    </li>
+                    <li>
+                      <small class="{{
+                          !password.IsNewPasswordMatch ? 'text-danger' : 'text-success'
+                        }} margin_para">New Password Repeat must be same as New Password.</small>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <form class="form-signin" #LoginForm="ngForm">
+                <div *ngIf="!isVerified" class="form-group form-group-feedback form-group-feedback-left">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1"><i class="icon-user text-muted"></i></span>
+                    </div>
+                    <input type="text" name="UserName" placeholder="Verification Code" class="form-control pl-2"
+                      [(ngModel)]="verifyUser.VerificationCode" #verificationCode="ngModel"
+                      (ngModelChange)="verifyUser.IsVerificationCodeValid = true" placeholder="Enter verification code"
+                      required />
+                  </div>
+                  <div *ngIf="
+                      !verifyUser.VerificationCode && !verifyUser.IsVerificationCodeValid && verificationCode.touched
+                    " class="text-danger float-left">
+                    Verification Code field cannot be empty.
+                  </div>
+                  <div *ngIf="!verifyUser.IsVerificationCodeValid" class="text-danger float-left">
+                    Invalid Verification code.
+                  </div>
+                </div>
+                <div *ngIf="isVerified">
+                  <div class="form-group form-group-feedback form-group-feedback-left">
+                    <input type="password" class="form-control" name="NewPassword" placeholder="Password"
+                      #NewPassword="ngModel" (keyup)="validatePassword()" [(ngModel)]="password.NewPassword" required />
+
+                    <div *ngIf="!password.NewPassword && NewPassword.touched" class="text-danger float-left">
+                      New Password field cannot be empty.
+                    </div>
+                  </div>
+                  <div class="form-group form-group-feedback form-group-feedback-left">
+                    <input type="password" class="form-control" name="NewPasswordRepeat" placeholder="Repeat Password"
+                      #NewPasswordRepeat="ngModel" (keyup)="validatePassword()" [(ngModel)]="password.NewPasswordRepeat"
+                      required />
+
+                    <div *ngIf="!password.NewPasswordRepeat && NewPasswordRepeat.touched"
+                      class="text-danger float-left">
+                      Repeat Password field cannot be empty.
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="form-group text-center" *ngIf="isVerified">
+                  Back to
+                  <a href="#" [routerLink]="['/login']" class="ml-auto"
+                    >Login</a
+                  >
+                </div> -->
+                <div class="form-group">
+                  <!-- <button data-spinner-color="white" *ngIf="!isVerified" class="btn btn-primary btn-block ladda-button"  #verify
+                  type="submit"  data-style="zoom-in" (click)="verifyUserByVerificationCode()"
+                  [disabled]="!verifyUser.VerificationCode" ng-reflect-disabled="disabled">
+                  Verify <i class="icon-circle-right2 ml-2"></i>
+                  <span class="ladda-spinner"></span>
+                </button>
+                <button *ngIf="isVerified" class="btn btn-primary btn-block ladda-button" type="submit"
+                   data-style="zoom-in" (click)="createNewPassword()" #createPassword
+                  [disabled]="!password.IsPasswordMatchRule || !password.IsNewPasswordMatch"
+                  data-spinner-color="white" ng-reflect-disabled="disabled" data-style="zoom-in">
+                  Create <i class="icon-circle-right2 ml-2"></i> -->
+                  <button data-spinner-color="white" *ngIf="!isVerified && isBrowser"
+                    class="btn btn-primary btn-block ladda-button" #verify type="submit" [ladda]="isLoading"
+                    data-style="zoom-in" (click)="verifyUserByVerificationCode()"
+                    [disabled]="!verifyUser.VerificationCode" ng-reflect-disabled="disabled">
+                    Verify <i class="icon-circle-right2 ml-2"></i>
+                    <span class="ladda-spinner"></span>
+                  </button>
+                  <button *ngIf="isVerified && isBrowser" class="btn btn-primary btn-block ladda-button" type="submit"
+                    [ladda]="isLoading" data-style="zoom-in" (click)="createNewPassword()" #createPassword
+                    [disabled]="!password.IsPasswordMatchRule || !password.IsNewPasswordMatch"
+                    data-spinner-color="white" ng-reflect-disabled="disabled" data-style="zoom-in">
+                    Create <i class="icon-circle-right2 ml-2"></i>
+
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- /login card -->
+      </div>
+      <!-- /content area -->
+    </div>
+    <!-- /main content -->
+  </div>
+  <!-- /page content -->
+</body>

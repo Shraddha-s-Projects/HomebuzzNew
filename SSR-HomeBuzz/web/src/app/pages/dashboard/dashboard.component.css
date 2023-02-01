@@ -1,0 +1,131 @@
+.header-search-bar {
+    min-height: 350px !important;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100% !important;
+    background-size: cover;
+}
+.header-text {
+    font-size: 35px;
+    color: #fff;
+}
+.dashboard-page .search-input {
+    height: 50px;
+    width: 45%;
+    padding: 5px 15px;
+    line-height: calc(25px + 3vw);
+    border-radius: calc(0px + .3vw)!important;
+    font-size: 16px;
+    border: none;
+}
+.offer-button {
+    padding: 0px 5px 0px 5px;
+    border-radius: 5px;
+}
+.card-img-top {
+    height: 172px;
+}
+/* .card {
+    height: 239px;;
+} */
+.dark-blue {
+    color: #3b5998;
+}
+.card-body.dark-gray {
+    height: 97px;
+    overflow: auto;
+}
+.card-text-position {
+    position: absolute;
+    top: 10px;
+    height: 100%;
+}
+.card-btn-position, .card-btn-position:hover {
+    position: absolute;
+    bottom: 20px;
+    left: 10px;
+    background-color: rgba(33, 150, 243, 0.78);
+    font-size: 12px;
+    padding: 3px 5px;
+    box-shadow: none !important;
+}
+.btn-group .btn-primary {
+    background-color: rgba(33, 150, 243, 0.78);
+}
+.btn-group .btn-secondary, .btn-group .btn-secondary:hover {
+    color: #fff;
+    background-color: rgba(119, 119, 119, 0.7411764705882353);
+}
+.card {
+    display: block;
+    box-shadow: 0 5px 5px -3px rgba(0,0,0,.1), 0 8px 10px 1px rgba(0,0,0,.05), 0 3px 14px 2px rgba(0,0,0,.12);
+    border: none;
+}
+.wd-80 {
+    width: 80%;
+}
+.wd-60 {
+    width: 60%;
+}
+.readmore-btn {
+    color: #2196f3;
+    font-weight: 600;
+    padding: .4375rem 1.175rem;
+    border: 1px solid;
+}
+.readmore-btn:hover {
+    background-color: #2196f3;
+    transition: 0.5s;
+    color: #fff;
+}
+.search-footer {
+    padding: 3px 10px 34px;
+    font-size: 14px;
+}
+@media (max-width: 1200px) and (min-width: 1100px) {
+    .card-height p {
+        min-height: 140px;
+    }
+}
+@media (max-width: 1100px) and (min-width: 1000px) {
+    .card-height p {
+        min-height: 150px;
+    }
+}
+@media (max-width: 1000px) and (min-width: 850px) {
+    .card-height p {
+        min-height: 165px;
+    }
+    .card-height .mb-3, .card-height .my-3 {
+        margin-bottom: 1.00rem!important;
+        min-height: 50px;
+    }
+}
+@media (max-width: 850px) and (min-width: 768px) {
+    .card-height p {
+        min-height: 195px;
+    }
+    .card-height .mb-3, .card-height .my-3 {
+        margin-bottom: 1.00rem!important;
+        min-height: 50px;
+    }
+}
+@media (min-width: 768px) and (max-width: 992px) {
+    .container {
+        max-width: 95%;
+    }
+}
+@media (max-width: 767px) {
+    .search-input {
+        width: 80%;
+    }
+    .header-text {
+        font-size: 22px;
+    }
+    .wd-60 {
+        width: 85%;
+    }
+    .dashboard-page .search-input {
+        width: 90%;
+    }
+}

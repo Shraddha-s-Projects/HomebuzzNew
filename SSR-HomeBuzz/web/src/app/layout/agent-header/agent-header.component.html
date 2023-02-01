@@ -1,0 +1,78 @@
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-nav">
+  <div class="container">
+    <a [routerLink]="['/dashboard']">
+      <h6 class="mb-0 d-flex align-items-center">
+        <i class="icon-home2 mr-2"></i>
+        <p class="mb-0 font-weight-semibold d-none-mob font-19"> PropertyFlow™</p>
+      </h6>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+      aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav align-items-center">
+        <li class="nav-item active">
+          <a class="nav-link" href="javascript:void(0)">Home</a>
+        </li>
+        <li class="nav-item dropdown" style="display: none;">
+          <a class="nav-link dropdown-toggle" href="http://example.com" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            Products
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="javascript:void(0)">Premium Agent</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0)">Premium Branch</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0)">Listings</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0)">Featured Listings</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0)">Rental Branch</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0)">Featured Sale</a></li>
+            <!-- <li class="dropdown-submenu">
+              <a class="dropdown-item dropdown-toggle" href="http://google.com"
+                >Google</a
+              >
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Submenu</a></li>
+                <li><a class="dropdown-item" href="#">Submenu0</a></li>
+                <li class="dropdown-submenu">
+                  <a class="dropdown-item dropdown-toggle" href="#"
+                    >Submenu 1</a
+                  >
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Subsubmenu1</a></li>
+                    <li><a class="dropdown-item" href="#">Subsubmenu1</a></li>
+                  </ul>
+                </li>
+                <li class="dropdown-submenu">
+                  <a class="dropdown-item dropdown-toggle" href="#"
+                    >Submenu 2</a
+                  >
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Subsubmenu2</a></li>
+                    <li><a class="dropdown-item" href="#">Subsubmenu2</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </li> -->
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="javascript:void(0)">Help</a>
+        </li>
+        <li class="nav-item" *ngIf="rolename != 'Agent' && rolename != 'Agent_Admin' && !isUserCookieExist && url != '/agent/signup'">
+          <a class="nav-link" [routerLink]="['/agent/signup']"><button class="btn btn-primary font-18">Agent Sign
+              Up</button></a>
+        </li>
+        <li class="nav-item dropdown" *ngIf="url != '/agent/signup'">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{username}}
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item">My Profile</a></li>
+            <li><a class="dropdown-item" (click)="onLogoutOptionClick()">Log Out</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

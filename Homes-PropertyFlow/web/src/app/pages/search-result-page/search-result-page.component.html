@@ -1,0 +1,744 @@
+<toaster-container [toasterconfig]=""></toaster-container>
+
+<div class="col-12 pb-2 sub-header sub-header-mobile d-none d-md-block">
+  <div class="d-flex w-75 popover-custom">
+    <button type="button" data-placement="bottom" class="btn btn-default bg-white border mr-2 pt-1 wd-120 font-14"
+      [popover]="popTimePeriodContent" #popTimePeriod="bs-popover" [outsideClick]="true">
+      <span *ngIf="selectedValue != '' && selectedValue == '0-7'">Today to 7
+      </span>
+      <span *ngIf="selectedValue != '' && selectedValue == '8-14'">8 to 14
+      </span>
+      <span *ngIf="selectedValue != '' && selectedValue == '15-21'">15 to 21</span>
+      <span *ngIf="selectedValue != '' && selectedValue == '22-28'">22 to 28</span>
+      <span *ngIf="selectedValue == '' || selectedValue == '0-28'">Days
+      </span>
+    </button>
+    <ng-template #popTimePeriodContent>
+      <h6 class="font-weight-bold px-3 pt-2 mb-0 line-height-8">Days</h6>
+      <ul class="popover-ddl popover-ddl-interest px-3 pt-2 pb-2 mb-0 list-inline btn-group-bath">
+        <li class="list-inline-item mr-n-5">
+          <input type="radio" (change)="onTimePeriodSelect($event)" id="timeperiod-options-0" name="timeperiod-options"
+            value="0-28" />
+          <label class="timeperiod-options-0" for="timeperiod-options-0" [ngClass]="
+              selectedValue == '' || selectedValue == '0-28'
+                ? 'popover-ddl-label-active'
+                : ''
+            " class="mb-0">All</label>
+        </li>
+        <li class="list-inline-item mr-n-5">
+          <input type="radio" (change)="onTimePeriodSelect($event)" id="timeperiod-options-1" name="timeperiod-options"
+            value="0-7" />
+          <label class="timeperiod-options-1" [ngClass]="
+              selectedValue != '' && selectedValue == '0-7'
+                ? 'popover-ddl-label-active'
+                : ''
+            " for="timeperiod-options-1" class="mb-0"><span>Today to 7</span></label>
+        </li>
+        <li class="list-inline-item mr-n-5">
+          <input type="radio" (change)="onTimePeriodSelect($event)" id="timeperiod-options-2" name="timeperiod-options"
+            value="8-14" />
+          <label class="timeperiod-options-2" [ngClass]="
+              selectedValue != '' && selectedValue == '8-14'
+                ? 'popover-ddl-label-active'
+                : ''
+            " for="timeperiod-options-2" class="mb-0"><span>8 to 14</span></label>
+        </li>
+        <li class="list-inline-item mr-n-5">
+          <input type="radio" (change)="onTimePeriodSelect($event)" id="timeperiod-options-3" name="timeperiod-options"
+            value="15-21" />
+          <label class="timeperiod-options-3" [ngClass]="
+              selectedValue != '' && selectedValue == '15-21'
+                ? 'popover-ddl-label-active'
+                : ''
+            " for="timeperiod-options-3" class="mb-0"><span>15 to 21</span></label>
+        </li>
+        <li class="list-inline-item mr-n-5">
+          <input type="radio" (change)="onTimePeriodSelect($event)" id="timeperiod-options-4" name="timeperiod-options"
+            value="22-28" />
+          <label class="timeperiod-options-4" [ngClass]="
+              selectedValue != '' && selectedValue == '22-28'
+                ? 'popover-ddl-label-active'
+                : ''
+            " for="timeperiod-options-4" class="mb-0"><span>22 to 28</span></label>
+        </li>
+      </ul>
+      <div class="px-3 mb-2">
+        <p class="mb-0 labelbed line-height-1">Past days</p>
+      </div>
+      <div class="col-12 pl-0 pr-0 bg-primary py-2 px-3 propover-radius">
+        <button class="btn btn-white float-right" (click)="ClosePopover(popTimePeriod)">
+          Done
+        </button>
+        <div class="clearfix"></div>
+      </div>
+    </ng-template>
+
+    <button type="button" data-placement="bottom" class="btn btn-default bg-white border mr-2 wd-200 font-14"
+      [popover]="popStatusContent" #popStatus="bs-popover" [outsideClick]="true">
+      <div class="d-flex align-items-center justify-content-center">
+        <img *ngIf="isViewStatus" src="./assets/images/icons/black_location_20x20.png" />
+        <img *ngIf="isViewedOwnerActive" src="./assets/images/icons/green_location_20x20.png" />
+        <img *ngIf="isForSaleOwnerActive" src="./assets/images/icons/red_location_20x20.png" />
+        <div class="text-overflow ml-1">
+          <span *ngIf="isViewStatus && !isAllActiveStatus">Not listed<span *ngIf="selectedStatus.length > 1">, </span>
+          </span>
+          <span *ngIf="isViewedOwnerActive && !isAllActiveStatus">Pre-market<span
+              *ngIf="selectedStatus.length > 1 && isForSaleOwnerActive">,
+            </span>
+          </span>
+          <span *ngIf="isForSaleOwnerActive && !isAllActiveStatus">For sale</span>
+          <span *ngIf="isAllActiveStatus">Status</span>
+          <span *ngIf="isStatusValidationMsg">Status</span>
+        </div>
+      </div>
+    </button>
+    <ng-template #popStatusContent>
+      <ul class=" p-0 mb-0 position-relative header-ddl list-inline cursor-pointer">
+        <li class="border-bottom p-2">
+          <div class="custom-control custom-checkbox chk-box px-3 d-flex align-items-center">
+            <input type="checkbox" [disabled]="isLoaded || (selectedStatus == '1' && isViewStatus)"
+              (change)="onStatusSelect($event)" class="custom-control-input" [checked]="isViewStatus"
+              [ngClass]="selectedStatus == '1' ? 'custom-control-input' : ''" id="customCheck1" name="example1"
+              value="1" />
+            <label class="custom-control-label mb-0 font-15 line-height-1" for="customCheck1"><span class="ml-2">
+                <img src="./assets/images/icons/black_location_20x20.png" class="mt1" />
+                <span class="top2 ml-1">Not listed</span>
+              </span></label>
+          </div>
+        </li>
+        <li class="border-bottom p-2">
+          <div class="custom-control custom-checkbox chk-box px-3 d-flex align-items-center">
+            <input type="checkbox" [disabled]="
+                isLoaded || (selectedStatus == '2' && isViewedOwnerActive)
+              " (change)="onStatusSelect($event)" class="custom-control-input" [checked]="isViewedOwnerActive"
+              [ngClass]="selectedStatus == '2' ? 'custom-control-input' : '2'" id="customCheck2" name="example1"
+              value="2" />
+            <label class="custom-control-label mb-0 font-15 line-height-1" for="customCheck2"><span class="ml-2">
+                <img src="./assets/images/icons/green_location_20x20.png" class="mt1" />
+                <span class="top2 ml-1">Pre-market</span>
+              </span></label>
+          </div>
+        </li>
+        <li class="border-bottom p-2">
+          <div class="custom-control custom-checkbox chk-box d-flex align-items-center px-3">
+            <input type="checkbox" [disabled]="
+                isLoaded || (selectedStatus == '4' && isForSaleOwnerActive)
+              " (change)="onStatusSelect($event)" class="custom-control-input" [checked]="isForSaleOwnerActive"
+              [ngClass]="selectedStatus == '4' ? 'custom-control-input' : ''" id="customCheck14" name="example1"
+              value="4" />
+            <label class="custom-control-label mb-0 font-15 line-height-1" for="customCheck14"><span class="ml-2">
+                <img src="./assets/images/icons/red_location_20x20.png" class="mt1" />
+                <span class="top2 ml-1">For sale</span>
+              </span></label>
+          </div>
+        </li>
+      </ul>
+      <div class="col-12 pl-0 pr-0 bg-primary py-2 px-3 propover-radius">
+        <button class="btn btn-white float-right" (click)="ClosePopover(popStatus)">
+          Done
+        </button>
+        <div class="clearfix"></div>
+      </div>
+    </ng-template>
+
+    <button type="button" data-placement="bottom" class="btn btn-default bg-white border mr-2 pt-1 wd-120 font-14"
+      [popover]="popPriceContent" #popPrice="bs-popover" [outsideClick]="true">
+      <span *ngIf="(!maxPz && minPz != '') || (maxPz == '' && minPz != '')">${{ minPz }}+</span>
+      <span *ngIf="(maxPz != '' && !minPz) || (maxPz != '' && minPz == '')">Up to ${{ maxPz }}</span>
+      <span *ngIf="maxPz != '' && minPz != ''">${{ minPz }}-${{ maxPz }}</span>
+      <span *ngIf="(!maxPz && !minPz) || (maxPz == '' && minPz == '')">Price</span>
+    </button>
+
+    <ng-template #popPriceContent>
+      <ul class=" p-0 mb-0 position-relative list-inline cursor-pointer">
+        <li class="">
+          <h6 class="font-weight-bold px-3 pt-2 mb-0 line-height-8">Price</h6>
+        </li>
+        <li class="px-3 pt-2 pb-2">
+          <div class="d-flex">
+            <div>
+              <input type="text" class="form-control mb-2" (change)="OnMinChange($event)" [(ngModel)]="selectedMinPrice"
+                placeholder="Min" (focus)="MinFocus($event)" />
+              <ul id="MinList" class="filter-options pl-0">
+                <li *ngFor="let minPrice of minPriceList" value="{{ minPrice.Value }}"
+                  (click)="OnMinPriceSelect($event)">
+                  ${{ minPrice.Name }}+
+                </li>
+              </ul>
+            </div>
+            <p class="mx-2 my-2">-</p>
+            <div>
+              <input type="text" class="form-control mb-2" (change)="OnMaxChange($event)" [(ngModel)]="selectedMaxPrice"
+                placeholder="Max" (focus)="MaxFocus($event)" />
+              <ul id="MaxList" class="filter-options pl-0">
+                <li *ngFor="let maxPrice of maxPriceList" value="{{ maxPrice.Value }}"
+                  (click)="OnMaxPriceSelect($event)">
+                  ${{ maxPrice.Name }}
+                </li>
+                <li tabindex="30" value="null" (click)="OnMaxPriceSelect($event)">
+                  Any Price
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <div class="col-12 pl-0 pr-0 bg-primary py-2 px-3 propover-radius">
+        <button class="btn btn-white float-right" (click)="ClosePopover(popPrice)">
+          Done
+        </button>
+        <div class="clearfix"></div>
+      </div>
+    </ng-template>
+
+    <button type="button" data-placement="bottom" class="btn btn-default bg-white border mr-2 wd-80 font-14"
+      [popover]="popBedContent" #popBed="bs-popover" [outsideClick]="true">
+      <span *ngIf="selectedBeds != ''">Beds: {{ selectedBeds }}</span><span
+        *ngIf="!isExactMatchBed && selectedBeds != ''">+</span>
+      <span *ngIf="selectedBeds == ''">Beds</span>
+    </button>
+    <ng-template #popBedContent>
+      <h6 class="font-weight-bold px-3 pt-2 mb-0 line-height-8">Bedrooms</h6>
+      <ul class="popover-ddl px-3 pt-2 pb-2 mb-0 position-relative list-inline btn-group-bath">
+        <li class="list-inline-item mr-n-5">
+          <input id="beds-options-0" (change)="onBedSelect($event)" name="beds-options" type="radio" value="" />
+          <label for="beds-options-0" [ngClass]="selectedBeds == '' ? 'popover-ddl-label-active' : ''"
+            class="mb-0 link-color">Any</label>
+        </li>
+        <li class="list-inline-item mr-n-5">
+          <input id="beds-options-1" (change)="onBedSelect($event)" name="beds-options" type="radio" value="1" />
+          <label for="beds-options-1" [ngClass]="selectedBeds == '1' ? 'popover-ddl-label-active' : ''" class="mb-0">
+            <span *ngIf="isExactMatchBed">1</span>
+            <span *ngIf="!isExactMatchBed">1+</span>
+          </label>
+        </li>
+        <li class="list-inline-item mr-n-5">
+          <input id="beds-options-2" (change)="onBedSelect($event)" name="beds-options" type="radio" value="2" />
+          <label for="beds-options-2" [ngClass]="selectedBeds == '2' ? 'popover-ddl-label-active' : ''" class="mb-0">
+            <span *ngIf="isExactMatchBed">2</span>
+            <span *ngIf="!isExactMatchBed">2+</span>
+          </label>
+        </li>
+        <li class="list-inline-item mr-n-5">
+          <input id="beds-options-3" (change)="onBedSelect($event)" name="beds-options" type="radio" value="3" />
+          <label for="beds-options-3" [ngClass]="selectedBeds == '3' ? 'popover-ddl-label-active' : ''" class="mb-0">
+            <span *ngIf="isExactMatchBed">3</span>
+            <span *ngIf="!isExactMatchBed">3+</span>
+          </label>
+        </li>
+        <li class="list-inline-item mr-n-5">
+          <input id="beds-options-4" (change)="onBedSelect($event)" name="beds-options" type="radio" value="4" />
+          <label for="beds-options-4" [ngClass]="selectedBeds == '4' ? 'popover-ddl-label-active' : ''" class="mb-0">
+            <span *ngIf="isExactMatchBed">4</span>
+            <span *ngIf="!isExactMatchBed">4+</span>
+          </label>
+        </li>
+        <li class="list-inline-item mr-n-5">
+          <input id="beds-options-5" (change)="onBedSelect($event)" name="beds-options" type="radio" value="5" />
+          <label for="beds-options-5" [ngClass]="selectedBeds == '5' ? 'popover-ddl-label-active' : ''" class="mb-0">
+            <span *ngIf="isExactMatchBed">5</span>
+            <span *ngIf="!isExactMatchBed">5+</span>
+          </label>
+        </li>
+      </ul>
+      <div class="px-3">
+        <div class="custom-control custom-checkbox chk-box mb-2 px-3">
+          <input type="checkbox" class="custom-control-input"
+            [ngClass]="isExactMatchBed ? 'custom-checkbox-active' : ''" id="customCheck" name="example1"
+            (change)="OnBedCbChange($event)" [checked]="isExactMatchBed" />
+          <label class="custom-control-label labelbed" for="customCheck"><span class="ml-2">Use exact match
+            </span></label>
+        </div>
+      </div>
+      <div class="col-12 pl-0 pr-0 bg-primary py-2 px-3 propover-radius">
+        <button class="btn btn-white float-right" (click)="ClosePopover(popBed)">
+          Done
+        </button>
+        <div class="clearfix"></div>
+      </div>
+    </ng-template>
+
+    <button type="button" data-placement="bottom" class="btn btn-default bg-white border mr-2 wd-80 font-14"
+      [popover]="popBathContent" #popBath="bs-popover" [outsideClick]="true">
+      <span *ngIf="selectedBaths != ''">Baths: {{ selectedBaths }}</span><span
+        *ngIf="!isExactMatchBath && selectedBaths != ''">+</span>
+      <span *ngIf="selectedBaths == ''">Baths</span>
+    </button>
+
+    <ng-template #popBathContent>
+      <h6 class="font-weight-bold  px-3 pt-2 mb-0 line-height-8">Bathrooms</h6>
+      <ul class="popover-ddl px-3 pt-2 pb-2 mb-0 position-relative list-inline btn-group-bath">
+        <li class="list-inline-item mr-n-5">
+          <input id="beds-options-0" (change)="onBathSelect($event)" name="beds-options" type="radio" value="" />
+          <label for="beds-options-0" [ngClass]="selectedBaths == '' ? 'popover-ddl-label-active' : ''"
+            class="mb-0 link-color">Any</label>
+        </li>
+        <li class="list-inline-item mr-n-5">
+          <input id="beds-options-1" (change)="onBathSelect($event)" name="beds-options" type="radio" value="1" />
+          <label for="beds-options-1" [ngClass]="selectedBaths == '1' ? 'popover-ddl-label-active' : ''" class="mb-0">
+            <span *ngIf="isExactMatchBath">1</span>
+            <span *ngIf="!isExactMatchBath">1+</span>
+          </label>
+        </li>
+        <li class="list-inline-item mr-n-5">
+          <input id="beds-options-2" (change)="onBathSelect($event)" name="beds-options" type="radio" value="2" />
+          <label for="beds-options-2" [ngClass]="selectedBaths == '2' ? 'popover-ddl-label-active' : ''" class="mb-0">
+            <span *ngIf="isExactMatchBath">2</span>
+            <span *ngIf="!isExactMatchBath">2+</span>
+          </label>
+        </li>
+        <li class="list-inline-item mr-n-5">
+          <input id="beds-options-3" (change)="onBathSelect($event)" name="beds-options" type="radio" value="3" />
+          <label for="beds-options-3" [ngClass]="selectedBaths == '3' ? 'popover-ddl-label-active' : ''" class="mb-0">
+            <span *ngIf="isExactMatchBath">3</span>
+            <span *ngIf="!isExactMatchBath">3+</span>
+          </label>
+        </li>
+        <li class="list-inline-item mr-n-5">
+          <input id="beds-options-4" (change)="onBathSelect($event)" name="beds-options" type="radio" value="4" />
+          <label for="beds-options-4" [ngClass]="selectedBaths == '4' ? 'popover-ddl-label-active' : ''" class="mb-0">
+            <span *ngIf="isExactMatchBath">4</span>
+            <span *ngIf="!isExactMatchBath">4+</span>
+          </label>
+        </li>
+        <li class="list-inline-item mr-n-5">
+          <input id="beds-options-5" (change)="onBathSelect($event)" name="beds-options" type="radio" value="5" />
+          <label for="beds-options-5" [ngClass]="selectedBaths == '5' ? 'popover-ddl-label-active' : ''" class="mb-0">
+            <span *ngIf="isExactMatchBath">5</span>
+            <span *ngIf="!isExactMatchBath">5+</span>
+          </label>
+        </li>
+      </ul>
+      <div class="px-3">
+        <div class="custom-control custom-checkbox chk-box mb-2 px-3">
+          <input type="checkbox" class="custom-control-input" id="customCheck" name="example1"
+            (change)="OnBathCbChange($event)" [checked]="isExactMatchBath" />
+          <label class="custom-control-label" for="customCheck"><span class="ml-2">Use exact match </span></label>
+        </div>
+      </div>
+      <div class="col-12 pl-0 pr-0 bg-primary py-2 px-3 propover-radius">
+        <button class="btn btn-white float-right" (click)="ClosePopover(popBath)">
+          Done
+        </button>
+        <div class="clearfix"></div>
+      </div>
+    </ng-template>
+
+    <button class="btn btn-primary font-14" (click)="SavePropertySearch()">
+      Save Search
+    </button>
+  </div>
+</div>
+
+<div id="fixheader" class="col-12 sub-header pb-2 d-block d-md-none">
+  <div class="mobile-filters">
+    <div class="listing-type filter-button-container">
+      <button type="button" data-placement="bottom" class="btn btn-default bg-white border mr-2 pt-1 wd-120 font-14"
+        [popover]="popTimePeriodContentMobile" #popMobile="bs-popover" [outsideClick]="true">
+        <span *ngIf="selectedValue != '' && selectedValue == '0-7'">Today to 7
+        </span>
+        <span *ngIf="selectedValue != '' && selectedValue == '8-14'">8 to 14
+        </span>
+        <span *ngIf="selectedValue != '' && selectedValue == '15-21'">15 to 21</span>
+        <span *ngIf="selectedValue != '' && selectedValue == '22-28'">22 to 28</span>
+        <span *ngIf="selectedValue == '' || selectedValue == '0-28'">Days
+        </span>
+      </button>
+      <ng-template #popTimePeriodContentMobile>
+        <h6 class="font-weight-bold px-3 pt-2 mb-0 line-height-8">Days</h6>
+        <ul class="popover-ddl popover-ddl-interest py-2 px-3 mb-0 position-relative list-inline d-flex btn-group-bath">
+          <li class="list-inline-item mr-n-5">
+            <input type="radio" (change)="onTimePeriodSelect($event)" id="status-options-0-mobile"
+              name="status-options-mobile" value="0-28" />
+            <label class="status-options-0-mobile" for="status-options-0-mobile" [ngClass]="
+                selectedValue == '' || selectedValue == '0-28'
+                  ? 'popover-ddl-label-active'
+                  : ''
+              " class="mb-0">All</label>
+          </li>
+          <li class="list-inline-item mr-n-5">
+            <input type="radio" (change)="onTimePeriodSelect($event)" id="status-options-1-mobile"
+              name="status-options-mobile" value="0-7" />
+            <label class="status-options-1-mobile" [ngClass]="
+                selectedValue != '' && selectedValue == '0-7'
+                  ? 'popover-ddl-label-active'
+                  : ''
+              " for="status-options-1-mobile" class="mb-0"><span>Today to 7</span></label>
+          </li>
+          <li class="list-inline-item mr-n-5">
+            <input type="radio" (change)="onTimePeriodSelect($event)" id="status-options-2-mobile"
+              name="status-options-mobile" value="8-14" />
+            <label class="status-options-2-mobile" [ngClass]="
+                selectedValue != '' && selectedValue == '8-14'
+                  ? 'popover-ddl-label-active'
+                  : ''
+              " for="status-options-2-mobile" class="mb-0"><span>8 to 14</span></label>
+          </li>
+          <li class="list-inline-item mr-n-5">
+            <input type="radio" (change)="onTimePeriodSelect($event)" id="status-options-3-mobile"
+              name="status-options-mobile" value="15-21" />
+            <label class="status-options-3-mobile" [ngClass]="
+                selectedValue != '' && selectedValue == '15-21'
+                  ? 'popover-ddl-label-active'
+                  : ''
+              " for="status-options-3-mobile" class="mb-0"><span>15 to 21</span></label>
+          </li>
+          <li class="list-inline-item mr-n-5">
+            <input type="radio" (change)="onTimePeriodSelect($event)" id="status-options-4-mobile"
+              name="status-options-mobile" value="22-28" />
+            <label class="status-options-4-mobile" [ngClass]="
+                selectedValue != '' && selectedValue == '22-28'
+                  ? 'popover-ddl-label-active'
+                  : ''
+              " for="status-options-4-mobile" class="mb-0"><span>22 to 28</span></label>
+          </li>
+        </ul>
+        <div class="px-3 mb-2">
+          <p class="mb-0 labelbed line-height-1">Past days</p>
+        </div>
+        <div class="col-12 pl-0 pr-0 bg-primary py-2 px-3 propover-radius">
+          <button class="btn btn-white float-right" (click)="ClosePopover(popMobile)">
+            Done
+          </button>
+          <div class="clearfix"></div>
+        </div>
+      </ng-template>
+    </div>
+
+    <div class="listing-type filter-button-container">
+      <button type="button" data-placement="bottom" class="filter-btns mr-2" [popover]="popStatusContentMobile"
+        #popStatusMobile="bs-popover" [outsideClick]="true">
+        <div class="d-flex align-items-center justify-content-center">
+          <img *ngIf="isViewStatus" src="./assets/images/icons/black_location_20x20.png" />
+          <img *ngIf="isViewedOwnerActive" src="./assets/images/icons/green_location_20x20.png" />
+          <img *ngIf="isForSaleOwnerActive" src="./assets/images/icons/red_location_20x20.png" />
+          <div class="text-overflow ml-1">
+            <span *ngIf="isViewStatus && !isAllActiveStatus">Not listed<span *ngIf="selectedStatus.length > 1">, </span>
+            </span>
+            <span *ngIf="isViewedOwnerActive && !isAllActiveStatus">Pre-market
+              <span *ngIf="selectedStatus.length > 1 && isForSaleOwnerActive">,
+              </span>
+            </span>
+            <span *ngIf="isForSaleOwnerActive && !isAllActiveStatus">For sale</span>
+            <span *ngIf="isStatusValidationMsg">Status</span>
+          </div>
+        </div>
+      </button>
+
+      <ng-template #popStatusContentMobile>
+        <ul class=" p-0 mb-0 position-relative list-inline cursor-pointer header-ddl ">
+          <li class="border-bottom p-2">
+            <div class="custom-control custom-checkbox chk-box px-3 d-flex align-items-center">
+              <input type="checkbox" [disabled]="isLoaded || (selectedStatus == '1' && isViewStatus)"
+                (change)="onStatusSelect($event)" class="custom-control-input" [checked]="isViewStatus"
+                [ngClass]="selectedStatus == '1' ? 'custom-control-input' : ''" id="customCheck1" name="example1"
+                value="1" />
+              <label class="custom-control-label mb-0 font-15 line-height-1" for="customCheck1"><span class="ml-2">
+                  <img src="./assets/images/icons/black_location_20x20.png" />
+                  <span class="top2 ml-1"> Not listed</span>
+                </span></label>
+            </div>
+          </li>
+          <li class="border-bottom p-2">
+            <div class="custom-control custom-checkbox chk-box px-3 d-flex align-items-center">
+              <input type="checkbox" [disabled]="
+                  isLoaded || (selectedStatus == '2' && isViewedOwnerActive)
+                " (change)="onStatusSelect($event)" class="custom-control-input" [checked]="isViewedOwnerActive"
+                [ngClass]="selectedStatus == '2' ? 'custom-control-input' : '2'" id="customCheck2" name="example1"
+                value="2" />
+              <label class="custom-control-label mb-0 font-15 line-height-1" for="customCheck2"><span class="ml-2">
+                  <img src="./assets/images/icons/green_location_20x20.png" />
+                  <span class="top2 ml-1"> Pre-market</span>
+                </span></label>
+            </div>
+          </li>
+          <li class="border-bottom p-2">
+            <div class="custom-control custom-checkbox chk-box px-3 d-flex align-items-center">
+              <input type="checkbox" [disabled]="
+                  isLoaded || (selectedStatus == '4' && isForSaleOwnerActive)
+                " (change)="onStatusSelect($event)" class="custom-control-input" [checked]="isForSaleOwnerActive"
+                [ngClass]="selectedStatus == '4' ? 'custom-control-input' : ''" id="customCheck4" name="example1"
+                value="4" />
+              <label class="custom-control-label mb-0 font-15 line-height-1" for="customCheck4"><span class="ml-2">
+                  <img src="./assets/images/icons/red_location_20x20.png" />
+                  <span class="top2 ml-1">For sale </span></span></label>
+            </div>
+          </li>
+        </ul>
+        <div class="col-12 pl-0 pr-0 bg-primary py-2 px-3 propover-radius">
+          <button class="btn btn-white float-right" (click)="ClosePopover(popStatusMobile)">
+            Done
+          </button>
+          <div class="clearfix"></div>
+        </div>
+      </ng-template>
+    </div>
+    <div class="listing-type filter-button-container">
+
+      <button type="button" data-placement="bottom" class="btn btn-default bg-white border mr-2 pt-1 wd-120 font-14"
+      [popover]="popPriceContentMobile" #popPriceMobile="bs-popover" [outsideClick]="true">
+      <span *ngIf="(!maxPz && minPz != '') || (maxPz == '' && minPz != '')">${{ minPz }}+</span>
+      <span *ngIf="(maxPz != '' && !minPz) || (maxPz != '' && minPz == '')">Up to ${{ maxPz }}</span>
+      <span *ngIf="maxPz != '' && minPz != ''">${{ minPz }}-${{ maxPz }}</span>
+      <span *ngIf="(!maxPz && !minPz) || (maxPz == '' && minPz == '')">Price</span>
+    </button>
+
+    <ng-template #popPriceContentMobile>
+      <ul class=" p-0 mb-0 position-relative list-inline cursor-pointer">
+        <li class="">
+          <h6 class="font-weight-bold px-3 pt-2 mb-0 line-height-8">Price</h6>
+        </li>
+        <li class="px-3 pt-2 pb-2">
+          <div class="d-flex">
+            <div>
+              <input type="text" class="form-control mb-2" (change)="OnMinChange($event)" [(ngModel)]="selectedMinPrice"
+                placeholder="Min" (focus)="MinFocus($event)" />
+              <ul id="MinList" class="filter-options pl-0">
+                <li *ngFor="let minPrice of minPriceList" value="{{ minPrice.Value }}"
+                  (click)="OnMinPriceSelect($event)">
+                  ${{ minPrice.Name }}+
+                </li>
+              </ul>
+            </div>
+            <p class="mx-2 my-2">-</p>
+            <div>
+              <input type="text" class="form-control mb-2" (change)="OnMaxChange($event)" [(ngModel)]="selectedMaxPrice"
+                placeholder="Max" (focus)="MaxFocus($event)" />
+              <ul id="MaxList" class="filter-options pl-0">
+                <li *ngFor="let maxPrice of maxPriceList" value="{{ maxPrice.Value }}"
+                  (click)="OnMaxPriceSelect($event)">
+                  ${{ maxPrice.Name }}
+                </li>
+                <li tabindex="30" value="null" (click)="OnMaxPriceSelect($event)">
+                  Any Price
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <div class="col-12 pl-0 pr-0 bg-primary py-2 px-3 propover-radius">
+        <button class="btn btn-white float-right" (click)="ClosePopover(popPriceMobile)">
+          Done
+        </button>
+        <div class="clearfix"></div>
+      </div>
+    </ng-template>
+    </div>
+    <div class="listing-type filter-button-container mr-0">
+      <button type="button" data-placement="bottom" class="filter-btns" data-toggle="modal" data-target="#myModal">
+        <span>More</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="text-left pt-2 line-height-1 font-14 d-flex justify-content-between">
+    <a href="javascript:void(0)" class="mb-0" (click)="SavePropertySearch()">
+      Save Search</a>
+    <div class="listing-type filter-button-container">
+      <a class="filter-btns link-color map-btn" (click)="togglemaplist('map')">
+        <i class="fas fa-map-signs pr-1"></i>Map
+      </a>
+      <a class="filter-btns link-color list-btn" (click)="togglemaplist('list')">
+        <i class="fas fa-list pr-1"></i>List
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="col-12 search-bg border-top pl-0 pr-0">
+  <div class="d-flex flex-wrap">
+    <div class="map-width position-relative">
+      <div class="loader col-xl-6 col-lg-12 col-md-6" *ngIf="isLoading || isLoaded"></div>
+
+      <div class="col-12 pl-0 pr-0">
+        <app-google-map #googleMap [rolename]="rolename" [selectedValue]="selectedValue"
+          [updatedPropertyDetailId]="updatedPropertyDetailId" [selectedBeds]="selectedBeds"
+          [selectedBaths]="selectedBaths" [selectedStatus]="selectedStatus" [selectedMinPrice]="selectedMinPrice"
+          [selectedMaxPrice]="selectedMaxPrice" [searchTerm]="searchTerm" [PageNum]="PageNum"
+          [SearchedAddress]="SearchedAddress" [isExactMatchBed]="isExactMatchBed" [isExactMatchBath]="isExactMatchBath"
+          [isAllActiveStatus]="isAllActiveStatus" [maxPz]="maxPz" [minPz]="minPz" [pageName]="'SearchResultPage'"
+          (refreshMap)="refreshPage()" (likeProp)="onTileLikeClickChildOutut($event)"
+          (makeOfferBtn)="onMakeOfferButtonClick($event)" (ownerProp)="onOwnerBuzzHomeButtonClick($event)"
+          (propImageTile)="onPropertyImageTileClick1($event)" (editProp)="onAddEditPhotoDescriptionButtonClick($event)"
+          (termsModal)="onTermsOptionClick()" (privacyModal)="onPrivacyOptionClick()"
+          (estimateModal)="onHomebuzzEstimatesOptionClick()"></app-google-map>
+      </div>
+    </div>
+    <div class="card-width position-relative">
+      <div class="loader col-xl-6 col-lg-12 col-md-6" *ngIf="isLoading || isLoaded"></div>
+      <app-search-result-grid #gridResult [searchedTerm]="searchedTerm" [totalHome]="totalHome" [rolename]="rolename"
+        [properties]="properties" [subHurbPropertyInfo]="subHurbPropertyInfo" [isLoadSubHurbInfo]="isLoadSubHurbInfo"
+        [subHurbName]="subHurbName" [isLoaded]="isLoaded" [isLoading]="isLoading" [totalView]="totalView"
+        [agentOption]="agentOption" (likeProp)="onTileLikeClickChildOutut($event)"
+        (refreshProp)="searchProperties($event)" (makeOfferBtn)="onMakeOfferButtonClick($event)"
+        (ownerProp)="onOwnerBuzzHomeButtonClick($event)" (propImageTile)="onPropertyImageTileClick1($event)"
+        (editProp)="onAddEditPhotoDescriptionButtonClick($event)" (termsModal)="onTermsOptionClick()"
+        (privacyModal)="onPrivacyOptionClick()" (estimateModal)="onHomebuzzEstimatesOptionClick()">
+      </app-search-result-grid>
+    </div>
+  </div>
+</div>
+
+<div class="modal pr-0" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="dialog-title">
+          {{ totalHome }}
+          {{ totalHome == 1 || totalHome == 0 ? "Property" : "Properties" }}
+        </div>
+        <div class="dialog-header-left text-right">
+          <a href="javascript:void(0)" data-dismiss="modal" class="dialog-right-button">Done</a>
+        </div>
+      </div>
+      <div class="modal-body pt-0 pb-0">
+        <!-- <ul class=" p-0 mb-0 position-relative list-inline cursor-pointer">
+          <li class="">
+            <h6 class="font-weight-bold  pt-2 mb-0 line-height-8">Price</h6>
+          </li>
+          <li class="pb-2 pt-2">
+            <div class="d-flex">
+              <div>
+                <input type="text" id="MinPriceText" class="form-control mb-2" (change)="OnMinChange($event)"
+                  [(ngModel)]="selectedMinPrice" placeholder="Min" (focus)="MinFocus($event)" />
+                <ul id="MinList" class="filter-options pl-0">
+                  <li *ngFor="let minPrice of minPriceList" value="{{ minPrice.Value }}"
+                    (click)="OnMinPriceSelect($event)">
+                    ${{ minPrice.Name }}+
+                  </li>
+                </ul>
+              </div>
+              <p class="mx-2 my-2">-</p>
+              <div>
+                <input type="text" class="form-control mb-2" (change)="OnMaxChange($event)"
+                  [(ngModel)]="selectedMaxPrice" placeholder="Max" (focus)="MaxFocus($event)" />
+                <ul id="MaxList" class="filter-options pl-0">
+                  <li *ngFor="let maxPrice of maxPriceList" value="{{ maxPrice.Value }}"
+                    (click)="OnMaxPriceSelect($event)">
+                    ${{ maxPrice.Name }}+
+                  </li>
+                  <li tabindex="30" value="null" (click)="OnMaxPriceSelect($event)">
+                    Any Price
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+        </ul> -->
+
+        <h6 class="font500 mb-0 line-height-8 mt-2">BEDS</h6>
+        <ul class="popover-ddl py-2 px-0 mb-0 position-relative list-inline d-flex btn-group-bath">
+          <li class="list-inline-item">
+            <input id="beds-options-0" (change)="onBedSelect($event)" name="beds-options" type="radio" value="" />
+            <label for="beds-options-0" [ngClass]="selectedBeds == '' ? 'popover-ddl-label-active' : ''"
+              class="mb-0 link-color">Any</label>
+          </li>
+          <li class="list-inline-item">
+            <input id="beds-options-1" (change)="onBedSelect($event)" name="beds-options" type="radio" value="1" />
+            <label for="beds-options-1" [ngClass]="selectedBeds == '1' ? 'popover-ddl-label-active' : ''" class="mb-0">
+              <span *ngIf="isExactMatchBed">1</span>
+              <span *ngIf="!isExactMatchBed">1+</span>
+            </label>
+          </li>
+          <li class="list-inline-item">
+            <input id="beds-options-2" (change)="onBedSelect($event)" name="beds-options" type="radio" value="2" />
+            <label for="beds-options-2" [ngClass]="selectedBeds == '2' ? 'popover-ddl-label-active' : ''" class="mb-0">
+              <span *ngIf="isExactMatchBed">2</span>
+              <span *ngIf="!isExactMatchBed">2+</span>
+            </label>
+          </li>
+          <li class="list-inline-item">
+            <input id="beds-options-3" (change)="onBedSelect($event)" name="beds-options" type="radio" value="3" />
+            <label for="beds-options-3" [ngClass]="selectedBeds == '3' ? 'popover-ddl-label-active' : ''" class="mb-0">
+              <span *ngIf="isExactMatchBed">3</span>
+              <span *ngIf="!isExactMatchBed">3+</span>
+            </label>
+          </li>
+          <li class="list-inline-item">
+            <input id="beds-options-4" (change)="onBedSelect($event)" name="beds-options" type="radio" value="4" />
+            <label for="beds-options-4" [ngClass]="selectedBeds == '4' ? 'popover-ddl-label-active' : ''" class="mb-0">
+              <span *ngIf="isExactMatchBed">4</span>
+              <span *ngIf="!isExactMatchBed">4+</span>
+            </label>
+          </li>
+          <li class="list-inline-item">
+            <input id="beds-options-5" (change)="onBedSelect($event)" name="beds-options" type="radio" value="5" />
+            <label for="beds-options-5" [ngClass]="selectedBeds == '5' ? 'popover-ddl-label-active' : ''" class="mb-0">
+              <span *ngIf="isExactMatchBed">5</span>
+              <span *ngIf="!isExactMatchBed">5+</span>
+            </label>
+          </li>
+        </ul>
+
+        <div class="">
+          <div class="custom-control custom-checkbox chk-box  px-3 pb-2">
+            <input type="checkbox" class="custom-control-input"
+              [ngClass]="isExactMatchBed ? 'custom-checkbox-active' : ''" id="customCheckBed" name="example1"
+              (change)="OnBedCbChange($event)" [checked]="isExactMatchBed" />
+            <label class="custom-control-label labelbed" for="customCheckBed"><span class="ml-2">Use exact match
+              </span></label>
+          </div>
+        </div>
+        <h6 class="font500 mt-1 mb-0 line-height-8 text-uppercase">
+          Bathrooms
+        </h6>
+        <ul class="popover-ddl py-2 px-0 mb-0 position-relative list-inline d-flex btn-group-bath">
+          <li class="list-inline-item mr-n-5">
+            <input id="baths-options-0" (change)="onBathSelect($event)" name="baths-options" type="radio" value="" />
+            <label for="baths-options-0" [ngClass]="selectedBaths == '' ? 'popover-ddl-label-active' : ''"
+              class="mb-0 link-color">Any</label>
+          </li>
+          <li class="list-inline-item mr-n-5">
+            <input id="baths-options-1" (change)="onBathSelect($event)" name="baths-options" type="radio" value="1" />
+            <label for="baths-options-1" [ngClass]="selectedBaths == '1' ? 'popover-ddl-label-active' : ''"
+              class="mb-0">
+              <span *ngIf="isExactMatchBath">1</span>
+              <span *ngIf="!isExactMatchBath">1+</span>
+            </label>
+          </li>
+          <li class="list-inline-item mr-n-5">
+            <input id="baths-options-2" (change)="onBathSelect($event)" name="baths-options" type="radio" value="2" />
+            <label for="baths-options-2" [ngClass]="selectedBaths == '2' ? 'popover-ddl-label-active' : ''"
+              class="mb-0">
+              <span *ngIf="isExactMatchBath">2</span>
+              <span *ngIf="!isExactMatchBath">2+</span>
+            </label>
+          </li>
+          <li class="list-inline-item mr-n-5">
+            <input id="baths-options-3" (change)="onBathSelect($event)" name="baths-options" type="radio" value="3" />
+            <label for="baths-options-3" [ngClass]="selectedBaths == '3' ? 'popover-ddl-label-active' : ''"
+              class="mb-0">
+              <span *ngIf="isExactMatchBath">3</span>
+              <span *ngIf="!isExactMatchBath">3+</span>
+            </label>
+          </li>
+          <li class="list-inline-item mr-n-5">
+            <input id="baths-options-4" (change)="onBathSelect($event)" name="baths-options" type="radio" value="4" />
+            <label for="baths-options-4" [ngClass]="selectedBaths == '4' ? 'popover-ddl-label-active' : ''"
+              class="mb-0">
+              <span *ngIf="isExactMatchBath">4</span>
+              <span *ngIf="!isExactMatchBath">4+</span>
+            </label>
+          </li>
+          <li class="list-inline-item mr-n-5">
+            <input id="baths-options-5" (change)="onBathSelect($event)" name="baths-options" type="radio" value="5" />
+            <label for="baths-options-5" [ngClass]="selectedBaths == '5' ? 'popover-ddl-label-active' : ''"
+              class="mb-0">
+              <span *ngIf="isExactMatchBath">5</span>
+              <span *ngIf="!isExactMatchBath">5+</span>
+            </label>
+          </li>
+        </ul>
+
+        <div class="py-2">
+          <div class="custom-control custom-checkbox chk-box mb-2 px-3">
+            <input type="checkbox" class="custom-control-input" id="customCheckBath" name="example1"
+              (change)="OnBathCbChange($event)" [checked]="isExactMatchBath" />
+            <label class="custom-control-label" for="customCheckBath"><span class="ml-2">Use exact match </span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

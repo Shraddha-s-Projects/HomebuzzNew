@@ -1,0 +1,88 @@
+<toaster-container [toasterconfig]="config1"></toaster-container>
+<!-- Page content -->
+<div class="page-content">
+
+  <!-- Main content -->
+  <div class="content-wrapper">
+
+    <!-- Content area -->
+    <div class="content d-flex justify-content-center align-items-center">
+
+      <!-- Login card -->
+      <div class="login-form">
+        <div class="card mb-0">
+          <div class="card-body">
+            <div class="text-center mb-3">
+              <div class="d-flex justify-content-center mb-2">
+                <img src="../assets/images/icons/yellow-logo-40x40.png" width="30" class="mr3 top1" />
+              </div>
+              <h5 class="mb-0">Login to your account</h5>
+            </div>
+
+            <form class="form-signin" #LoginForm="ngForm">
+              <div class="form-group form-group-feedback form-group-feedback-left">
+                <input trim type="text" class="form-control" placeholder="Email" name="UserName" id="UserName"
+                  #UserName="ngModel" [(ngModel)]="loginuser.Username" (ngModelChange)="errorMessageEmail()" required>
+                <div class="form-control-feedback">
+                  <i class="icon-user text-muted"></i>
+                </div>
+                <div *ngIf="!UserName.errors && !isEmailValid && (UserName.dirty || UserName.touched)"
+                  class="text-danger">Enter valid email address</div>
+                <div *ngIf="UserName.errors && (UserName.dirty || UserName.touched)" class="text-danger">E-mail
+                  or Username cannot be empty.</div>
+              </div>
+
+              <div class="form-group form-group-feedback form-group-feedback-left">
+                <input type="password" class="form-control" placeholder="Password" name="Password" class="form-control"
+                  id="Password" #Password="ngModel" [(ngModel)]="loginuser.Password" required>
+                <div class="form-control-feedback">
+                  <i class="icon-lock2 text-muted"></i>
+                </div>
+
+                <div *ngIf="Password.errors && (Password.dirty || Password.touched)" class="text-danger">
+                  {{error.password}}</div>
+              </div>
+
+              <div class="form-group d-flex align-items-center">
+                <a href="#" [routerLink]="['/resetpassword']" class="ml-auto">Forgot password?</a>
+              </div>
+
+              <div class="form-group">
+                <!-- <button type="submit" class="btn btn-primary btn-block ladda-button"
+                data-style="zoom-in" data-spinner-color="white" ng-reflect-disabled="disabled" (click)="login()"
+                #submitButton [disabled]="!loginuser.Username || !loginuser.Password">Login<i
+                  class="icon-circle-right2 ml-2"></i></button> -->
+                <button type="submit" *ngIf="isBrowser"  class="btn btn-primary btn-block ladda-button" [ladda]="isLoading"
+                  data-style="zoom-in" data-spinner-color="white" ng-reflect-disabled="disabled" (click)="login()"
+                  #submitButton [disabled]="!loginuser.Username || !loginuser.Password">Login<i
+                    class="icon-circle-right2 ml-2"></i></button>
+              </div>
+            </form>
+
+            <div class="form-group text-center text-muted content-divider">
+              <span class="px-2">Don't have an account?</span>
+            </div>
+
+            <div class="form-group">
+              <a href="#" [routerLink]="['/signup']" class="btn btn-light btn-block">Sign up</a>
+            </div>
+            <div class="text-center form-group">
+              <a href="javascript:void(0)"  class="font500 link-color"><u>Agents join
+                PropertyFlow</u></a>
+              <!-- <a href="javascript:void(0)" [routerLink]="['/agent/signup']" class="font500 link-color"><u>Agents join
+                  PropertyFlow</u></a> -->
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- /login card -->
+
+    </div>
+    <!-- /content area -->
+
+  </div>
+  <!-- /main content -->
+
+</div>
+<!-- /page content -->

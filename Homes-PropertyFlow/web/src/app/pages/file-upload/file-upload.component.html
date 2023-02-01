@@ -1,0 +1,27 @@
+<div class="container">
+    <div class="row">
+        <div class="text-center mb-3 col-md-12">
+            <h5 class="mb-0">File upload</h5>
+        </div>
+        <div class="col-md-12 ">
+            <div class="row text-center">
+                <div class="col-md-2">
+                    <label>Upload your file</label>
+                </div>
+                <div class="col-md-3">
+                    <input class="ml8" type="file" accept=".xls, .xlsx" name="file" #file
+                        (change)="uploadFile(false,$event)">
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <button type="button" *ngIf="isBrowser" class="btn btn-primary btn-block cursor-pointer" data-style="zoom-in"
+                             #submitButton
+                            (click)="saveFile()" [ladda]="isLoader">
+                            Save</button>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+<div  id="declineOfferModal">
+  <div class="mat-dialog-title">
+    <h3 class="mb-0">
+      <a href="javascript:void(0)">
+        <h6 class="mb-0 pt3 d-flex align-items-center">
+          <i class="icon-home2 mr-2"></i> <span class="font-weight-semibold"> PropertyFlow&trade;</span>
+        </h6>
+      </a>
+    </h3>
+    <button type="button" class="close" (click)="close()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="mat-dialog-content">
+    <h4 class="text-center mb-2">Remove Offer</h4>
+    <p class="col-xs-12 mt-10 mb-0 font-16" *ngIf="isLoaded">
+      By clicking decline you agree to remove the offer of
+          {{ offer.OfferingAmount | currency:'CAD':'symbol-narrow':'4.0' }} on
+          {{address}}.
+    </p>       
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary float-right" (click)="onDeclineBtnClick()">
+      Decline
+    </button>
+    <div class="clearfix"></div>
+  </div>
+</div>

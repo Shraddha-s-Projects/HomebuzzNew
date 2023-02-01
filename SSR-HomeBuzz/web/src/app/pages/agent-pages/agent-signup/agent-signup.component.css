@@ -1,0 +1,58 @@
+.welcome-text {
+    text-align: center;
+    font-size: 2.2884rem;
+    color: #37465A;
+    font-weight: 600;
+}
+.dark-purple {
+    color: #37465A;
+}
+.agent-signup .card {
+    height: 465px;
+}
+.mat-step-icon-selected, .mat-step-icon-state-done, .mat-step-icon-state-edit {
+    background-color: red;
+}
+.signup-wizard .mat-step-header .mat-step-icon-remove{
+    background-color: white;
+}
+
+.plan-card input[type="radio"] {
+    display: none;
+}
+.plan-card input[type="radio"]:not(:disabled) ~ label {
+    cursor: pointer;
+}
+.plan-card input[type="radio"]:disabled ~ label {
+    border-color: #bcc2bf;
+    box-shadow: none;
+    cursor: not-allowed;
+} 
+.plan-card label {
+    height: 100%;
+    display: block;
+    text-align: center;
+    box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);
+    position: relative;
+} 
+.plan-card input[type="radio"]:checked + label .card {
+    border: 1px solid #589b12;
+}
+.card-border{
+    border: 1px solid #589b12;
+}
+.btn.disabled, .btn[disabled] {
+    cursor: default;
+    opacity: 0.65;
+    filter: alpha(opacity=65);
+    color: #f8f8f8;
+}
+
+@media (max-width: 767px) {
+    .welcome-text {
+        font-size: 1.5rem;
+    }
+    .agent-signup .card {
+        height: auto;
+    }
+}

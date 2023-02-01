@@ -1,0 +1,51 @@
+<section class="light-gray-bg">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-between py-3">
+        <ul class="nav justify-content-center">
+            <li class="nav-item">
+              <a class="nav-link font500" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link font500" href="#">Careers</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link font500" href="#">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link font500" href="#">Help</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link font500 cursor-pointer" (click)="onTermsOptionClick()">Terms</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link font500 cursor-pointer" (click)="onPrivacyOptionClick()">Privacy</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link font500" href="#"><span class="border-left"></span></a>
+            </li>
+            <ul class="nav social-icon">
+            <li class="nav-item">
+                <a class="nav-link font500" target="_blank" href="https://www.facebook.com/propertyflow"><i class="fa fa-facebook"></i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link font500" href="#"><i class="fa fa-twitter"></i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link font500" href="#"><i class="fa fa-youtube-play"></i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link font500" href="#"><i class="fa fa-instagram"></i></a>
+            </li>
+            </ul>
+        </ul>
+        <div class=""> 
+            <a [routerLink]="['/dashboard']">
+                <h6 class="mb-0 d-flex align-items-center">
+                    <i class="icon-home2 mr-2"></i>
+                    <p class="mb-0 font-weight-semibold d-none-mob font-19"> PropertyFlow™</p>
+                </h6>
+            </a>
+        </div>
+      </div>
+    </div>
+</section>
